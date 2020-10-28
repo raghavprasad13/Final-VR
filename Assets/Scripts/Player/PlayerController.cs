@@ -74,6 +74,8 @@ namespace wallSystem
 
             _isStarted = true;
 
+            Data.LogHeaders();
+
 			FicTracClient();
 		}
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Reflection;
 using SFB;
 using Builder;
+using System;
 
 /// <summary>
 /// This builds the track by building the individual components of the track
@@ -27,6 +28,11 @@ public class TrackBuilder : MonoBehaviour {
         if (trackFileName.Contains("random"))
             track = new RandomTrack(trackFilePath);
         /* TODO: Other kinds of tracks */
+
+        string trackFileNameNoExt = trackFileName.Split('.')[0];
+
+        Data.LogFile = trackFileNameNoExt + '-' +
+                       DateTime.Now.ToString("yyyy-MM-dd-HH.mm.ss") + ".csv";
 
         // The Play Area gameobject will serve as the parent gameobject for all the constituents of the track, in order to have a neat organization
         GameObject playArea = new GameObject("Play Area");
