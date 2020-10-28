@@ -43,7 +43,8 @@ namespace wallSystem
         private bool _reset;
         private int localQuota;
 
-		readonly int fictracPort = 12345;
+        private readonly string LOCALHOST = "127.0.0.1"; 
+		readonly int FictracPort = 12345;
         string data = "";
         Socket sender;
 
@@ -248,9 +249,9 @@ namespace wallSystem
 		/// Fictrac socket connection code
 		/// </summary>
         void FicTracClient() {
-            IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = ipHost.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, fictracPort);
+            //IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddr = IPAddress.Parse(LOCALHOST);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, FictracPort);
 
             sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
