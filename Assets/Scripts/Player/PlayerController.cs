@@ -44,7 +44,7 @@ namespace wallSystem
         private int localQuota;
 
         private readonly string LOCALHOST = "127.0.0.1"; 
-		readonly int FictracPort = 12345;
+		readonly int FictracPort = 12346;
         string data = "";
         Socket sender;
 
@@ -203,8 +203,8 @@ namespace wallSystem
 			//if (Math.Abs(Mathf.Abs(rotation)) < tolerance)
 			_controller.Move(_moveDirection * Time.deltaTime);
 
-			//transform.Rotate(0, rotation, 0);
-        }
+			transform.Rotate(0, rotation, 0);
+		}
         
         private void doInitialRotation(){
             var multiplier = 1.0f;
@@ -229,6 +229,8 @@ namespace wallSystem
         }
 
         private void Update() {
+            Data.LogData(transform);
+
             // This first block is for the initial rotation of the character
             if (_currDelay < _waitTime) {
                 doInitialRotation();

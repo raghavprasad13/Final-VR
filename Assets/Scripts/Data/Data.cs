@@ -29,9 +29,14 @@ public class Data {
             var PositionY = t.position.y.ToString();
             var RotationY = t.eulerAngles.y.ToString();
 
-            Transform eventTransform = GameObject.FindGameObjectWithTag(eventTag).transform;
-            float eventX = eventTransform.position.x;
-            float eventZ = eventTransform.position.z;
+            var eventX = float.NaN.ToString();
+            var eventZ = float.NaN.ToString();
+
+            if (eventTag != null) {
+                Transform eventTransform = GameObject.FindGameObjectWithTag(eventTag).transform;
+                eventX = eventTransform.position.x.ToString();
+                eventZ = eventTransform.position.z.ToString();
+            }
 
             var timeSinceExperimentStart = DateTimeOffset.Now.ToUnixTimeMilliseconds() - ExperimentStartTime;
 
