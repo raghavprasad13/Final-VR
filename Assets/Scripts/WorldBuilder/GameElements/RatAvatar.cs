@@ -5,16 +5,16 @@ using UnityEngine;
 public class RatAvatar {
     #region Fields
 
-    Vector2 center;
+    Vector2 position;
     Vector2 direction;
-    float height;
+	readonly float height;
 
     #endregion
 
     #region Properties
 
-    public Vector2 Center {
-        get { return center; }
+    public Vector2 Position {
+        get { return position; }
     }
 
     public Vector2 Direction {
@@ -29,8 +29,8 @@ public class RatAvatar {
 
     #region Constructor(s)
 
-    public RatAvatar(float Q1, float Q2, float height, Vector2 direction) {
-        this.center = new Vector2(Q1, Q2);
+    public RatAvatar(Vector2 position, float height, Vector2 direction) {
+        this.position = position;
         this.height = height;
         this.direction = direction;
     }

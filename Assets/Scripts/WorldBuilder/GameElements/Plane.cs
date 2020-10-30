@@ -45,8 +45,8 @@ public class Plane {
 
     #region Constructor(s)
 
-    public Plane(float Q1, float Q2, float height, string name, string material, Vector3 facing, Vector3 scale) {
-        this.center = new Vector3(Q1, 0, Q2);
+    public Plane(Vector3 center, float height, string name, string material, Vector3 facing, Vector3 scale) {
+        this.center = center;
         this.height = height;
         this.name = name;
         this.material = material;
@@ -54,5 +54,9 @@ public class Plane {
         this.scale = scale;
     }
 
-    #endregion
+	#endregion
+
+	public override string ToString() {
+        return name;
+	}
 }

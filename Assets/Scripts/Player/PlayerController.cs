@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 using System.Text;
-using System.IO;
-using UnityEditor;
 using System.Net;
 using System.Net.Sockets;
+
+using Const;
 
 // This class is the primary player script, it allows the participant to move around.
 /// <summary>
@@ -43,8 +40,6 @@ namespace wallSystem
         private bool _reset;
         private int localQuota;
 
-        private readonly string LOCALHOST = "127.0.0.1"; 
-		readonly int FictracPort = 12346;
         string data = "";
         Socket sender;
 
@@ -252,8 +247,8 @@ namespace wallSystem
 		/// </summary>
         void FicTracClient() {
             //IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = IPAddress.Parse(LOCALHOST);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, FictracPort);
+            IPAddress ipAddr = IPAddress.Parse(Constants.LOCALHOST);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, Constants.FictracPort);
 
             sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 

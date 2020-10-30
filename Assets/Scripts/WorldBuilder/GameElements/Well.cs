@@ -6,18 +6,13 @@
 public class Well {
     #region Fields
 
-    Vector2 center;
+    Vector2 position;
     string name;
     float capacity;
     int level;
     float initialDelay;
     float pulseDelay;
     float pulseWidth;
-    bool random;
-    float q1Min;
-    float q1Max;
-    float q2Min;
-    float q2Max;
     float radialBoundaryRadius;
     float radialTriggerZoneMeshRadius;
     string radialTriggerZoneMeshMaterial;
@@ -26,6 +21,10 @@ public class Well {
     #endregion
 
     #region Properties
+
+    public Vector2 Position {
+		get { return position; }
+	}
 
     public string Name {
         get { return name; }
@@ -51,26 +50,6 @@ public class Well {
         get { return pulseWidth; }
     }
 
-    public bool Random {
-        get { return random; }
-    }
-
-    public float Q1Min {
-        get { return q1Min; }
-    }
-
-    public float Q1Max {
-        get { return q1Max; }
-    }
-
-    public float Q2Min {
-        get { return q2Min; }
-    }
-
-    public float Q2max {
-        get { return q2Max; }
-    }
-
     public float RadialBoundaryRadius {
         get { return radialBoundaryRadius; }
     }
@@ -87,21 +66,17 @@ public class Well {
 
     #region Constructor(s)
 
-    public Well(float Q1, float Q2, string name, float capacity, int level, float initialDelay,
-                        float pulseDelay, float pulseWidth, bool random, float q1Min, float q1Max, float q2Min,
-                        float q2Max, float radialBoundaryRadius, float radialTriggerZoneMeshRadius, string radialTriggerZoneMeshMaterial, Pillar pillar) {
-        this.center = new Vector2(Q1, Q2);
-        this.name = name;
+    public Well(Vector2 position, string name, float capacity, int level, float initialDelay,
+                        float pulseDelay, float pulseWidth, float radialBoundaryRadius,
+                        float radialTriggerZoneMeshRadius, string radialTriggerZoneMeshMaterial, Pillar pillar) {
+
+		this.position = position;
+		this.name = name;
         this.capacity = capacity;
         this.level = level;
         this.initialDelay = initialDelay;
         this.pulseDelay = pulseDelay;
         this.pulseWidth = pulseWidth;
-        this.random = random;
-        this.q1Min = q1Min;
-        this.q1Max = q1Max;
-        this.q2Min = q2Min;
-        this.q2Max = q2Max;
         this.radialBoundaryRadius = radialBoundaryRadius;
         this.radialTriggerZoneMeshRadius = radialTriggerZoneMeshRadius;
         this.radialTriggerZoneMeshMaterial = radialTriggerZoneMeshMaterial;

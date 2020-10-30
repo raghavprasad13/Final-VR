@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class Data {
 	public static string LogFile;
-    public static int TargetFps = 55;
-    private static float _timer = 0;
     public static long ExperimentStartTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
     public static void LogHeaders() {
         using (var writer = new StreamWriter("Assets/OutputFiles~/" + LogFile, false)) {
             writer.Write(
-                "Timestamp, PositionX, PositionY, PositionZ, RotationY, " +
+                "Timestamp, TimeSinceStart, PositionX, PositionY, PositionZ, RotationY, " +
                 "Collision, GoalX, GoalZ, UpArrow, DownArrow, " +
                 " LeftArrow, RightArrow, Space"
             + "\n");
@@ -42,14 +38,23 @@ public class Data {
 
             var str = string.Format(
                 "{0}, {1}, {2}, {3}, {4}, {5}, {6}, " +
-                "{7}, {8}, {9}, {10}, {11}, {12}",
-                DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), PositionX, PositionY, PositionZ, RotationY,
+                "{7}, {8}, {9}, {10}, {11}, {12}, {13}",
+                DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt"), timeSinceExperimentStart,
+                PositionX, PositionY, PositionZ, RotationY,
                 targetFound, eventX, eventZ,
                 Input.GetKey(KeyCode.UpArrow) ? 1 : 0,
                 Input.GetKey(KeyCode.DownArrow) ? 1 : 0, Input.GetKey(KeyCode.LeftArrow) ? 1 : 0,
                 Input.GetKey(KeyCode.RightArrow) ? 1 : 0,
                 Input.GetKey(KeyCode.Space) ? 1 : 0);
             writer.Write(str + "\n");
+            writer.Flush();
+            writer.Close();
+        }
+    }
+
+    public static void WriteSum(string text, string fileName) {
+        using (var writer = new StreamWriter("Assets/OutputFiles~/" + fileName, false)) {
+            writer.Write(text + "\n");
             writer.Flush();
             writer.Close();
         }

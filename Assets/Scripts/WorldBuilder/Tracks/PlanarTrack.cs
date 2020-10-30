@@ -3,99 +3,82 @@ using UnityEngine;
 using System.IO;
 using System.Xml;
 using Const;
+using System;
 
 /// <summary>
 /// This class takes care of "random" tracks
 /// It has attributes that correspond to the components that constitute the random track world
 /// It parses the track file to create high level representations of the data within the track file
 /// </summary>
-public class RandomTrack : Track {
+public class PlanarTrack : Track {
     #region Fields
-
-    List<Vector3> boundaryVertices;
-    List<Vector3> liveZoneVertices;
-    List<Vector3> groundPolygonVertices;
-    string groundPolygonMaterialName = null;
-    List<Dispenser> dispensers;
-    List<RatAvatar> avatars;
-    List<Plane> planes;
-    List<Well> wells;
 
     #endregion
 
     #region Properties
 
-    public List<Vector3> BoundaryVertices {
-        get { return boundaryVertices; }
-    }
+    //public List<Dispenser> Dispensers {
+    //    get { return dispensers; }
+    //}
 
-    public List<Vector3> LiveZoneVertices {
-        get { return liveZoneVertices; }
-    }
+    //public RatAvatar Avatar {
+    //    get { return avatar; }
+    //}
 
-    public List<Vector3> GroundPolygonVertices {
-        get { return groundPolygonVertices; }
-    }
+    //public List<Plane> Planes {
+    //    get { return planes; }
+    //}
 
-    public string GroundPolygonMaterialName {
-        get { return groundPolygonMaterialName; }
-    }
-
-    public List<Dispenser> Dispensers {
-        get { return dispensers; }
-    }
-
-    public List<RatAvatar> Avatars {
-        get { return avatars; }
-    }
-
-    public List<Plane> Planes {
-        get { return planes; }
-    }
-
-    public List<Well> Wells {
-        get { return wells; }
-    }
+    //public List<Well> Wells {
+    //    get { return wells; }
+    //}
 
 	#endregion
 
 	#region Constructor
 
-	public RandomTrack(string filePath) {
-		Type = "random";
-        FilePath = filePath;
+	public PlanarTrack() : base() {
+		//Type = "random";
+  //      FilePath = filePath;
 
-        boundaryVertices = new List<Vector3>();
-        liveZoneVertices = new List<Vector3>();
-        groundPolygonVertices = new List<Vector3>();
-        dispensers = new List<Dispenser>();
-        avatars = new List<RatAvatar>();
-        planes = new List<Plane>();
-        wells = new List<Well>();
+        //boundaryVertices = new List<Vector3>();
+        //liveZoneVertices = new List<Vector3>();
+        //groundPolygonVertices = new List<Vector3>();
+        //dispensers = new List<Dispenser>();
+        ////avatar
+        //planes = new List<Plane>();
+        //wells = new List<Well>();
 
-		XmlReaderSettings readerSettings = new XmlReaderSettings {
-			IgnoreComments = true
-		};
-		XmlReader xmlReader = XmlReader.Create(Path.Combine(Application.streamingAssetsPath, FilePath), readerSettings);
+		//XmlReaderSettings readerSettings = new XmlReaderSettings {
+		//	IgnoreComments = true
+		//};
+		//XmlReader xmlReader = XmlReader.Create(Path.Combine(Application.streamingAssetsPath, filePath), readerSettings);
 
-        XmlDocument trackFile = new XmlDocument();
-        trackFile.Load(xmlReader);
+  //      XmlDocument trackFile = new XmlDocument();
+		////trackFile.LoadXml("<book ISBN='1-861001-57-5'>" +
+		////        "<title>Pride And Prejudice</title>" +
+		////        "<price>19.95</price>" +
+		////        "</book>");
+		//trackFile.Load(xmlReader);
 
-        foreach (XmlNode xmlNode in trackFile.DocumentElement) {
-            if (xmlNode.Name.Equals("boundary"))
-                SetVertices(xmlNode, boundaryVertices);
-            else if (xmlNode.Name.Equals("livezone"))
-                SetVertices(xmlNode, liveZoneVertices);
-            else if (xmlNode.Name.Equals("groundPolygon")) {
-                groundPolygonMaterialName = xmlNode.Attributes[0].Value;
-                SetVertices(xmlNode, groundPolygonVertices);
-            }
-            else if (xmlNode.Name.Equals("bgcolor")) { /* do nothing for now */ }
-            else if (xmlNode.Name.Equals("dispensers"))
-                SetDispensers(xmlNode);
-            else if (xmlNode.Name.Equals("positions"))
-                SetPositions(xmlNode);
-        }
+		////Data.WriteSum(trackFile.DocumentElement.GetAttribute("type"), "logger.txt");
+
+  //      foreach (XmlNode xmlNode in trackFile.DocumentElement) {
+  //          //print(xmlNode.Name);
+  //          //if (xmlNode.Name.Equals("boundary"))
+  //          //    SetVertices(xmlNode, boundaryVertices);
+  //          //else if (xmlNode.Name.Equals("livezone"))
+  //          //    SetVertices(xmlNode, liveZoneVertices);
+  //          //else if (xmlNode.Name.Equals("groundPolygon")) {
+  //          //    groundPolygonMaterialName = xmlNode.Attributes[0].Value;
+  //          //    SetVertices(xmlNode, groundPolygonVertices);
+  //          //}
+  //          //else if (xmlNode.Name.Equals("bgcolor")) { /* do nothing for now */ }
+  //          //else if (xmlNode.Name.Equals("dispensers"))
+  //          //    SetDispensers(xmlNode);
+  //          //else if (xmlNode.Name.Equals("positions"))
+  //          //    SetPositions(xmlNode);
+  //      }
     }
 
     #endregion
@@ -106,6 +89,7 @@ public class RandomTrack : Track {
 	/// Creates objects of the components in the "position" nodes in the track file
 	/// </summary>
 	/// <param name="positionsNode">XmlNode object representing the position node in the track file</param>
+	/*
     private void SetPositions(XmlNode positionsNode) {
         XmlNode firstChildNode;
         foreach (XmlNode positionNode in positionsNode) {
@@ -152,7 +136,7 @@ public class RandomTrack : Track {
                                         new Pillar(float.Parse(well["pillar"].Attributes[0].Value) * Constants.CentimeterToMeter, well["pillar"].Attributes[1].Value)));
             }
         }
-    }
+    } */
 
     /// <summary>
 	/// Parses the XmlNodes that correspond to vertices and populates a Vector3 list
@@ -169,20 +153,21 @@ public class RandomTrack : Track {
 	/// Creates Dispenser objects of different types depeneding on dispenser type specified in the track file
 	/// </summary>
 	/// <param name="xmlNode">XmlNode containing dispenser data</param>
-    private void SetDispensers(XmlNode xmlNode) {
-        foreach (XmlNode dispenserNode in xmlNode) {
-            if (dispenserNode.Name.Equals("audiodispenser")) {
-                XmlNode audioDispenserSound = dispenserNode["sound"];
-                Dispenser audioDispenser = new AudioDispenser(audioDispenserSound.Attributes[0].Value, audioDispenserSound.Attributes[1].Value,
-                                                                float.Parse(audioDispenserSound.Attributes[2].Value),
-                                                                float.Parse(audioDispenserSound.Attributes[3].Value) * Constants.CentimeterToMeter,
-                                                                float.Parse(audioDispenserSound.Attributes[4].Value) * Constants.CentimeterToMeter);
-                dispensers.Add(audioDispenser);
-            }
+	
+    //private void SetDispensers(XmlNode xmlNode) {
+    //    foreach (XmlNode dispenserNode in xmlNode) {
+    //        if (dispenserNode.Name.Equals("audiodispenser")) {
+    //            XmlNode audioDispenserSound = dispenserNode["sound"];
+    //            Dispenser audioDispenser = new AudioDispenser(audioDispenserSound.Attributes[0].Value, audioDispenserSound.Attributes[1].Value,
+    //                                                            float.Parse(audioDispenserSound.Attributes[2].Value),
+    //                                                            float.Parse(audioDispenserSound.Attributes[3].Value) * Constants.CentimeterToMeter,
+    //                                                            float.Parse(audioDispenserSound.Attributes[4].Value) * Constants.CentimeterToMeter);
+    //            dispensers.Add(audioDispenser);
+    //        }
 
-            else if (dispenserNode.Name.Equals("someOtherDispenser")) { /* future TODO */}
-        }
-    }
+    //        else if (dispenserNode.Name.Equals("someOtherDispenser")) { /* future TODO */}
+    //    }
+    //}
 
     #endregion
 }

@@ -4,6 +4,8 @@ using System.Reflection;
 using SFB;
 using Builder;
 using System;
+using System.Xml;
+using System.Diagnostics;
 
 /// <summary>
 /// This builds the track by building the individual components of the track
@@ -14,9 +16,12 @@ using System;
 public class TrackBuilder : MonoBehaviour {
 
     private string trackFilePath;
-    private Track track;
+    Process fictracProcess = null;
 
     void Start() {
+        string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+        StartFictrac(command);
+
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
         trackFilePath = paths[0];
 
@@ -25,9 +30,16 @@ public class TrackBuilder : MonoBehaviour {
 
         string trackFileName = trackFilePathComponents[trackFilePathComponents.Length - 1];
 
-        if (trackFileName.Contains("random"))
-            track = new RandomTrack(trackFilePath);
-        /* TODO: Other kinds of tracks */
+        XmlReaderSettings readerSettings = new XmlReaderSettings {
+            IgnoreComments = true
+        };
+        XmlReader xmlReader = XmlReader.Create(trackFilePath, readerSettings);
+        XmlDocument trackFile = new XmlDocument();
+        trackFile.Load(xmlReader);
+
+        XmlElement rootElement = trackFile.DocumentElement;
+
+        TrackFileParser.parseTrack(rootElement);
 
         string trackFileNameNoExt = trackFileName.Split('.')[0];
 
@@ -38,7 +50,9 @@ public class TrackBuilder : MonoBehaviour {
         GameObject playArea = new GameObject("Play Area");
         playArea.transform.position = Vector3.zero;
 
-        BuildTrack(track, playArea);
+        print("TrackFileParser.track.Planes: " + TrackFileParser.track.Planes.Count);
+
+        BuildTrack(TrackFileParser.track, playArea);
 
         SetLayerRecursively(playArea, 10); // Layer 10 is the Play Area layer
     }
@@ -49,19 +63,23 @@ public class TrackBuilder : MonoBehaviour {
 	/// <param name="track">Track object, which contains all the data required to build the gameobjects of the constituent components</param>
 	/// <param name="parentObject">parent GameObject which will have all the gameobjects built by this method as its children</param>
     void BuildTrack(Track track, GameObject parentObject) {
-        PropertyInfo[] props = track.GetType().GetProperties();
+        PropertyInfo[] properties = track.GetType().GetProperties();
+        print(track.GetType());
+        foreach (PropertyInfo prop in properties) {
+            if (prop.GetValue(track) == null)
+                print(prop.Name + "\t" + "null");
+            else
+                print(prop.Name + "\t" + prop.GetValue(track));
 
-        foreach (PropertyInfo prop in props) {
-            print(prop.Name + "\t" + prop.GetValue(track));
-            if (prop.Name.Equals("Planes"))
-                ComponentsBuilder.Walls(prop.GetValue(track) as List<Plane>, parentObject);
-            else if (prop.Name.Equals("GroundPolygonVertices"))
-                ComponentsBuilder.Ground(prop.GetValue(track) as List<Vector3>, parentObject);
-            else if (prop.Name.Equals("BoundaryVertices"))
-                ComponentsBuilder.Boundary(prop.GetValue(track) as List<Vector3>, parentObject);
-            else if (prop.Name.Equals("Avatars"))
-                ComponentsBuilder.Avatar(prop.GetValue(track) as List<RatAvatar>);
-        }
+			if (prop.Name.Equals("Planes"))
+				GameObjectBuilder.Walls(prop.GetValue(track) as List<Plane>, parentObject);
+			else if (prop.Name.Equals("GroundPolygon"))
+				GameObjectBuilder.Ground(prop.GetValue(track) as GroundPolygon, parentObject);
+			else if (prop.Name.Equals("Boundary"))
+				GameObjectBuilder.Boundary(prop.GetValue(track) as List<Vector3>, parentObject);
+			else if (prop.Name.Equals("Avatar"))
+				GameObjectBuilder.Avatar(prop.GetValue(track) as RatAvatar);
+		}
     }
 
     /// <summary>
@@ -73,5 +91,49 @@ public class TrackBuilder : MonoBehaviour {
         gObject.layer = layer;
         foreach (Transform child in gObject.transform)
             SetLayerRecursively(child.gameObject, layer);
+    }
+
+	private void Update() {
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            if (fictracProcess != null && !fictracProcess.HasExited) {
+                print("Initiating process kill");
+                fictracProcess.Kill();
+            }
+        }
+	}
+
+	void StartFictrac(string command) {
+        command = command.Replace("\"", "\"\"");
+
+        fictracProcess = new Process {
+            StartInfo = new ProcessStartInfo {
+                FileName = "/bin/bash",
+                Arguments = "-c \"" + command + "\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            }
+        };
+
+        fictracProcess.Start();
+        //proc.WaitForExit();
+
+        //return proc.StandardOutput.ReadToEnd();
+        //Process proc = new Process();
+        //ProcessStartInfo startInfo = new ProcessStartInfo();
+        //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        ////startInfo.FileName = "fictrac_starter.bat";
+        //startInfo.FileName = "/bin/zsh";
+        //startInfo.Arguments = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+        //startInfo.UseShellExecute = false;
+        //startInfo.RedirectStandardOutput = true;
+        //startInfo.CreateNoWindow = true;
+
+        //proc.StartInfo = startInfo;
+
+        //proc.Start();
+        //proc.WaitForExit();
+
+        //return proc.StandardOutput.ReadToEnd();
     }
 }

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Const;
 
 /// <summary>
 /// This class makes sure the VR application runs at the same frame rate as the Fictrac camera
 /// </summary>
 public class FPSTarget : MonoBehaviour {
-	public int TARGET = Data.TargetFps;
+	public int TARGET = Constants.TargetFps;
 
 	private void Awake() {
 		QualitySettings.vSyncCount = 0;

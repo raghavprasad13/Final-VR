@@ -5,13 +5,14 @@ namespace Builder {
     /// <summary>
 	/// Builds individual components of a track and instantiates them as GameObjects
 	/// </summary>
-	public class ComponentsBuilder : MonoBehaviour {
+	public class GameObjectBuilder : MonoBehaviour {
 
         /// <summary>
 		/// This method procedurally creates the meshes for the walls
 		/// </summary>
 		/// <param name="planes"> A list of Plane objects </param>
-		public static void Walls(List<Plane> planes, GameObject parent) {
+		public static void Walls(List<Plane> planes, GameObject parent = null) {
+            print("planes.Count: " + planes.Count);
 			foreach(Plane plane in planes) {
 				GameObject planeGameObject = new GameObject(plane.Name);
 				planeGameObject.transform.parent = parent.transform;
@@ -31,6 +32,8 @@ namespace Builder {
 				//planeGameObject.GetComponent<MeshCollider>().convex = true;
 				planeGameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 			}
+
+			print("PLANES BUILT");
 		}
 
         /// <summary>
@@ -193,14 +196,14 @@ namespace Builder {
 		/// </summary>
 		/// <param name="groundPolygonVertices">Vertices of the polygonal plane surface</param>
 		/// <param name="parent">The parent GameObject of which the ground GameObject will be a child</param>
-        public static void Ground(List<Vector3> groundPolygonVertices, GameObject parent) {
+        public static void Ground(GroundPolygon groundPolygon, GameObject parent = null) {
 			GameObject ground = new GameObject("Ground");
             ground.transform.parent = parent.transform;
 
-			ground.transform.position = new Vector3(0, -0.0508f, 0);
+			ground.transform.position = new Vector3(0, /* -0.0508f */ 0, 0);
 
 			AddMeshComponents(ground);
-			CreateMesh(ground, groundPolygonVertices.ToArray());
+			CreateMesh(ground, groundPolygon.Vertices.ToArray());
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
 			ground.AddComponent<Rigidbody>();
 			ground.GetComponent<Rigidbody>().isKinematic = true;
@@ -214,7 +217,7 @@ namespace Builder {
 		/// </summary>
 		/// <param name="boundaryVertices">The vertices that define the boundary</param>
 		/// <param name="parent">The parent GameObject of which the boundary GameObject will be a child<</param>
-        public static void Boundary(List<Vector3> boundaryVertices, GameObject parent) {
+        public static void Boundary(List<Vector3> boundaryVertices, GameObject parent = null) {
             GameObject boundaries = new GameObject("Boundaries");
             boundaries.transform.parent = parent.transform;
 
@@ -246,12 +249,20 @@ namespace Builder {
 		/// Instantiates each avatar in the correct position and facing the correct direction
 		/// </summary>
 		/// <param name="ratAvatars">List of avatars</param>
-        public static void Avatar(List<RatAvatar> ratAvatars) {
-            foreach(RatAvatar avatar in ratAvatars) {
-                GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Participant");
-                GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Center.x, avatar.Height, avatar.Center.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
-                avatarGameObject.name = "Avatar";
-			}
+        public static void Avatar(RatAvatar avatar, GameObject parent = null) {
+            GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Participant");
+            GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + 0.0508f, avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
+            avatarGameObject.name = "Avatar";
 		}
+
+        public static void Wells(List<Well> wells, GameObject parent = null) {
+            /* TODO */
+		}
+
+        public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {
+            /* TODO */
+		}
+
+
     }
 }
