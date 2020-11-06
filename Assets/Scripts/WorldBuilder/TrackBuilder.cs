@@ -19,8 +19,7 @@ public class TrackBuilder : MonoBehaviour {
     Process fictracProcess = null;
 
     void Start() {
-        string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
-        StartFictrac(command);
+        StartFictrac();
 
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
         trackFilePath = paths[0];
@@ -115,13 +114,10 @@ public class TrackBuilder : MonoBehaviour {
         }
 	}
 
-	void StartFictrac(string command) {
-        command = command.Replace("\"", "\"\"");
-
+	void StartFictrac() {
         fictracProcess = new Process {
             StartInfo = new ProcessStartInfo {
-                FileName = "/bin/bash",
-                Arguments = "-c \"" + command + "\"",
+                FileName = "C:\\Users\\RatTracker1\\fictrac_starter.bat",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
