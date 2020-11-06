@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public abstract class Track {
 	/* List<OccupationZone> occupationZones; TODO: What are occupation zones?*/
+	Color bgcolor;
 	List<Well> wells;
 	ProbabilisticDistanceTrigger probDistanceTrigger; // TODO: What are probabilistic distance triggers
 	List<Dispenser> dispensers;
@@ -14,6 +15,7 @@ public abstract class Track {
 	GroundPolygon groundPolygon;
 	List<Vector3> boundary;
 	List<Vector3> liveZone;
+	List<OccupationZone> occupationZones;
 
 	public ProbabilisticDistanceTrigger ProbDistanceTrigger {
 		get { return probDistanceTrigger; }
@@ -55,6 +57,16 @@ public abstract class Track {
 		set { liveZone = value; }
 	}
 
+	public Color Bgcolor {
+		get { return bgcolor; }
+		set { bgcolor = value; }
+	}
+
+	public List<OccupationZone> OccupationZones {
+		get { return occupationZones; }
+		set { occupationZones = value; }
+	}
+
 	public Track() {
 		wells = new List<Well>();
 		probDistanceTrigger = null;
@@ -64,5 +76,7 @@ public abstract class Track {
 		groundPolygon = null;
 		boundary = new List<Vector3>();
 		liveZone = new List<Vector3>();
+		bgcolor = Color.black;
+		occupationZones = new List<OccupationZone>();
 	}
 }

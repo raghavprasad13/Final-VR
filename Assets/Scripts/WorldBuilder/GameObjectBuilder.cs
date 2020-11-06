@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace Builder {
     /// <summary>
 	/// Builds individual components of a track and instantiates them as GameObjects
@@ -12,10 +13,11 @@ namespace Builder {
 		/// </summary>
 		/// <param name="planes"> A list of Plane objects </param>
 		public static void Walls(List<Plane> planes, GameObject parent = null) {
-            print("planes.Count: " + planes.Count);
+            //print("planes.Count: " + planes.Count);
 			foreach(Plane plane in planes) {
 				GameObject planeGameObject = new GameObject(plane.Name);
-				planeGameObject.transform.parent = parent.transform;
+                if(parent != null)
+				    planeGameObject.transform.parent = parent.transform;
 
 				planeGameObject.transform.position = new Vector3(plane.Center.x, plane.Height, plane.Center.z);
 				AddMeshComponents(planeGameObject);
@@ -32,8 +34,39 @@ namespace Builder {
 				//planeGameObject.GetComponent<MeshCollider>().convex = true;
 				planeGameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 			}
+		}
 
-			print("PLANES BUILT");
+        public static void Planes(List<Plane> planes, GameObject parent = null) {
+            GameObject planePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Plane");
+            //Quaternion rotation;
+            foreach(Plane plane in planes) {
+                //if(plane.Facing.z == -1)
+                //    rotation = Quaternion.AngleAxis()
+                GameObject planeGameObject = Instantiate(planePrefab, new Vector3(plane.Center.x, plane.Height, plane.Center.z), Quaternion.identity);
+
+                if (parent != null)
+                    planeGameObject.transform.parent = parent.transform;
+
+                planeGameObject.transform.localScale = plane.Scale;
+
+                //planeGameObject.GetComponent<Renderer>().material.color = new Color(Random.Range(0, 1F), Random.Range(0, 1F), Random.Range(0, 1F));
+
+                string materialNameNoExt = plane.Material.Split('.')[0];
+
+				planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
+
+                if (plane.Facing.z == -1)
+                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
+                else if (plane.Facing.z == 1)
+                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+                else if (plane.Facing.x == -1)
+                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+                else if (plane.Facing.x == 1)
+                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
+
+
+                planeGameObject.name = plane.Name;
+			}
 		}
 
         /// <summary>
@@ -198,7 +231,9 @@ namespace Builder {
 		/// <param name="parent">The parent GameObject of which the ground GameObject will be a child</param>
         public static void Ground(GroundPolygon groundPolygon, GameObject parent = null) {
 			GameObject ground = new GameObject("Ground");
-            ground.transform.parent = parent.transform;
+
+            if(parent != null)
+                ground.transform.parent = parent.transform;
 
 			ground.transform.position = new Vector3(0, /* -0.0508f */ 0, 0);
 
@@ -219,10 +254,12 @@ namespace Builder {
 		/// <param name="parent">The parent GameObject of which the boundary GameObject will be a child<</param>
         public static void Boundary(List<Vector3> boundaryVertices, GameObject parent = null) {
             GameObject boundaries = new GameObject("Boundaries");
-            boundaries.transform.parent = parent.transform;
+
+            if(parent != null)
+                boundaries.transform.parent = parent.transform;
 
 			GameObject boundaryGeneratorPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
-            print(boundaryGeneratorPrefab.name);
+            //print(boundaryGeneratorPrefab.name);
 
             for(int i = 1; i <= boundaryVertices.Count; i++) {
                 var length = (boundaryVertices[i % boundaryVertices.Count] - boundaryVertices[(i - 1) % boundaryVertices.Count]).magnitude;
@@ -253,16 +290,69 @@ namespace Builder {
             GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Participant");
             GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + 0.0508f, avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
             avatarGameObject.name = "Avatar";
+            avatarGameObject.tag = "Avatar";
 		}
 
         public static void Wells(List<Well> wells, GameObject parent = null) {
-            /* TODO */
+            GameObject Wells = new GameObject("Wells");
+            if (parent != null)
+                Wells.transform.parent = parent.transform;
+
+            Wells.transform.position = Vector3.zero;
+
+            List<Well> wellsAssigned = new List<Well>();
+
+            Vector3 wellPosition;
+            System.Random random = new System.Random();
+
+            GameObject circularPlanePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/CircularPlane");
+
+			foreach (Well well in wells) {
+                if(well.GetType().ToString().Equals("RandomWell")) {
+
+                    while (true) {
+                        float wellPositionX = (float)random.NextDouble() * (well.Q1Max - well.Q1Min) + well.Q1Min;
+                        float wellPositionZ = (float)random.NextDouble() * (well.Q2Max - well.Q2Min) + well.Q2Min;
+                        
+                        wellPosition = new Vector3(wellPositionX, 1e-4f, wellPositionZ);
+                        well.Position = new Vector2(wellPositionX, wellPositionZ);
+
+                        if (!IsOverlapping(wellsAssigned, well)) {
+                            wellsAssigned.Add(well);
+                            break;
+                        }
+                    }
+				}
+
+                else
+                    wellPosition = new Vector3(well.Position.x, 1e-4f, well.Position.y);
+
+                GameObject wellGameObject = Instantiate(circularPlanePrefab, wellPosition, Quaternion.identity);
+                //print("RADIAL BOUNDARY RADIUS: " + well.RadialBoundaryRadius);
+				wellGameObject.transform.localScale = new Vector3(well.RadialBoundaryRadius, 1e-6f, well.RadialBoundaryRadius);
+
+                string materialNameNoExt = well.RadialTriggerZoneMeshMaterial.Split('.')[0];
+                wellGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
+
+                if (well.Level == 0)
+                    wellGameObject.GetComponent<Renderer>().enabled = false;
+
+				wellGameObject.name = well.Name;
+                wellGameObject.transform.parent = Wells.transform;
+            }
 		}
 
         public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {
             /* TODO */
 		}
 
+        public static bool IsOverlapping(List<Well> wells, Well well) {
+            foreach(Well assignedWell in wells) {
+                if ((assignedWell.Position - well.Position).magnitude < (assignedWell.RadialBoundaryRadius + well.RadialBoundaryRadius))
+                    return true;
+			}
+            return false;
+		}
 
     }
 }

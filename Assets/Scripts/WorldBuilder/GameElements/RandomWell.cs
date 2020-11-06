@@ -1,26 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RandomWell : Well {
-    float q1Min;
-    float q1Max;
-    float q2Min;
-    float q2Max;
+	readonly float q1Min;
+    readonly float q1Max;
+    readonly float q2Min;
+    readonly float q2Max;
 
-    public float Q1Min {
+    public override float Q1Min {
 		get { return q1Min; }
 	}
 
-    public float Q1Max {
+    public override float Q1Max {
 		get { return q1Max; }
 	}
 
-    public float Q2Min {
+    public override float Q2Min {
 		get { return q2Min; }
 	}
 
-    public float Q2Max {
+    public override float Q2Max {
 		get { return q2Max; }
 	}
 

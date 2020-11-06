@@ -39,7 +39,7 @@ public class TrackBuilder : MonoBehaviour {
 
         XmlElement rootElement = trackFile.DocumentElement;
 
-        TrackFileParser.parseTrack(rootElement);
+        TrackFileParser.ParseTrack(rootElement);
 
         string trackFileNameNoExt = trackFileName.Split('.')[0];
 
@@ -64,21 +64,34 @@ public class TrackBuilder : MonoBehaviour {
 	/// <param name="parentObject">parent GameObject which will have all the gameobjects built by this method as its children</param>
     void BuildTrack(Track track, GameObject parentObject) {
         PropertyInfo[] properties = track.GetType().GetProperties();
-        print(track.GetType());
+
         foreach (PropertyInfo prop in properties) {
             if (prop.GetValue(track) == null)
                 print(prop.Name + "\t" + "null");
             else
                 print(prop.Name + "\t" + prop.GetValue(track));
 
-			if (prop.Name.Equals("Planes"))
-				GameObjectBuilder.Walls(prop.GetValue(track) as List<Plane>, parentObject);
-			else if (prop.Name.Equals("GroundPolygon"))
-				GameObjectBuilder.Ground(prop.GetValue(track) as GroundPolygon, parentObject);
-			else if (prop.Name.Equals("Boundary"))
-				GameObjectBuilder.Boundary(prop.GetValue(track) as List<Vector3>, parentObject);
-			else if (prop.Name.Equals("Avatar"))
-				GameObjectBuilder.Avatar(prop.GetValue(track) as RatAvatar);
+            if (prop.Name.Equals("Planes"))
+                //GameObjectBuilder.Walls(prop.GetValue(track) as List<Plane>, parentObject);
+                GameObjectBuilder.Planes(prop.GetValue(track) as List<Plane>, parentObject);
+
+            else if (prop.Name.Equals("GroundPolygon"))
+                GameObjectBuilder.Ground(prop.GetValue(track) as GroundPolygon, parentObject);
+
+            else if (prop.Name.Equals("Bgcolor")) {
+                /* TODO: Change skybox color to Bgcolor */
+			}
+
+            else if (prop.Name.Equals("Boundary"))
+                GameObjectBuilder.Boundary(prop.GetValue(track) as List<Vector3>, parentObject);
+
+            else if (prop.Name.Equals("Avatar"))
+                GameObjectBuilder.Avatar(prop.GetValue(track) as RatAvatar);
+
+            else if (prop.Name.Equals("Wells"))
+                GameObjectBuilder.Wells(prop.GetValue(track) as List<Well>, parentObject);
+
+
 		}
     }
 

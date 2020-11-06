@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Well class
+/// Well class: This is a legacy implementation of Dispenser
 /// </summary>
 public class Well {
     #region Fields
 
     Vector2 position;
-    string name;
+	readonly string name;
     float capacity;
     int level;
     float initialDelay;
@@ -24,6 +24,7 @@ public class Well {
 
     public Vector2 Position {
 		get { return position; }
+        set { position = value; }
 	}
 
     public string Name {
@@ -62,6 +63,14 @@ public class Well {
         get { return radialTriggerZoneMeshMaterial; }
     }
 
+    public virtual float Q1Min { get; }
+
+    public virtual float Q1Max { get; }
+
+    public virtual float Q2Min { get; }
+
+    public virtual float Q2Max { get; }
+
     #endregion
 
     #region Constructor(s)
@@ -83,6 +92,5 @@ public class Well {
         this.pillar = pillar;
     }
 
-    #endregion
-
+	#endregion
 }

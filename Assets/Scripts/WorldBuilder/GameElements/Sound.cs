@@ -9,6 +9,10 @@ public class Sound {
 	float maxDistance;
 	float height;
 
+    public string Name {
+		get { return name; }
+	}
+
     public string FileName {
         get { return fileName; }
         set { fileName = value; }
