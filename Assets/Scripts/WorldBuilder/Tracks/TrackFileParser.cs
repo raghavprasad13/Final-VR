@@ -91,14 +91,15 @@ public class TrackFileParser : MonoBehaviour {
 
 	public static void ParseDispensers(XmlElement dispensersNode) {
 		List<Dispenser> dispensers = new List<Dispenser>();
+		XmlNodeList elements;
 		XmlElement element;
 
 		// AudioDispenser
-		element = dispensersNode.GetElementsByTagName("audiodispenser")[0] as XmlElement;
-		while (element != null) {
-			Dispenser dispenser = new AudioDispenser(element.GetAttribute("name"), ParseSound(element));
+		elements = dispensersNode.GetElementsByTagName("audiodispenser");
+		foreach (XmlElement element1 in elements) {
+			Dispenser dispenser = new AudioDispenser(element1.GetAttribute("name"), ParseSound(element1));
 			dispensers.Add(dispenser);
-			element = element.NextSibling as XmlElement;
+			//element = element.NextSibling as XmlElement;
 		}
 
 		// Strobe
@@ -114,19 +115,19 @@ public class TrackFileParser : MonoBehaviour {
 		}
 
 		// RewardDispenser
-		element = dispensersNode.GetElementsByTagName("rewarddispenser")[0] as XmlElement;
-		while(element != null) {
-			string name = element.GetAttribute("name");
-			float initialDelay = float.Parse(element.GetAttribute("initialDelay")) * C.MillisecondToSecond;
-			float delay = float.Parse(element.GetAttribute("delay")) * C.MillisecondToSecond;
-			float duration = float.Parse(element.GetAttribute("duration")) * C.MillisecondToSecond;
-			int burstCount = int.Parse(element.GetAttribute("burstCount"));
-			float probability = float.Parse(element.GetAttribute("probability"));
+		elements = dispensersNode.GetElementsByTagName("rewarddispenser");
+		foreach(XmlElement element1 in elements) {
+			string name = element1.GetAttribute("name");
+			float initialDelay = float.Parse(element1.GetAttribute("initialDelay")) * C.MillisecondToSecond;
+			float delay = float.Parse(element1.GetAttribute("delay")) * C.MillisecondToSecond;
+			float duration = float.Parse(element1.GetAttribute("duration")) * C.MillisecondToSecond;
+			int burstCount = int.Parse(element1.GetAttribute("burstCount"));
+			float probability = float.Parse(element1.GetAttribute("probability"));
 
 			Dispenser dispenser = new RewardDispenser(name, initialDelay, delay, duration, burstCount, probability);
-			dispenser.Triggers = ParseTriggers(element);
+			dispenser.Triggers = ParseTriggers(element1);
 			dispensers.Add(dispenser);
-			element = element.NextSibling as XmlElement;
+			//element = element.NextSibling as XmlElement;
 		}
 
 		// BlackoutDispenser
@@ -139,16 +140,16 @@ public class TrackFileParser : MonoBehaviour {
 		}
 
 		// DiscreteTeleportDispenser
-		element = dispensersNode.GetElementsByTagName("DiscreTeleportDispenser")[0] as XmlElement;
-		while(element != null) {
-			string name = element.GetAttribute("name");
-			bool sequential = bool.Parse(element.GetAttribute("sequential"));
-			float delay = float.Parse(element.GetAttribute("delay"));
+		elements = dispensersNode.GetElementsByTagName("DiscreTeleportDispenser");
+		foreach(XmlElement element1 in elements) {
+			string name = element1.GetAttribute("name");
+			bool sequential = bool.Parse(element1.GetAttribute("sequential"));
+			float delay = float.Parse(element1.GetAttribute("delay"));
 
 			List<Tuple<Vector3, Vector2>> destinations = new List<Tuple<Vector3, Vector2>>();
 
-			XmlElement destinationElement = element.GetElementsByTagName("destination")[0] as XmlElement;
-			while (destinationElement != null) {
+			XmlNodeList destinationElements = element1.GetElementsByTagName("destination");
+			foreach(XmlElement destinationElement in destinationElements) {
 
 				XmlElement position = destinationElement.FirstChild as XmlElement;
 				Vector3 destinationPosition = new Vector3(float.Parse(position.GetAttribute("q1")), 0f, float.Parse(position.GetAttribute("q2")));
@@ -158,23 +159,23 @@ public class TrackFileParser : MonoBehaviour {
 
 				destinations.Add(new Tuple<Vector3, Vector2>(destinationPosition, destinationOrientation));
 
-				destinationElement = destinationElement.NextSibling as XmlElement;
+				//destinationElement = destinationElement.NextSibling as XmlElement;
 			}
 
 			Dispenser dispenser = new DiscreteTeleportDispenser(name, sequential, delay, destinations);
 			dispenser.Triggers = ParseTriggers(element);
 			dispensers.Add(dispenser);
 
-			element = element.NextSibling as XmlElement;
+			//element = element.NextSibling as XmlElement;
 		}
 
 		// Hider
-		element = dispensersNode.GetElementsByTagName("hider")[0] as XmlElement;
-		while (element != null) {
-			string name = element.GetAttribute("name");
+		elements = dispensersNode.GetElementsByTagName("hider");
+		foreach(XmlElement element1 in elements) {
+			string name = element1.GetAttribute("name");
 			List<string> targets = new List<string>();
 
-			XmlElement targetElement = element.GetElementsByTagName("target")[0] as XmlElement;
+			XmlElement targetElement = element1.GetElementsByTagName("target")[0] as XmlElement;
 			while(targetElement != null) {
 				targets.Add(targetElement.GetAttribute("name"));
 				targetElement = targetElement.NextSibling as XmlElement;
@@ -183,7 +184,7 @@ public class TrackFileParser : MonoBehaviour {
 			Dispenser dispenser = new Hider(name, targets);
 			dispensers.Add(dispenser);
 
-			element = element.NextSibling as XmlElement;
+			//element = element.NextSibling as XmlElement;
 		}
  
 		/* TODO: Add code for other kinds of dispensers
@@ -202,11 +203,18 @@ public class TrackFileParser : MonoBehaviour {
 	public static Sound ParseSound(XmlElement audioDispenserElement) {
 		XmlElement soundElement = audioDispenserElement.GetElementsByTagName("sound")[0] as XmlElement;
 
+		if (soundElement == null)
+			print("Its NULL");
+		print("InParseSound: " + soundElement.Name);
+		//print(soundElement.GetAttribute("name"));
+
 		Sound sound = new Sound(soundElement.GetAttribute("name"),
 								soundElement.GetAttribute("file"),
 								float.Parse(soundElement.GetAttribute("gain")),
 								float.Parse(soundElement.GetAttribute("maxdistance")) * C.CentimeterToMeter,
 								float.Parse(soundElement.GetAttribute("height")) * C.CentimeterToMeter);
+
+		print(soundElement.GetAttribute("name"));
 
 		return sound;
 	}
@@ -394,10 +402,10 @@ public class TrackFileParser : MonoBehaviour {
 		string name = occupationZoneElement.GetAttribute("name");
 		bool isActive = bool.Parse(occupationZoneElement.GetAttribute("active"));
 
-		XmlElement entryTriggersParentElement = occupationZoneElement.GetElementsByTagName("onEntry")[0] as XmlElement;
+		XmlElement entryTriggersParentElement = occupationZoneElement.GetElementsByTagName("onentry")[0] as XmlElement;
 		List<Trigger> entryTriggers = ParseTriggers(entryTriggersParentElement);
 
-		XmlElement exitTriggersParentElement = occupationZoneElement.GetElementsByTagName("onExit")[0] as XmlElement;
+		XmlElement exitTriggersParentElement = occupationZoneElement.GetElementsByTagName("onexit")[0] as XmlElement;
 		List<Trigger> exitTriggers = ParseTriggers(exitTriggersParentElement);
 
 		float minTime = float.NegativeInfinity;
@@ -415,7 +423,8 @@ public class TrackFileParser : MonoBehaviour {
 		}
 
 		else {
-			XmlElement polygonBoundaryVerticesParentElement = occupationZoneElement.GetElementsByTagName("polygonBoundary")[0] as XmlElement;
+			XmlElement polygonBoundaryVerticesParentElement = occupationZoneElement.GetElementsByTagName("polygonboundary")[0] as XmlElement;
+			//print(occupationZoneElement.GetAttribute("name"));
 			List<Vector3> polygonBoundaryVertices = SetVertices(polygonBoundaryVerticesParentElement);
 			track.OccupationZones.Add(new OccupationZone(name, new Vector3(position.x, 0f, position.y),
 														 isActive, isRadialBoundary, entryTriggers, exitTriggers,

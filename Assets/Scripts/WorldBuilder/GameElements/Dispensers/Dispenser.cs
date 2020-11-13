@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Abstract Dispenser base class which must be derived by different types of Dispenser subclasses
 /// </summary>
-public abstract class Dispenser : MonoBehaviour {	// Inheriting from MonoBehaviour here is not a good practice because this will be instantiated. Instead, have a separate dedicated MonoBehaviour inheriting class just for coroutines
+public abstract class Dispenser : MonoBehaviour {	// Inheriting from MonoBehaviour here is not a good practice because Dispenser will be instantiated. Instead, have a separate dedicated MonoBehaviour inheriting class just for coroutines
 	string dispenserName;
     List<Trigger> triggers;
 
