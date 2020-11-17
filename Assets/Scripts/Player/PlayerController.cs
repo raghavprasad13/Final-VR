@@ -149,6 +149,7 @@ namespace wallSystem
         //    _playingSound = true;
         //}
 
+        // For Keyboard (arrow keys)
         private void ComputeMovement() {
 			/// Fictrac code snippet begins
 			byte[] messageReceived = new byte[1024];
@@ -175,8 +176,61 @@ namespace wallSystem
 			float h = side * TRACK_BALL_RADIUS_M;
 			float v = forward * TRACK_BALL_RADIUS_M;
 
-			print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
+			//print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
 			/// Fictrac code snippet ends
+
+            // FicTrac motion control starts
+            /*
+            // This calculates the current amount of rotation frame rate independent
+            var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
+
+			// This calculates the forward speed frame rate independent
+			_moveDirection = new Vector3(h, 0, v) * TRANSLATION_GAIN;
+			_moveDirection = transform.TransformDirection(_moveDirection);
+            */
+            // FicTrac motion control ends
+
+            // Keyboard motion control starts
+			_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+            _moveDirection = transform.TransformDirection(_moveDirection);
+			var rotation = Input.GetAxis("Horizontal") * 50f * Time.deltaTime;
+            // Keyboard motion control ends
+
+			_controller.Move(_moveDirection * Time.deltaTime);
+
+			transform.Rotate(0, rotation, 0);
+		}
+
+        // For Fictrac
+        /*
+        private void ComputeMovement() {
+            /// Fictrac code snippet begins
+            byte[] messageReceived = new byte[1024];
+            int byteReceived = sender.Receive(messageReceived);
+            string newData = Encoding.ASCII.GetString(messageReceived, 0, byteReceived);
+
+            data += newData;
+
+            int endline = data.IndexOf('\n');
+            string line = data.Substring(0, endline);
+            data = data.Substring(endline + 1);
+
+            string[] delim = { ", " };
+            string[] tokens = line.Split(delim, StringSplitOptions.RemoveEmptyEntries);
+
+            float frameNum = float.Parse(tokens[1]);
+            float step_dir = float.Parse(tokens[18]);
+            float heading = float.Parse(tokens[17]);
+            float step_speed = float.Parse(tokens[19]);
+            float forward = float.Parse(tokens[20]);
+            float side = float.Parse(tokens[21]);
+            float rotation_y = float.Parse(tokens[7]);
+
+            float h = side * TRACK_BALL_RADIUS_M;
+            float v = forward * TRACK_BALL_RADIUS_M;
+
+            print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
+            /// Fictrac code snippet ends
 
             // This calculates the current amount of rotation frame rate independent
             //var rotation = Input.GetAxis("Horizontal") * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
@@ -184,23 +238,24 @@ namespace wallSystem
             //var rotation = h * step_speed * Time.deltaTime;
             var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
 
-			// This calculates the forward speed frame rate independent
-			//_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-			_moveDirection = new Vector3(h, 0, v) * TRANSLATION_GAIN;
-			_moveDirection = transform.TransformDirection(_moveDirection);
-			//_moveDirection *= DS.GetData().CharacterData.MovementSpeed;
-			//_moveDirection *= (step_speed * DS.GetData().CharacterData.MovementSpeed);
+            // This calculates the forward speed frame rate independent
+            //_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+            _moveDirection = new Vector3(h, 0, v) * TRANSLATION_GAIN;
+            _moveDirection = transform.TransformDirection(_moveDirection);
+            //_moveDirection *= DS.GetData().CharacterData.MovementSpeed;
+            //_moveDirection *= (step_speed * DS.GetData().CharacterData.MovementSpeed);
 
-			// Here is the movement system
-			//const double tolerance = 0.0001;
+            // Here is the movement system
+            //const double tolerance = 0.0001;
 
-			// We move iff rotation is 0
-			//if (Math.Abs(Mathf.Abs(rotation)) < tolerance)
-			_controller.Move(_moveDirection * Time.deltaTime);
+            // We move iff rotation is 0
+            //if (Math.Abs(Mathf.Abs(rotation)) < tolerance)
+            _controller.Move(_moveDirection * Time.deltaTime);
 
-			transform.Rotate(0, rotation, 0);
-		}
-        
+            transform.Rotate(0, rotation, 0);
+        }
+        */
+
         private void doInitialRotation(){
             var multiplier = 1.0f;
             
@@ -228,7 +283,7 @@ namespace wallSystem
 
             // This first block is for the initial rotation of the character
             if (_currDelay < _waitTime) {
-                doInitialRotation();
+                //doInitialRotation();
             } else {
 				// Move the character.
 				try {

@@ -152,7 +152,7 @@ public class TrackFileParser : MonoBehaviour {
 			foreach(XmlElement destinationElement in destinationElements) {
 
 				XmlElement position = destinationElement.FirstChild as XmlElement;
-				Vector3 destinationPosition = new Vector3(float.Parse(position.GetAttribute("q1")), 0f, float.Parse(position.GetAttribute("q2")));
+				Vector3 destinationPosition = new Vector3(float.Parse(position.GetAttribute("q1")), 0f, float.Parse(position.GetAttribute("q2"))) * C.CentimeterToMeter;
 
 				XmlElement orientation = destinationElement.LastChild as XmlElement;
 				Vector2 destinationOrientation = new Vector2(float.Parse(orientation.GetAttribute("q1")), float.Parse(orientation.GetAttribute("q2")));

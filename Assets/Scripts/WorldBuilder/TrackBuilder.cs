@@ -19,6 +19,13 @@ public class TrackBuilder : MonoBehaviour {
     Process fictracProcess = null;
 
     void Start() {
+        // For Mac/Linux
+        /*
+        string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+        StartFictrac(command);
+        */
+
+        // For Windows
         StartFictrac();
 
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
@@ -79,7 +86,7 @@ public class TrackBuilder : MonoBehaviour {
 
             else if (prop.Name.Equals("Bgcolor")) {
                 /* TODO: Change skybox color to Bgcolor */
-			}
+            }
 
             else if (prop.Name.Equals("Boundary"))
                 GameObjectBuilder.Boundary(prop.GetValue(track) as List<Vector3>, parentObject);
@@ -90,7 +97,8 @@ public class TrackBuilder : MonoBehaviour {
             else if (prop.Name.Equals("Wells"))
                 GameObjectBuilder.Wells(prop.GetValue(track) as List<Well>, parentObject);
 
-
+            else if (prop.Name.Equals("OccupationZones"))
+                GameObjectBuilder.OccupationZones(prop.GetValue(track) as List<OccupationZone>, parentObject);
 		}
     }
 
@@ -114,7 +122,44 @@ public class TrackBuilder : MonoBehaviour {
         }
 	}
 
-	void StartFictrac() {
+    // For Mac
+	void StartFictrac(string command) {
+        command = command.Replace("\"", "\"\"");
+
+        fictracProcess = new Process {
+            StartInfo = new ProcessStartInfo {
+                FileName = "/bin/bash",
+                Arguments = "-c \"" + command + "\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            }
+        };
+
+        fictracProcess.Start();
+        //proc.WaitForExit();
+
+        //return proc.StandardOutput.ReadToEnd();
+        //Process proc = new Process();
+        //ProcessStartInfo startInfo = new ProcessStartInfo();
+        //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        ////startInfo.FileName = "fictrac_starter.bat";
+        //startInfo.FileName = "/bin/zsh";
+        //startInfo.Arguments = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+        //startInfo.UseShellExecute = false;
+        //startInfo.RedirectStandardOutput = true;
+        //startInfo.CreateNoWindow = true;
+
+        //proc.StartInfo = startInfo;
+
+        //proc.Start();
+        //proc.WaitForExit();
+
+        //return proc.StandardOutput.ReadToEnd();
+    }
+
+    // For Windows
+    void StartFictrac() {
         fictracProcess = new Process {
             StartInfo = new ProcessStartInfo {
                 FileName = "C:\\Users\\RatTracker1\\fictrac_starter.bat",

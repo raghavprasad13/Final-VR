@@ -18,4 +18,11 @@ public class Trigger {
 		this.target = target;
 		this.enable = enable;
 	}
+
+	public void ExecuteTrigger() {
+		foreach(Dispenser dispenser in TrackFileParser.track.Dispensers) {
+			if (dispenser.DispenserName.Equals(target))
+				dispenser.Dispense();
+		}
+	}
 }

@@ -23,6 +23,14 @@ public abstract class Dispenser : MonoBehaviour {	// Inheriting from MonoBehavio
 		triggers = null;
 	}
 
+	public void ExecuteTriggers() {
+		if (Triggers == null)
+			return;
+
+		foreach (Trigger trigger in Triggers)
+			trigger.ExecuteTrigger();
+	}
+
 	public abstract void Dispense();
 
 	//public abstract void LogToCsv();

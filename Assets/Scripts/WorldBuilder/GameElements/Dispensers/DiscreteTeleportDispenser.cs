@@ -30,10 +30,7 @@ public class DiscreteTeleportDispenser : Dispenser {
 		GameObject avatar = GameObject.Find("Avatar");
 		avatar.transform.position = destinations[0].Item1;
 		// TODO: Add code to set destinationOrientation
+
 		ExecuteTriggers();
-	}
-
-	public void ExecuteTriggers() {
-
 	}
 }

@@ -5,11 +5,13 @@ using UnityEngine;
 public class Action : MonoBehaviour {
 	bool hasEntered = false;
 
-	public static Dispenser dispenser;
+	public OccupationZone occupationZone;
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.CompareTag("Avatar"))
-			hasEntered = true;
+		if (other.gameObject.CompareTag("Avatar")) {
+			foreach (Trigger trigger in occupationZone.EntryTriggers)
+				trigger.ExecuteTrigger();
+		}
 	}
 
 	private void OnTriggerExit(Collider other) {
@@ -18,7 +20,7 @@ public class Action : MonoBehaviour {
 	}
 
 	private void Update() {
-		if(hasEntered && dispenser != null) {
+		if(hasEntered && occupationZone != null) {
 			//dispenser.Dispense();
 			print("Inside!");
 		}

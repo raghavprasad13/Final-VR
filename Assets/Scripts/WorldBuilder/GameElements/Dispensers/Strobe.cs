@@ -34,6 +34,6 @@ public class Strobe : Dispenser {
 	}
 
 	public override void Dispense() {
-		throw new System.NotImplementedException();
+		print("STROBE");
 	}
 }

@@ -240,10 +240,10 @@ namespace Builder {
 			AddMeshComponents(ground);
 			CreateMesh(ground, groundPolygon.Vertices.ToArray());
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
-			ground.AddComponent<Rigidbody>();
-			ground.GetComponent<Rigidbody>().isKinematic = true;
-			ground.AddComponent<MeshCollider>();
-			ground.GetComponent<MeshCollider>().convex = true;
+			//ground.AddComponent<Rigidbody>();
+			//ground.GetComponent<Rigidbody>().isKinematic = true;
+			//ground.AddComponent<MeshCollider>();
+			//ground.GetComponent<MeshCollider>().convex = true;
 		}
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Builder {
                 var boundaryObj = Instantiate(boundaryGeneratorPrefab, new Vector3(center.x, 0.3f, center.z), Quaternion.identity);
                 boundaryObj.transform.parent = boundaries.transform;
 
-                boundaryObj.transform.localScale = new Vector3(length + 0.1f, 0.6f, 0.05f);
+                boundaryObj.transform.localScale = new Vector3(length + 0.1f, 0.6f, 1e-4f);
                 Vector3 facing = boundaryObj.transform.forward;
 
                 float rotationAngle = Vector3.Angle(facing, correctDirection);
@@ -290,7 +290,8 @@ namespace Builder {
             GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Participant");
             GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + 0.0508f, avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
             avatarGameObject.name = "Avatar";
-            avatarGameObject.tag = "Avatar";
+            //avatarGameObject.tag = "Avatar";
+            avatarGameObject.layer = 8;
 		}
 
         public static void Wells(List<Well> wells, GameObject parent = null) {
@@ -352,6 +353,49 @@ namespace Builder {
                     return true;
 			}
             return false;
+		}
+
+        public static void OccupationZones(List<OccupationZone> occupationZones, GameObject parent = null) {
+            GameObject OccupationZones = new GameObject("Occupation Zones");
+            if (parent != null)
+                OccupationZones.transform.parent = parent.transform;
+
+            OccupationZones.transform.position = Vector3.zero;
+
+            GameObject circularPlanePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/CircularPlane");
+
+			foreach (OccupationZone occupationZone in occupationZones) {
+				print("OccupationZone: " + occupationZone.Name + "\t" + occupationZone.IsRadialBoundary);
+
+				GameObject occupationZoneGameObject;
+				if (occupationZone.IsRadialBoundary) {
+					occupationZoneGameObject = Instantiate(circularPlanePrefab, occupationZone.Position, Quaternion.identity);
+					occupationZoneGameObject.transform.localScale = new Vector3(occupationZone.RadialBoundaryRadius, 1e-2f, occupationZone.RadialBoundaryRadius);
+				}
+
+				else {
+					occupationZoneGameObject = new GameObject();
+
+					occupationZoneGameObject.transform.position = occupationZone.Position;
+
+					AddMeshComponents(occupationZoneGameObject);
+					CreateMesh(occupationZoneGameObject, occupationZone.PolygonBoundaryVertices.ToArray());
+					occupationZoneGameObject.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
+					//occupationZoneGameObject.AddComponent<Rigidbody>();
+					//occupationZoneGameObject.GetComponent<Rigidbody>().isKinematic = true;
+					occupationZoneGameObject.AddComponent<MeshCollider>();
+					occupationZoneGameObject.GetComponent<MeshCollider>().convex = true;
+                    occupationZoneGameObject.AddComponent<Action>();
+				}
+
+
+
+                occupationZoneGameObject.name = occupationZone.Name;
+                occupationZoneGameObject.GetComponent<Action>().occupationZone = occupationZone;
+				occupationZoneGameObject.GetComponent<Renderer>().enabled = false;
+                occupationZoneGameObject.GetComponent<MeshCollider>().isTrigger = occupationZone.IsActive;
+				occupationZoneGameObject.transform.parent = OccupationZones.transform;
+			}
 		}
 
     }
