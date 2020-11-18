@@ -238,7 +238,12 @@ namespace Builder {
 			ground.transform.position = new Vector3(0, /* -0.0508f */ 0, 0);
 
 			AddMeshComponents(ground);
-			CreateMesh(ground, groundPolygon.Vertices.ToArray());
+
+            if (IsAnticlockwise(groundPolygon.Vertices)) {
+                groundPolygon.Vertices.Reverse();
+            }
+
+            CreateMesh(ground, groundPolygon.Vertices.ToArray());
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
 			//ground.AddComponent<Rigidbody>();
 			//ground.GetComponent<Rigidbody>().isKinematic = true;
@@ -396,6 +401,21 @@ namespace Builder {
                 occupationZoneGameObject.GetComponent<MeshCollider>().isTrigger = occupationZone.IsActive;
 				occupationZoneGameObject.transform.parent = OccupationZones.transform;
 			}
+		}
+
+        public static bool IsAnticlockwise(List<Vector3> vertices) {
+            float sum = 0;
+            for(int i = 0; i < vertices.Count; i++) {
+                int firstVertexIndex = (i + 1) < vertices.Count ? (i + 1) : 0;
+                float edge = (vertices[firstVertexIndex].x - vertices[i].x) * (vertices[firstVertexIndex].z + vertices[i].z);
+                sum += edge;
+            }
+
+            if (sum < 0) {
+                print("Is ANTICLOCKWISE");
+                return true;
+            }
+            return false;
 		}
 
     }
