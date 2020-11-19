@@ -47,7 +47,7 @@ namespace Builder {
                 if (parent != null)
                     planeGameObject.transform.parent = parent.transform;
 
-                planeGameObject.transform.localScale = plane.Scale;
+                planeGameObject.transform.localScale = plane.Scale / 10f;
 
                 //planeGameObject.GetComponent<Renderer>().material.color = new Color(Random.Range(0, 1F), Random.Range(0, 1F), Random.Range(0, 1F));
 
@@ -245,10 +245,10 @@ namespace Builder {
 
             CreateMesh(ground, groundPolygon.Vertices.ToArray());
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
-			//ground.AddComponent<Rigidbody>();
-			//ground.GetComponent<Rigidbody>().isKinematic = true;
-			//ground.AddComponent<MeshCollider>();
-			//ground.GetComponent<MeshCollider>().convex = true;
+			ground.AddComponent<Rigidbody>();
+			ground.GetComponent<Rigidbody>().isKinematic = true;
+			ground.AddComponent<MeshCollider>();
+			ground.GetComponent<MeshCollider>().convex = true;
 		}
 
         /// <summary>

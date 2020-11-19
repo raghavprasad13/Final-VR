@@ -150,6 +150,7 @@ namespace wallSystem
         //}
 
         // For Keyboard (arrow keys)
+        /*
         private void ComputeMovement() {
 			/// Fictrac code snippet begins
 			byte[] messageReceived = new byte[1024];
@@ -176,21 +177,7 @@ namespace wallSystem
 			float h = side * TRACK_BALL_RADIUS_M;
 			float v = forward * TRACK_BALL_RADIUS_M;
 
-			//print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
-			/// Fictrac code snippet ends
-
-            // FicTrac motion control starts
-            /*
-            // This calculates the current amount of rotation frame rate independent
-            var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
-
-			// This calculates the forward speed frame rate independent
-			_moveDirection = new Vector3(h, 0, v) * TRANSLATION_GAIN;
-			_moveDirection = transform.TransformDirection(_moveDirection);
-            */
-            // FicTrac motion control ends
-
-            // Keyboard motion control starts
+			
 			_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
             _moveDirection = transform.TransformDirection(_moveDirection);
 			var rotation = Input.GetAxis("Horizontal") * 50f * Time.deltaTime;
@@ -200,9 +187,9 @@ namespace wallSystem
 
 			transform.Rotate(0, rotation, 0);
 		}
+        */
 
         // For Fictrac
-        /*
         private void ComputeMovement() {
             /// Fictrac code snippet begins
             byte[] messageReceived = new byte[1024];
@@ -254,7 +241,6 @@ namespace wallSystem
 
             transform.Rotate(0, rotation, 0);
         }
-        */
 
         private void doInitialRotation(){
             var multiplier = 1.0f;

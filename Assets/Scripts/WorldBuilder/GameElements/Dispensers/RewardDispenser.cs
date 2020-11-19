@@ -55,6 +55,6 @@ public class RewardDispenser : Dispenser {
 
 		print("REWARD DISPENSER");
 
-		ExecuteTriggers();
+		//ExecuteTriggers();
 	}
 }

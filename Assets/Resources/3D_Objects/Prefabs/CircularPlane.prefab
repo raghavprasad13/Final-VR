@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6159783136771287867}
   - component: {fileID: 3548257323172245867}
   m_Layer: 0
-  m_Name: DispenserPrefab
+  m_Name: CircularPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
