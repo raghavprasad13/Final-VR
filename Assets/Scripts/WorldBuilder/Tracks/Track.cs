@@ -5,7 +5,6 @@ using UnityEngine;
 /// Abstract base class for all the different track types
 /// </summary>
 public abstract class Track {
-	/* List<OccupationZone> occupationZones; TODO: What are occupation zones?*/
 	Color bgcolor;
 	List<Well> wells;
 	ProbabilisticDistanceTrigger probDistanceTrigger; // TODO: What are probabilistic distance triggers

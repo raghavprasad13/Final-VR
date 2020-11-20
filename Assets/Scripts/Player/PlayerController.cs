@@ -2,11 +2,8 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
-
-using Const;
+using C = Const.Constants;
+using F = Fictrac.FictracHandler;
 
 // This class is the primary player script, it allows the participant to move around.
 /// <summary>
@@ -41,9 +38,6 @@ namespace wallSystem
         private int localQuota;
 
         string data = "";
-        Socket sender;
-
-        public const float TRACK_BALL_RADIUS_M = 0.3048f;
 
         public const float TRANSLATION_GAIN = 1f;
         public const float ROTATION_GAIN = 1f;
@@ -72,7 +66,7 @@ namespace wallSystem
 
             Data.LogHeaders();
 
-			FicTracClient();
+			F.FictracClient();
 		}
 
         //// Start the character. If init from enclosure, this allows "s" to determine the start position
@@ -192,9 +186,7 @@ namespace wallSystem
         // For Fictrac
         private void ComputeMovement() {
             /// Fictrac code snippet begins
-            byte[] messageReceived = new byte[1024];
-            int byteReceived = sender.Receive(messageReceived);
-            string newData = Encoding.ASCII.GetString(messageReceived, 0, byteReceived);
+            string newData = F.ReceiveData();
 
             data += newData;
 
@@ -213,8 +205,8 @@ namespace wallSystem
             float side = float.Parse(tokens[21]);
             float rotation_y = float.Parse(tokens[7]);
 
-            float h = side * TRACK_BALL_RADIUS_M;
-            float v = forward * TRACK_BALL_RADIUS_M;
+            float h = side * C.TRACK_BALL_RADIUS_M;
+            float v = forward * C.TRACK_BALL_RADIUS_M;
 
             print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
             /// Fictrac code snippet ends
@@ -281,21 +273,6 @@ namespace wallSystem
             }
 
             _currDelay += Time.deltaTime;
-        }
-
-        /// <summary>
-		/// Fictrac socket connection code
-		/// </summary>
-        void FicTracClient() {
-            //IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = IPAddress.Parse(Constants.LOCALHOST);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, Constants.FictracPort);
-
-            sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-            sender.Connect(localEndPoint);
-
-            print("Socket connected to -> " + sender.RemoteEndPoint.ToString());
         }
     }
 }

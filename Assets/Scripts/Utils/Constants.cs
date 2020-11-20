@@ -10,5 +10,9 @@
 
         public const string LOCALHOST = "127.0.0.1";
         public const int FictracPort = 12346;
+
+        public const float TRACK_BALL_RADIUS_M = 0.3048f;
+
+        public const float AvatarBaseHeight = 0.0508f;
     }
 }

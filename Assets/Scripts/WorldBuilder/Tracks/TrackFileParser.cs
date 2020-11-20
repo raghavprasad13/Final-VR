@@ -136,7 +136,9 @@ public class TrackFileParser : MonoBehaviour {
 			string name = element.GetAttribute("name");
 			float maxTime = float.Parse(element.GetAttribute("maxTime"));
 
+#pragma warning disable UNT0010 // Component instance creation
 			dispensers.Add(new BlackoutDispenser(name, maxTime));
+#pragma warning restore UNT0010 // Component instance creation
 		}
 
 		// DiscreteTeleportDispenser
@@ -152,21 +154,17 @@ public class TrackFileParser : MonoBehaviour {
 			foreach(XmlElement destinationElement in destinationElements) {
 
 				XmlElement position = destinationElement.FirstChild as XmlElement;
-				Vector3 destinationPosition = new Vector3(float.Parse(position.GetAttribute("q1")), 0f, float.Parse(position.GetAttribute("q2"))) * C.CentimeterToMeter;
+				Vector3 destinationPosition = new Vector3(float.Parse(position.GetAttribute("q1")), C.AvatarBaseHeight, float.Parse(position.GetAttribute("q2"))) * C.CentimeterToMeter;
 
 				XmlElement orientation = destinationElement.LastChild as XmlElement;
 				Vector2 destinationOrientation = new Vector2(float.Parse(orientation.GetAttribute("q1")), float.Parse(orientation.GetAttribute("q2")));
 
 				destinations.Add(new Tuple<Vector3, Vector2>(destinationPosition, destinationOrientation));
-
-				//destinationElement = destinationElement.NextSibling as XmlElement;
 			}
 
 			Dispenser dispenser = new DiscreteTeleportDispenser(name, sequential, delay, destinations);
 			dispenser.Triggers = ParseTriggers(element);
 			dispensers.Add(dispenser);
-
-			//element = element.NextSibling as XmlElement;
 		}
 
 		// Hider
@@ -183,8 +181,6 @@ public class TrackFileParser : MonoBehaviour {
 
 			Dispenser dispenser = new Hider(name, targets);
 			dispensers.Add(dispenser);
-
-			//element = element.NextSibling as XmlElement;
 		}
  
 		/* TODO: Add code for other kinds of dispensers
@@ -247,7 +243,6 @@ public class TrackFileParser : MonoBehaviour {
 		if(element != null) {
 			ParseOccupationZone(element, position);
 		}
-		/* TODO: Occupation zones */
 
 		element = positionElement.GetElementsByTagName("avatar")[0] as XmlElement;
 		if (element != null)

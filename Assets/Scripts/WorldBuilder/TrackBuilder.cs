@@ -5,7 +5,8 @@ using SFB;
 using Builder;
 using System;
 using System.Xml;
-using System.Diagnostics;
+
+using F = Fictrac.FictracHandler;
 
 /// <summary>
 /// This builds the track by building the individual components of the track
@@ -16,17 +17,14 @@ using System.Diagnostics;
 public class TrackBuilder : MonoBehaviour {
 
     private string trackFilePath;
-    Process fictracProcess = null;
 
     void Start() {
-        // For Mac/Linux
-        /*
-        string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
-        StartFictrac(command);
-        */
-
-        // For Windows
-        StartFictrac();
+        if (SystemInfo.operatingSystem.Contains("Windows"))
+            F.StartFictrac();
+        else {
+            string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+            F.StartFictrac(command);
+        }
 
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
         trackFilePath = paths[0];
@@ -115,79 +113,7 @@ public class TrackBuilder : MonoBehaviour {
 
 	private void Update() {
         if (Input.GetKeyDown(KeyCode.Q)) {
-            if (fictracProcess != null && !fictracProcess.HasExited) {
-                print("Initiating process kill");
-                fictracProcess.Kill();
-            }
+            F.StopFictrac();
         }
 	}
-
-    // For Mac
-	void StartFictrac(string command) {
-        command = command.Replace("\"", "\"\"");
-
-        fictracProcess = new Process {
-            StartInfo = new ProcessStartInfo {
-                FileName = "/bin/bash",
-                Arguments = "-c \"" + command + "\"",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            }
-        };
-
-        fictracProcess.Start();
-        //proc.WaitForExit();
-
-        //return proc.StandardOutput.ReadToEnd();
-        //Process proc = new Process();
-        //ProcessStartInfo startInfo = new ProcessStartInfo();
-        //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        ////startInfo.FileName = "fictrac_starter.bat";
-        //startInfo.FileName = "/bin/zsh";
-        //startInfo.Arguments = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
-        //startInfo.UseShellExecute = false;
-        //startInfo.RedirectStandardOutput = true;
-        //startInfo.CreateNoWindow = true;
-
-        //proc.StartInfo = startInfo;
-
-        //proc.Start();
-        //proc.WaitForExit();
-
-        //return proc.StandardOutput.ReadToEnd();
-    }
-
-    // For Windows
-    void StartFictrac() {
-        fictracProcess = new Process {
-            StartInfo = new ProcessStartInfo {
-                FileName = "C:\\Users\\RatTracker1\\fictrac_starter.bat",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            }
-        };
-
-        fictracProcess.Start();
-        //proc.WaitForExit();
-
-        //return proc.StandardOutput.ReadToEnd();
-        //Process proc = new Process();
-        //ProcessStartInfo startInfo = new ProcessStartInfo();
-        //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        ////startInfo.FileName = "fictrac_starter.bat";
-        //startInfo.FileName = "/bin/zsh";
-        //startInfo.Arguments = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
-        //startInfo.UseShellExecute = false;
-        //startInfo.RedirectStandardOutput = true;
-        //startInfo.CreateNoWindow = true;
-
-        //proc.StartInfo = startInfo;
-
-        //proc.Start();
-        //proc.WaitForExit();
-
-        //return proc.StandardOutput.ReadToEnd();
-    }
 }
