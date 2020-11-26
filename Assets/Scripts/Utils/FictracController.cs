@@ -4,8 +4,8 @@ using System.Net.Sockets;
 using Const;
 using System.Text;
 
-namespace Fictrac {
-    public class FictracHandler {
+namespace Utils {
+    public class FictracController {
         public static Process fictracProcess = null;
 
         public static Socket sender;

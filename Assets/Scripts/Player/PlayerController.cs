@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 using C = Const.Constants;
-using F = Fictrac.FictracHandler;
+using F = Utils.FictracController;
 
 // This class is the primary player script, it allows the participant to move around.
 /// <summary>
@@ -40,7 +40,7 @@ namespace wallSystem
         string data = "";
 
         public const float TRANSLATION_GAIN = 1f;
-        public const float ROTATION_GAIN = 1f;
+        public const float ROTATION_GAIN = 50f;
 
         private void Start()
         {
@@ -183,7 +183,10 @@ namespace wallSystem
 		}
         */
 
-        // For Fictrac
+        /// <summary>
+		/// This function compute the movement of the avatar in the virtual world by compositing the input from 2 streams,
+		/// Fictrac and the keyboard
+		/// </summary>
         private void ComputeMovement() {
             /// Fictrac code snippet begins
             string newData = F.ReceiveData();
@@ -209,17 +212,20 @@ namespace wallSystem
             float v = forward * C.TRACK_BALL_RADIUS_M;
 
             print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
-            /// Fictrac code snippet ends
+			/// Fictrac code snippet ends
 
-            // This calculates the current amount of rotation frame rate independent
-            //var rotation = Input.GetAxis("Horizontal") * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
-            //var rotation = h * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
-            //var rotation = h * step_speed * Time.deltaTime;
-            var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
+			// This calculates the current amount of rotation frame rate independent
+			//var rotation = Input.GetAxis("Horizontal") * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
+			//var rotation = h * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
+			//var rotation = h * step_speed * Time.deltaTime;
+			//var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
+			var rotation = (rotation_y + (Input.GetAxis("Horizontal") * ROTATION_GAIN)) * Time.deltaTime;     // Compare this with line commented above it. rotation_y is a delta theta whereas
+                                                                                                            // heading and step_dir are absolute values, which caused drifting
+                                                                                                            // Additionally, this also now accepts keyboard input to create a composite rotational movement
 
-            // This calculates the forward speed frame rate independent
-            //_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-            _moveDirection = new Vector3(h, 0, v) * TRANSLATION_GAIN;
+			// This calculates the forward speed frame rate independent
+			//_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+			_moveDirection = (new Vector3(h, 0, v) + new Vector3(0, 0, Input.GetAxis("Vertical"))) * TRANSLATION_GAIN;  // 
             _moveDirection = transform.TransformDirection(_moveDirection);
             //_moveDirection *= DS.GetData().CharacterData.MovementSpeed;
             //_moveDirection *= (step_speed * DS.GetData().CharacterData.MovementSpeed);
@@ -257,8 +263,6 @@ namespace wallSystem
         }
 
         private void Update() {
-            Data.LogData(transform);
-
             // This first block is for the initial rotation of the character
             if (_currDelay < _waitTime) {
                 //doInitialRotation();
@@ -272,6 +276,7 @@ namespace wallSystem
                 }
             }
 
+            Data.LogData(transform);
             _currDelay += Time.deltaTime;
         }
     }

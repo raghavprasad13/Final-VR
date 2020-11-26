@@ -6,7 +6,8 @@ using Builder;
 using System;
 using System.Xml;
 
-using F = Fictrac.FictracHandler;
+using F = Utils.FictracController;
+using N = Utils.NeuralynxController;
 
 /// <summary>
 /// This builds the track by building the individual components of the track
@@ -19,12 +20,16 @@ public class TrackBuilder : MonoBehaviour {
     private string trackFilePath;
 
     void Start() {
+        // Start Fictrac
         if (SystemInfo.operatingSystem.Contains("Windows"))
             F.StartFictrac();
         else {
             string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
             F.StartFictrac(command);
         }
+
+        // Start Arduino that sends TTL pulses to Neuralynx
+        //N.StartNeuralynxArduino();
 
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
         trackFilePath = paths[0];

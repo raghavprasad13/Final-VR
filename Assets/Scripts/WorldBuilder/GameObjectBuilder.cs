@@ -284,6 +284,13 @@ namespace Builder {
 
 				if (Vector3.Angle(correctDirection, boundaryObj.transform.forward) == 90)
 					boundaryObj.transform.eulerAngles = new Vector3(0, rotationAngle + 90, 0);
+
+				boundaryObj.AddComponent<Rigidbody>();
+                Rigidbody boundaryRigidbody = boundaryObj.GetComponent<Rigidbody>();
+
+                boundaryRigidbody.isKinematic = true;
+                boundaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                boundaryRigidbody.constraints = RigidbodyConstraints.FreezeAll;
             }
         }
 
