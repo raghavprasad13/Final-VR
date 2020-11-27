@@ -37,7 +37,7 @@ namespace wallSystem
         private bool _reset;
         private int localQuota;
 
-        string data = "";
+        //string data = "";
 
         public const float TRANSLATION_GAIN = 1f;
         public const float ROTATION_GAIN = 50f;
@@ -189,29 +189,31 @@ namespace wallSystem
 		/// </summary>
         private void ComputeMovement() {
             /// Fictrac code snippet begins
-            string newData = F.ReceiveData();
+            //string newData = F.ReceiveData();
 
-            data += newData;
+            //data += newData;
 
-            int endline = data.IndexOf('\n');
-            string line = data.Substring(0, endline);
-            data = data.Substring(endline + 1);
+            //int endline = data.IndexOf('\n');
+            //string line = data.Substring(0, endline);
+            //data = data.Substring(endline + 1);
 
-            string[] delim = { ", " };
-            string[] tokens = line.Split(delim, StringSplitOptions.RemoveEmptyEntries);
+            //string[] delim = { ", " };
+            //string[] tokens = line.Split(delim, StringSplitOptions.RemoveEmptyEntries);
 
-            float frameNum = float.Parse(tokens[1]);
-            float step_dir = float.Parse(tokens[18]);
-            float heading = float.Parse(tokens[17]);
-            float step_speed = float.Parse(tokens[19]);
-            float forward = float.Parse(tokens[20]);
-            float side = float.Parse(tokens[21]);
-            float rotation_y = float.Parse(tokens[7]);
+            //float frameNum = float.Parse(tokens[1]);
+            //float step_dir = float.Parse(tokens[18]);
+            //float heading = float.Parse(tokens[17]);
+            //float step_speed = float.Parse(tokens[19]);
+            //float forward = float.Parse(tokens[20]);
+            //float side = float.Parse(tokens[21]);
+            //float rotation_y = float.Parse(tokens[7]);
 
-            float h = side * C.TRACK_BALL_RADIUS_M;
-            float v = forward * C.TRACK_BALL_RADIUS_M;
+            F.ReceiveData();
 
-            print("Frame #" + frameNum + "\th: " + h + "\tv: " + v);
+            float h = F.deltaSide * C.TRACK_BALL_RADIUS_M;
+            float v = F.deltaSide * C.TRACK_BALL_RADIUS_M;
+
+            print("Frame #" + F.frameNumber + "\th: " + h + "\tv: " + v);
 			/// Fictrac code snippet ends
 
 			// This calculates the current amount of rotation frame rate independent
@@ -219,13 +221,12 @@ namespace wallSystem
 			//var rotation = h * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
 			//var rotation = h * step_speed * Time.deltaTime;
 			//var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
-			var rotation = (rotation_y + (Input.GetAxis("Horizontal") * ROTATION_GAIN)) * Time.deltaTime;     // Compare this with line commented above it. rotation_y is a delta theta whereas
-                                                                                                            // heading and step_dir are absolute values, which caused drifting
-                                                                                                            // Additionally, this also now accepts keyboard input to create a composite rotational movement
+			var rotation = (F.deltaRotationY + (Input.GetAxis("Horizontal") * ROTATION_GAIN)) * Time.deltaTime;     // Compare this with line commented above it. rotation_y is a delta theta whereas
+                                                                                                                    // heading and step_dir are absolute values, which caused drifting
+                                                                                                                    // Additionally, this also now accepts keyboard input to create a composite rotational movement
 
 			// This calculates the forward speed frame rate independent
-			//_moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-			_moveDirection = (new Vector3(h, 0, v) + new Vector3(0, 0, Input.GetAxis("Vertical"))) * TRANSLATION_GAIN;  // 
+			_moveDirection = (new Vector3(h, 0, v) + new Vector3(0, 0, Input.GetAxis("Vertical"))) * TRANSLATION_GAIN; 
             _moveDirection = transform.TransformDirection(_moveDirection);
             //_moveDirection *= DS.GetData().CharacterData.MovementSpeed;
             //_moveDirection *= (step_speed * DS.GetData().CharacterData.MovementSpeed);

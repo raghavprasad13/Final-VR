@@ -1,14 +1,26 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using Const;
 using System.Text;
 
 namespace Utils {
+    /// <summary>
+	/// Contains fields and methods to interact with Fictrac process and stream data from it
+	/// Fictrac data header: https://github.com/rjdmoore/fictrac/blob/master/doc/data_header.txt
+	/// </summary>
     public class FictracController {
         public static Process fictracProcess = null;
 
         public static Socket sender;
+
+        public static float frameNumber;
+        public static float deltaForward;
+        public static float deltaSide;
+        public static float deltaRotationY;
+
+        private static string data = "";
 
         // For Windows
         public static void StartFictrac() {
@@ -68,12 +80,24 @@ namespace Utils {
             //print("Socket connected to -> " + sender.RemoteEndPoint.ToString());
         }
 
-        public static string ReceiveData() {
+        public static void ReceiveData() {
             byte[] messageReceived = new byte[1024];
             int byteReceived = sender.Receive(messageReceived);
             string newData = Encoding.ASCII.GetString(messageReceived, 0, byteReceived);
 
-            return newData;
+            data += newData;
+
+            int endline = data.IndexOf('\n');
+            string line = data.Substring(0, endline);
+            data = data.Substring(endline + 1);
+
+            string[] delim = { ", " };
+            string[] tokens = line.Split(delim, StringSplitOptions.RemoveEmptyEntries);
+
+            frameNumber = float.Parse(tokens[1]);
+            deltaForward = float.Parse(tokens[20]);
+            deltaSide = float.Parse(tokens[21]);
+            deltaRotationY = float.Parse(tokens[7]);
         }
     }
 }
