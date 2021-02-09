@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using System.Threading;
+using Const;
 
 /**
  * This class allows a Unity program to continually check for messages from a
@@ -26,7 +27,7 @@ using System.Threading;
 public class SerialController : MonoBehaviour
 {
     [Tooltip("Port name with which the SerialPort object will be created.")]
-    public string portName = "COM3";
+    public string portName = Constants.ArduinoPort;
 
     [Tooltip("Baud rate that the serial device is using to transmit data.")]
     public int baudRate = 9600;

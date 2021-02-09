@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Utils {
 	public class NeuralynxController {
@@ -8,7 +6,7 @@ namespace Utils {
 		private static SerialController serialController = null;
 
 		private static void Init() {
-			serialController = serialController = GameObject.Find("SerialController").GetComponent<SerialController>();
+			serialController = GameObject.Find("SerialController").GetComponent<SerialController>();
 		}
 
 		public static void StartNeuralynxArduino() {

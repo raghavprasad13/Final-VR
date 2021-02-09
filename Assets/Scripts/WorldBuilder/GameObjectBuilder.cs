@@ -247,7 +247,8 @@ namespace Builder {
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
 			ground.AddComponent<Rigidbody>();
 			ground.GetComponent<Rigidbody>().isKinematic = true;
-			ground.AddComponent<MeshCollider>();
+			ground.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            ground.AddComponent<MeshCollider>();
 			ground.GetComponent<MeshCollider>().convex = true;
 		}
 
@@ -289,7 +290,7 @@ namespace Builder {
                 Rigidbody boundaryRigidbody = boundaryObj.GetComponent<Rigidbody>();
 
                 boundaryRigidbody.isKinematic = true;
-                boundaryRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                boundaryRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 boundaryRigidbody.constraints = RigidbodyConstraints.FreezeAll;
             }
         }
@@ -299,11 +300,11 @@ namespace Builder {
 		/// </summary>
 		/// <param name="ratAvatars">List of avatars</param>
         public static void Avatar(RatAvatar avatar, GameObject parent = null) {
-            GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Participant");
-            GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + 0.0508f, avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
+            GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/New Avatar");
+            GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + (1 * 0.0508f), avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
             avatarGameObject.name = "Avatar";
             //avatarGameObject.tag = "Avatar";
-            avatarGameObject.layer = 8;
+            avatarGameObject.layer = 11;    // Layer 11 is the Avatar Layer
 		}
 
         public static void Wells(List<Well> wells, GameObject parent = null) {

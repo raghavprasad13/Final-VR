@@ -33,7 +33,7 @@ public class TrackFileParser : MonoBehaviour {
 			float u = float.Parse(rootElement.GetAttribute("u"));
 			string material = rootElement.GetAttribute("material");
 
-			track = new SphericalTrack();
+			track = new SphericalTrack(radius);
 		}
 
 		XmlElement element;

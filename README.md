@@ -1,5 +1,26 @@
 # Final-VR
 
+- [Final-VR](#final-vr)
+  - [Getting started](#getting-started)
+  - [Steps to build](#steps-to-build)
+  - [Running the project](#running-the-project)
+  - [Fictrac](#fictrac)
+    - [Adjusting Fictrac settings](#adjusting-fictrac-settings)
+    - [Shutting down Fictrac](#shutting-down-fictrac)
+  - [Neuralynx](#neuralynx)
+  - [For contributors](#for-contributors)
+
+## Getting started
+
+Before building and running the project, there are a few prerequisites that need to be in place.
+
+- `Unity 2020.1.10.f1`: Download [Unity Hub](https://unity3d.com/get-unity/download) and sign up for a personal license. Install Unity version `2020.1.10.f1` by going to `Installs > Add > 2020.1.10f1`. Choose the following modules for installation:
+  - Mac Build Support (IL2CPP)
+  - WebGL Build Support
+  - Windows Build Support (Mono)
+  - Visual Studio (optional, download only if you don't have this installed on your system already)
+- `Fictrac`: Download and install Fictrac using the instructions [here](https://github.com/raghavprasad13/fictrac)
+
 ## Steps to build
 
 1. Open command prompt/Terminal in a location where you want the VR project folder to reside.
@@ -8,17 +29,44 @@
 4. Make sure you have Unity version **2020.1.10f1** installed. This can be installed from Unity Hub by going to `Installs > Add > 2020.1.10f1`
 5. Click on `Final-VR` and wait for Unity to build the project
 
-### Adjusting FicTrac settings
+## Running the project
 
-For now FicTrac is being started from within the VR application with the FicTrac binary itself residing outside the VR application. Thus, in order to start FicTrac we are using a `.bat` file which contains the command to start FicTrac. The C# files containing the code to start FicTrac are:
+1. Press the play button
+2. Choose a Track (`.track`) file [choose either `random_5.track` or `lrt_strobe.track` for now]
+3. Move the avatar around using the arrow keys or `WASD`
+4. Press `Q` to quit
 
-- `TrackBuilder.cs`: The `StartFictrac` function contains the code which points to the location of the `.bat` file
-- `Constants.cs`: Contains a field called `FictracPort`. The value of this field should match the `out_port` (or `sock_port` in later versions of Fictrac) parameter value in the FicTrac config file
+## Fictrac
 
-### Shutting down FicTrac
+For now, Fictrac has to be downloaded and installed separately. In the future, we will bundle Fictrac with the rest of the VR code.
 
-For now, Fictrac can be shut down from within the VR by hitting the `Q` key. However, this might not always work in case the FPS is too low (< 1). The steps to shut down FicTrac manually after stopping the VR in Unity are as follows:
+### Adjusting Fictrac settings
 
-- Open a command prompt as administrator and type in `netstat -ano | findstr <port_number>` where `<port_number>` is to be replaced with the port number being used for FicTrac.
+For now Fictrac is being started from within the VR application with the Fictrac binary itself residing outside the VR application. Thus, in order to start Fictrac for Windows, we are using a `.bat` file which contains the command to start Fictrac. For Mac/Linux, passing the command as a string within the code suffices. The command to initiate Fictrac is
+
+    <path to Fictrac binary/executable> <path to Fictrac config file>
+
+However, since Fictrac is being installed externally, the command to initiate Fictrac will need to be modified to the local installation.
+
+- **For Mac/Linux**: Modify `line 28` in `TrackBuilder.cs`
+- **For Windows**: Modify `fictrac_starter.bat` which can be found in the project folder at `Assets\StreamingAssets\fictrac_starter.bat`
+
+Additionally, the main C# file concerned with Fictrac handling is `FictracController.cs`. Also `Constants.cs` contains a field called `FictracPort`. The value of this field should match the `out_port` (or `sock_port` in later versions of Fictrac) parameter value in the Fictrac config file
+
+### Shutting down Fictrac
+
+For now, Fictrac can be shut down from within the VR by hitting the `Q` key. However, this might not always work in case the FPS is too low (< 1). The steps to shut down Fictrac manually after stopping the VR in Unity are as follows:
+
+- Open a command prompt as administrator and type in `netstat -ano | findstr <port_number>` where `<port_number>` is to be replaced with the port number being used for Fictrac.
 - Note the PID associated with the processes that are displayed as a result of the previous step. The PID will be the number on the far right of each line.
 - `taskkill /F /pid <process_id>` where `<process_id>` is the PID noted in the previous step
+
+## Neuralynx
+
+Neuralynx is the electrophysiological recording hardware apparatus which is going to be controlled using Arduino generated TTL pulses. The Unity VR project sends start and stop signals to the Arduino. The code to control the Arduino is housed in `NeuralynxController.cs`  
+  
+The code requires the name of the Arduino Serial port beforehand. Currently this is being hardcoded in the constant `ArduinoPort` in `Constants.cs`. This hardcoded value needs to be updated according to the local configuration. The name of the serial port can be ascertained by checking `Tools > Port` in the Arduino IDE. This piece of code can later be modified to read the Serial port name and the baud rate from either a track file or from the OS.
+
+## For contributors
+
+Only push the `Assets` and `ProjectSettings` folders (and `README.md`) of the Unity project to GitHub. These folders are sufficient to recreate the project. If you try to push other parts of the project it may be rejected due to Github's 100MB file size limit.

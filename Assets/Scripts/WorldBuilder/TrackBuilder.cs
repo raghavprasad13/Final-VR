@@ -24,11 +24,12 @@ public class TrackBuilder : MonoBehaviour {
         if (SystemInfo.operatingSystem.Contains("Windows"))
             F.StartFictrac();
         else {
+            // Hardcoded filepath. Needs to be updated to not be hardcoded, but for now should be changed to match local system filepath
             string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
             F.StartFictrac(command);
         }
 
-        // Start Arduino that sends TTL pulses to Neuralynx
+        // Start Arduino that sends TTL pulses to Neuralynx. Commented out until Arduino is ready to be connected, otherwise this will generate an error
         //N.StartNeuralynxArduino();
 
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Choose track file", "Tracks", "track", false);
@@ -118,6 +119,7 @@ public class TrackBuilder : MonoBehaviour {
 
 	private void Update() {
         if (Input.GetKeyDown(KeyCode.Q)) {
+            //N.StopNeuralynxArduino(); // Commented out until Arduino is connected, otherwise this will give an error
             F.StopFictrac();
         }
 	}

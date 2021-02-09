@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SphericalTrack : Track
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class SphericalTrack : Track {
+	public float radius;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public float Radius {
+		get { return radius; }
+	}
+
+	public SphericalTrack(float radius) : base() {
+		this.radius = radius;
+	}
 }

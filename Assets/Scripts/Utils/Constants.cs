@@ -14,5 +14,7 @@
         public const float TRACK_BALL_RADIUS_M = 0.3048f;
 
         public const float AvatarBaseHeight = 0.0508f;
+
+        public const string ArduinoPort = "COM3";
     }
 }

@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using Const;
 using System.Text;
+using System.IO;
+using UnityEngine;
 
 namespace Utils {
     /// <summary>
@@ -26,8 +28,9 @@ namespace Utils {
         public static void StartFictrac() {
             fictracProcess = new Process {
                 StartInfo = new ProcessStartInfo {
-                    FileName = "C:\\Users\\RatTracker1\\fictrac_starter.bat",
-                    UseShellExecute = false,
+                    FileName = Path.Combine(Application.streamingAssetsPath, "fictrac_starter.bat"),
+					//FileName = "C:\\Users\\RatTracker1\\fictrac_starter.bat",
+					UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
                 }
