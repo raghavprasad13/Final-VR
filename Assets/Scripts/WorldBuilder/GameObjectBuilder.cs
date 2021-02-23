@@ -357,7 +357,9 @@ namespace Builder {
 		}
 
         public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {
-            /* TODO */
+            /* TODO 
+             * Make sure to add code to check for existence of triggers associated with certain dispensers and initialize those values
+             */
 		}
 
         public static bool IsOverlapping(List<Well> wells, Well well) {

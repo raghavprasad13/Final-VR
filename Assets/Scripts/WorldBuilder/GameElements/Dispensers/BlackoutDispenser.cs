@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using C = Const.Constants;
 
 public class BlackoutDispenser : Dispenser {
-	float maxTime;
+	private readonly float maxTime;
 
 	public float Maxtime {
 		get { return maxTime; }
@@ -14,7 +14,7 @@ public class BlackoutDispenser : Dispenser {
 	}
 
 	public override void Dispense() {
-		float duration = Random.value * maxTime;
+		float duration = Random.value * maxTime * C.MillisecondToSecond;
 		ToggleLights();
 		StartCoroutine(Delay(duration));
 		ToggleLights();

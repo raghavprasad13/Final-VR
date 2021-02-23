@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The base class for all kinds of triggers
+/// Triggers activate actions associated with other objects such as counters and dispensers
+/// </summary>
+///
+/* TODO: Trigger subclasses
+ * UniformProbabilityTrigger
+ */
 public class Trigger {
 	string target;
 	bool enable;

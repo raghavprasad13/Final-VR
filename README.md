@@ -14,7 +14,7 @@
 
 Before building and running the project, there are a few prerequisites that need to be in place.
 
-- `Unity 2020.1.10.f1`: Download [Unity Hub](https://unity3d.com/get-unity/download) and sign up for a personal license. Install Unity version `2020.1.10.f1` by going to `Installs > Add > 2020.1.10f1`. Choose the following modules for installation:
+- `Unity 2020.1.10.f1`: Download [Unity Hub](https://unity3d.com/get-unity/download) and sign up for a personal license. Install Unity version `2020.1.10.f1` by going to `Installs > Add > 2020.1.10f1`. If this version of Unity is not visible in Unity Hub, visit the [Unity Downloads archive](https://unity3d.com/get-unity/download/archive) and choose to install the required version of Unity using the `Unity Hub` link for it. Next, choose the following modules for installation:
   - Mac Build Support (IL2CPP)
   - WebGL Build Support
   - Windows Build Support (Mono)

@@ -21,11 +21,13 @@ namespace Utils {
         public static float deltaForward;
         public static float deltaSide;
         public static float deltaRotationY;
+        public static int toggle;
 
         private static string data = "";
 
         // For Windows
         public static void StartFictrac() {
+            toggle = 1;
             fictracProcess = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = Path.Combine(Application.streamingAssetsPath, "fictrac_starter.bat"),
@@ -41,6 +43,7 @@ namespace Utils {
 
         // For Mac/Linux
         public static void StartFictrac(string command) {
+            toggle = 1;
             command = command.Replace("\"", "\"\"");
 
             fictracProcess = new Process {
