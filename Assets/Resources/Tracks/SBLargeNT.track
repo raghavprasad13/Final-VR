@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<track type="plane" u="5">
+
+  <boundary>
+    <vertex q1="-135" q2="56"/>
+    <vertex q1="-56" q2="135"/>
+    <vertex q1="56" q2="135"/>
+    <vertex q1="135" q2="56"/>
+    <vertex q1="135" q2="-56"/>
+    <vertex q1="56" q2="-135"/>
+    <vertex q1="-56" q2="-135"/>
+    <vertex q1="-135" q2="-56"/>
+  </boundary>
+
+  <groundPolygon material="cellular.png">
+    <vertex q1="-138" q2="57.2"/>
+    <vertex q1="-57.2" q2="138"/>
+    <vertex q1="57.2" q2="138"/>
+    <vertex q1="138" q2="57.2"/>
+    <vertex q1="138" q2="-57.2"/>
+    <vertex q1="57.2" q2="-138"/>
+    <vertex q1="-57.2" q2="-138"/>
+    <vertex q1="-138" q2="-57.2"/>  
+  </groundPolygon>
+  
+  <bgcolor r="0.0" g="0.0" b="0.0" /> 
+  
+ <UniformProbabilityTrigger name="hide_anything_at_all" p="0.66">
+    <trigger target="choose_what_to_hide"/>
+    <trigger target="hide_nothing" enabled="false"/>
+  </UniformProbabilityTrigger>
+
+  <UniformProbabilityTrigger name="choose_what_to_hide" p="0.5">
+    <trigger target="hider1"/>
+    <trigger target="hider2" enabled="false"/>
+  </UniformProbabilityTrigger>
+
+  <UniformProbabilityTrigger name="hide_nothing" p="0">
+    <trigger target="hider1"/>
+    <trigger target="hider2"/>
+  </UniformProbabilityTrigger>
+  
+<TimerTrigger name="timer" time="18000000">
+    <trigger target="hider1" enabled="false"/>
+  </TimerTrigger>   
+  
+  <dispensers>
+    <hider name="hider1">
+      <target name="pillar1"/>
+    </hider>
+
+    <hider name="hider2">
+      <target name="sound_one"/>
+    </hider>
+    
+
+    <rewarddispenser name="autoReward" initialDelay="0" delay="400" duration="200" burstCount="5" probability="1.0">
+      <trigger target="teleportDispenser" />
+      <trigger target="muteDispenser" />
+	  <trigger target="blackoutDispenser" />
+	  <trigger target="ballDecoupleDispenser" />
+	  <trigger target="rotationDispenser" />
+	  <trigger target="hide_anything_at_all" />
+	  <trigger target="timer" />
+    </rewarddispenser>
+  
+    <audiodispenser name="rewardToneDispenser">
+      <sound name="reward" file="reward1.wav" gain="0.0" maxdistance="100" height="5" />
+    </audiodispenser>
+
+    <audioblackoutdispenser name="muteDispenser" maxTime="2000" />
+	<blackoutdispenser name="blackoutDispenser" maxTime="2000"/>
+	<balldecoupledispenser name="ballDecoupleDispenser" maxTime="2000"/>
+
+    <DiscreTeleportDispenser name="teleportDispenser" sequential="false" delay="500">
+      <destination>
+        <position q1="0" q2="0"/>
+        <direction q1="0" q2="0"/>
+      </destination>	  
+    </DiscreTeleportDispenser>	
+
+    <randomrotationdispenser name="rotationDispenser" max="180" min="0">
+		<referencedirection x="0" y="0" z="1" />
+	</randomrotationdispenser>
+	
+  
+	
+  </dispensers>
+
+  <positions>
+
+    <position q1="0" q2="0">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>  
+    </position>   
+
+    <position q1="0" q2="0">
+      <plane name="LowerFloor" height="-150" material="checkered.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="2400" y="1" z="2400"/>
+      </plane>
+    </position>
+	
+    <position q1="0" q2="70">
+      <mesh name="pillar1" height="50" meshfile="pillar.mesh">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="10" y="30" z="10"/>
+      </mesh>
+
+	  <occupationzone name="reward_zone" active="true" mintime="100">
+        <radialboundary radius="25"/>		
+        <onentry>
+          <trigger target="autoReward" enabled="true"/>
+		  <trigger target="timer" enabled="false"/>
+        </onentry>
+        <onexit>
+          <trigger target="autoReward" enabled="false"/>
+        </onexit>		
+	  </occupationzone>
+	  
+	  <sound name="sound_one" file="10.wav" height="25" gain="1.0" maxdistance="15" playing="true">
+        <facing x="0" y="0" z="0"/>
+      </sound>	  
+    </position>		    
+		
+  </positions>
+
+</track>

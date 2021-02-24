@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<track type="plane" u="5">
+	
+	<boundary>
+		<vertex q1="-3" q2="-105"/>
+		<vertex q1="-3" q2="105"/>
+		<vertex q1="3" q2="105"/>
+		<vertex q1="3" q2="-105"/>
+	</boundary>
+	
+	<groundPolygon material="plain_white.png">
+		<vertex q1="-5" q2="-110"/>
+		<vertex q1="-5" q2="110"/>
+		<vertex q1="5" q2="110"/>
+		<vertex q1="5" q2="-110"/>  	    
+	</groundPolygon>  
+  
+	<bgcolor r="0.2" g="0.2" b="0.2" />
+	
+	
+  <conditionalcounter name="trial_counter" min="0" max="100" multiple="1">
+  </conditionalcounter>
+ 
+  
+  <OnLoadTriggers>
+		<trigger target="back_reward_zone" enabled="false"/>
+		<trigger target="front_reward_zone" enabled="true"/> 
+  </OnLoadTriggers>
+
+  <dispensers>
+	
+    <audiodispenser name="rewardToneDispenser">
+  		<sound name="reward" file="reward1.wav" gain="1.0" maxdistance="100" height="5" />
+    </audiodispenser>
+
+    <rewarddispenser name="front_reward_dispenser" initialDelay="0" delay="400" duration="200" burstCount="5" probability="1.0">
+		<trigger target="frontteleportDispenser" /> 
+  	</rewarddispenser>
+	
+	<rewarddispenser name="back_reward_dispenser" initialDelay="0" delay="400" duration="200" burstCount="5" probability="1.0">
+		<trigger target="backteleportDispenser" /> 	
+  	</rewarddispenser>
+	
+    <DiscreTeleportDispenser name="frontteleportDispenser" sequential="false" delay="5000">
+      <destination>
+        <position q1="0" q2="105"/>
+        <direction q1="0" q2="-1"/>
+      </destination>
+      <trigger target="back_reward_zone" />
+    </DiscreTeleportDispenser>	
+	
+    <DiscreTeleportDispenser name="backteleportDispenser" sequential="false" delay="5000">
+      <destination>
+        <position q1="0" q2="-105"/>
+        <direction q1="0" q2="1"/>
+      </destination>
+      <trigger target="front_reward_zone" />
+    </DiscreTeleportDispenser>	
+	
+  </dispensers>
+
+  <positions>
+
+    <position q1="0" q2="-105">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>
+    </position>
+    
+ <!--   Walls   -->
+ 
+ 	<position q1="0" q2="0">
+      <plane name="Track" height="-4" material="Track_rich_W4.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="10" y="1" z="220"/>
+      </plane>            
+    </position>
+
+    <position q1="-150" q2="0">
+      <plane name="LeftWall" height="100" material="Left_Wall_W4.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>            
+    </position>
+
+    <position q1="150" q2="0">
+      <plane name="RightWall" height="100" material="Right_Wall_W4.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="-150">
+      <plane name="BackWall" height="100" material="Back_Wall_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="150">
+      <plane name="FrontWall" height="100" material="Front_Wall_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>
+    </position>
+    
+    <!-- Lower floor -->
+
+    <position q1="0" q2="0">
+      <plane name="Floor" height="-50" material="Floor_W4.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>
+    </position>
+	
+	<!--Ceiling -->
+
+    <position q1="0" q2="0">
+      <plane name="Ceiling" height="250" material="Ceiling_W4.png">
+        <facing x="0" y="1" z="0"/>
+        <scale x="300" y="1" z="300"/>
+      </plane>
+    </position>
+
+	<!-- Arch 1 -->
+	
+	<position q1="-22.5" q2="-30">
+	  <plane name="Bridge_1_FL_W4" height="20" material="Bridge_1_FL_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="22.5" q2="-30">
+	  <plane name="Bridge_1_FR_W4" height="20" material="Bridge_1_FR_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="-30">
+	  <plane name="Bridge_1_TF_W4" height="37.5" material="Bridge_1_TF_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="30" y ="1" z="15"/>
+      </plane>
+	</position>
+	
+	<position q1="-22.5" q2="-20">
+	  <plane name="Bridge_1_BL_W4" height="20" material="Bridge_1_BL_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="22.5" q2="-20">
+	  <plane name="Bridge_1_BR_W4" height="20" material="Bridge_1_BR_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="-20">
+	  <plane name="Bridge_1_TB_W4" height="37.5" material="Bridge_1_TB_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="30" y ="1" z="15"/>
+      </plane>
+	</position>
+	
+	<position q1="-15" q2="-25">
+	  <plane name="Bridge_1_IL_W4" height="12.5" material="Bridge_1_IL_W4.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="35" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="15" q2="-25">
+	  <plane name="Bridge_1_IR_W4" height="12.5" material="Bridge_1_IR_W4.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="35" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="-25">
+	  <plane name="Bridge_1_IT_W4" height="30" material="Bridge_1_IT_W4.png">
+        <facing x="0" y="1" z="0"/>
+        <scale x="30" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<!-- Arch 2 -->
+	
+	<position q1="-22.5" q2="-10">
+	  <plane name="Bridge_2_FL_W4" height="20" material="Bridge_1_FL_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="22.5" q2="-10">
+	  <plane name="Bridge_2_FR_W4" height="20" material="Bridge_1_FR_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="-10">
+	  <plane name="Bridge_2_TF_W4" height="37.5" material="Bridge_1_TF_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="30" y ="1" z="15"/>
+      </plane>
+	</position>
+	
+	<position q1="-22.5" q2="0">
+	  <plane name="Bridge_2_BL_W4" height="20" material="Bridge_1_BL_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="22.5" q2="0">
+	  <plane name="Bridge_2_BR_W4" height="20" material="Bridge_1_BR_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="15" y ="1" z="50"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="0">
+	  <plane name="Bridge_2_TB_W4" height="37.5" material="Bridge_1_TB_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="30" y ="1" z="15"/>
+      </plane>
+	</position>
+	
+	<position q1="-15" q2="-5">
+	  <plane name="Bridge_2_IL_W4" height="12.5" material="Bridge_1_IL_W4.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="35" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="15" q2="-5">
+	  <plane name="Bridge_2_IR_W4" height="12.5" material="Bridge_1_IR_W4.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="35" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="-5">
+	  <plane name="Bridge_2_IT_W4" height="30" material="Bridge_1_IT_W4.png">
+        <facing x="0" y="1" z="0"/>
+        <scale x="30" y ="1" z="10"/>
+      </plane>
+	</position>
+
+	<!-- Arch 3 -->
+	
+	<position q1="-15" q2="40">
+	  <plane name="Bridge_3_FL_W4" height="15" material="Bridge_3_FL_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="10" y ="1" z="40"/>
+      </plane>
+	</position>
+	
+	<position q1="15" q2="40">
+	  <plane name="Bridge_3_FR_W4" height="15" material="Bridge_3_FR_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="10" y ="1" z="40"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="40">
+	  <plane name="Bridge_3_TF_W4" height="30" material="Bridge_3_TF_W4.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="20" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="-15" q2="75">
+	  <plane name="Bridge_3_BL_W4" height="15" material="Bridge_3_BL_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="10" y ="1" z="40"/>
+      </plane>
+	</position>
+	
+	<position q1="15" q2="75">
+	  <plane name="Bridge_3_BR_W4" height="15" material="Bridge_3_BR_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="10" y ="1" z="40"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="75">
+	  <plane name="Bridge_3_TB_W4" height="30" material="Bridge_3_TB_W4.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="20" y ="1" z="10"/>
+      </plane>
+	</position>
+	
+	<position q1="-10" q2="57.5">
+	  <plane name="Bridge_3_IL_W4" height="10" material="Bridge_3_IL_W4.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="30" y ="1" z="35"/>
+      </plane>
+	</position>
+	
+	<position q1="10" q2="57.5">
+	  <plane name="Bridge_3_IR_W4" height="10" material="Bridge_3_IR_W4.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="30" y ="1" z="35"/>
+      </plane>
+	</position>
+	
+	<position q1="0" q2="57.5">
+	  <plane name="Bridge_3_IT_W4" height="25" material="Bridge_3_IT_W4.png">
+        <facing x="0" y="1" z="0"/>
+        <scale x="20" y ="1" z="35"/>
+      </plane>
+	</position>
+    
+    <!--//////////////////////////////////////////////////////////////////////////-->
+
+	
+	<position q1="0" q2="100">
+
+      <occupationzone name="front_reward_zone" active="true" mintime="1000">
+        <radialboundary radius="10"/>
+        <onentry>
+			<trigger target="front_reward_dispenser" enabled="true"/>
+        </onentry>
+        <onexit>
+            <trigger target="front_reward_zone" enabled="false"/>
+			<trigger target="front_reward_dispenser" enabled="false"/>
+        </onexit>
+      </occupationzone>
+	 
+    </position>	
+	
+	
+	<position q1="0" q2="-100">
+
+      <occupationzone name="back_reward_zone" active="true" mintime="1000">
+        <radialboundary radius="10"/>
+        <onentry>
+			<trigger target="back_reward_dispenser" enabled="true"/>
+			<trigger target="trial_counter"/>
+        </onentry>
+        <onexit>
+            <trigger target="back_reward_zone" enabled="false"/>
+			<trigger target="back_reward_dispenser" enabled="false"/>
+        </onexit>
+      </occupationzone>
+	 
+    </position>	
+	
+	
+  </positions>
+
+</track>

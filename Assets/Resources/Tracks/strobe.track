@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<track type="plane" u="5">
+
+  <boundary>
+    <vertex q1="-5" q2="-110"/>
+    <vertex q1="-5" q2="110"/>
+    <vertex q1="5" q2="110"/>
+    <vertex q1="5" q2="-110"/>
+  </boundary>
+
+  <groundPolygon material="track3.png">
+    <vertex q1="-15" q2="-120"/>
+	<vertex q1="15" q2="-120"/>
+	<vertex q1="15" q2="120"/>
+    <vertex q1="-15" q2="120"/>    	    
+  </groundPolygon>  
+  
+  <conditionalcounter name="trial_counter" min="2" max="4" multiple="1" second_min="8">
+	  <trigger target="blackout_zone_1" />
+	  <trigger target="blackout_zone_2" />
+  </conditionalcounter>
+  
+  <bgcolor r="0.2" g="0.2" b="0.2" />
+
+  <dispensers>
+    <blackoutdispenser name="blackoutDispenser" maxTime="2500"/>
+    <audiodispenser name="rewardToneDispenser">
+      <sound name="reward" file="reward1.wav" gain="10.0" maxdistance="100" height="5" />
+    </audiodispenser>
+    
+    <strobe name="strobeDispenser" lightTime="25" cycleTime="125" active="true"/>
+
+    <DiscreTeleportDispenser name="teleportDispenser1" sequential="false" delay="500">
+      <destination>
+        <position q1="0" q2="105"/>
+        <direction q1="0" q2="-1"/>
+      </destination>
+      <trigger target="Well2" />
+    </DiscreTeleportDispenser>	
+    <DiscreTeleportDispenser name="teleportDispenser2" sequential="false" delay="500">
+      <destination>
+        <position q1="0" q2="-105"/>
+        <direction q1="0" q2="1"/>
+      </destination>
+      <trigger target="Well1" />
+    </DiscreTeleportDispenser>		
+    <rewarddispenser name="autoReward" initialDelay="500" delay="400" duration="200" burstCount="5"/>
+  </dispensers>
+
+  <positions>
+
+    <position q1="0" q2="-100">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>
+    </position>
+    
+    <!--   Walls   -->
+
+    <position q1="-300" q2="0">
+      <plane name="LeftWall" height="150" material="linear_room_left.jpg">
+        <facing x="1" y="0" z="0"/>
+        <scale x="600" y="1" z="1200"/>
+      </plane>            
+    </position>
+
+    <position q1="300" q2="0">
+      <plane name="RightWall" height="150" material="linear_room_right.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="600" y="1" z="1200"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="-600">
+      <plane name="BackWall" height="150" material="dizzy.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="600" y="1" z="600"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="600">
+      <plane name="FrontWall" height="150" material="linear_room_front.jpg">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="600" y="1" z="600"/>
+      </plane>
+    </position>
+    
+    <!-- Lower floor -->
+
+    <position q1="0" q2="0">
+      <plane name="LowerFloor" height="-150" material="checkered.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="1200" y="1" z="1200"/>
+      </plane>
+    </position>
+    <!--//////////////////////////////////////////////////////////////////////////-->
+
+
+    <position q1="0" q2="100">
+	  <well name="Well1" capacity="5" initialDelay="500" pulseDelay="400" pulseWidth="200">
+        <radialboundary radius="15"/>
+		<pillar height="50" />
+        <radialTriggerZoneMesh radius="15" material="plain_white.png" />
+        <trigger target="teleportDispenser1" />  
+      </well>
+    </position>		
+    
+	  <position q1="0" q2="-100">
+	    <well name="Well2" capacity="5" initialDelay="500" pulseDelay="400" pulseWidth="200" level="0">
+          <radialboundary radius="15"/>
+		      <pillar height="50" />
+          <radialTriggerZoneMesh radius="15" material="plain_white.png" />
+          <trigger target="teleportDispenser2" />
+		  <trigger target="trial_counter" />				  
+      </well>
+    </position>
+
+    <position q1="0" q2="0">
+      <occupationzone name="blackout_zone_1" active="false">
+        <polygonboundary>
+          <vertex q1="-5" q2="-60"/>
+          <vertex q1="-5" q2="-20"/>
+          <vertex q1="5" q2="-20"/>
+          <vertex q1="5" q2="-60"/>
+        </polygonboundary>
+
+        <onentry>
+          <trigger target="blackoutDispenser" enabled="true"/>
+        </onentry>
+        <onexit>
+          <trigger target="blackoutDispenser" enabled="false"/>
+        </onexit>
+      </occupationzone>
+	  
+      <occupationzone name="blackout_zone_2" active="false">
+        <polygonboundary>
+          <vertex q1="-5" q2="20"/>
+          <vertex q1="-5" q2="60"/>
+          <vertex q1="5" q2="60"/>
+          <vertex q1="5" q2="20"/>
+        </polygonboundary>
+
+        <onentry>
+          <trigger target="blackoutDispenser" enabled="true"/>
+        </onentry>
+        <onexit>
+          <trigger target="blackoutDispenser" enabled="false"/>
+        </onexit>
+      </occupationzone>	  
+    </position>
+
+  </positions>
+
+</track>

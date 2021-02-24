@@ -1,0 +1,328 @@
+<!--
+Lavanya Acharya
+Task: Random foraging with one distal visual cue that blinks randomly. This is achieved by having two occupation zones (that are always on top of each other, but are active alternately) that are moved to random locations by a randommover. The cue on the wall switches on or off depending on which of the two occupation zones is active at the time, on EXIT.
+	The table has optic flow and the walls and floor are black, except for one wall which has a pattern on it. 
+Room size(W x B x H): 900x900x3600 cm
+Table size: 75cm radius
+Table height: 50cm
+Pillar: only if the rat hasn't received a reward for five minutes
+Dot: yes
+Reward tone: yes
+Reward zones are distributed across the table so that there are 
+eight at the extreme edges of the table (on the vertices of an octagon circumscribed by the table starting at (0,100))
+eight at at a distance from the edge 
+eight closer to the centre
+one at the centre that repeats twice 
+and four around the central reward zone that overlap slightly with it
+
+Textures:
+	Table: ragi
+	Walls: none
+	Front Wall: Discoball2
+	Floor: plain_grey
+-->
+
+<?xml version="1.0" encoding="utf-8"?>
+<track type="plane" u="5">
+    
+  <boundary>
+    <vertex q1="75" q2="0"/>
+    <vertex q1="69" q2="-29"/>
+    <vertex q1="53" q2="-53"/>
+    <vertex q1="29" q2="-69"/>
+    <vertex q1="0" q2="-75"/>
+    <vertex q1="-29" q2="-69"/>
+    <vertex q1="-53" q2="-53"/>
+    <vertex q1="-69" q2="-29"/>
+	<vertex q1="-75" q2="0"/>
+    <vertex q1="-69" q2="29"/>
+    <vertex q1="-53" q2="53"/>
+    <vertex q1="-29" q2="69"/>
+    <vertex q1="0" q2="75"/>
+    <vertex q1="29" q2="69"/>
+    <vertex q1="53" q2="53"/>
+    <vertex q1="69" q2="29"/>
+  </boundary>
+  
+  <livezone>
+    <vertex q1="75" q2="0"/>
+    <vertex q1="69" q2="-29"/>
+    <vertex q1="53" q2="-53"/>
+    <vertex q1="29" q2="-69"/>
+    <vertex q1="0" q2="-75"/>
+    <vertex q1="-29" q2="-69"/>
+    <vertex q1="-53" q2="-53"/>
+    <vertex q1="-69" q2="-29"/>
+	<vertex q1="-75" q2="0"/>
+    <vertex q1="-69" q2="29"/>
+    <vertex q1="-53" q2="53"/>
+    <vertex q1="-29" q2="69"/>
+    <vertex q1="0" q2="75"/>
+    <vertex q1="29" q2="69"/>
+    <vertex q1="53" q2="53"/>
+    <vertex q1="69" q2="29"/>
+  </livezone>
+
+  <groundPolygon material="ragi.jpg">
+    <vertex q1="78" q2="0"/>
+    <vertex q1="72" q2="-30"/>
+    <vertex q1="55" q2="-55"/>
+    <vertex q1="30" q2="-72"/>
+    <vertex q1="0" q2="-78"/>
+    <vertex q1="-30" q2="-72"/>
+    <vertex q1="-55" q2="-55"/>
+    <vertex q1="-72" q2="-30"/>
+	<vertex q1="-78" q2="0"/>
+    <vertex q1="-72" q2="30"/>
+    <vertex q1="-55" q2="55"/>
+    <vertex q1="-30" q2="72"/>
+    <vertex q1="0" q2="78"/>
+    <vertex q1="30" q2="72"/>
+    <vertex q1="55" q2="55"/>
+    <vertex q1="72" q2="30"/>
+  </groundPolygon>
+  
+  <OnLoadTriggers>
+	<trigger target="timer" />
+    <trigger target="mover" />
+	<trigger target="pillar_hider"/>
+	<trigger target="wall_hider" enabled="false"/>
+    <trigger target="hiderzone_mover" />
+
+ </OnLoadTriggers>
+  
+  <conditionalcounter name="trial_counter" max="300"/>  
+  
+  <conditionalcounter name="wallon_counter" min="1" max="2" multiple="2" reset="3">
+	<trigger target="wallon_zone" enabled="true" />
+  </conditionalcounter>
+  
+  <conditionalcounter name="walloff_counter" min="0" max="1" multiple="1" reset="2">
+	<trigger target="walloff_zone" enabled="true" />
+  </conditionalcounter>
+ 
+  
+  <TimerTrigger name="timer" time="180000">
+    <trigger target="pillar_hider" enabled="false"/>
+  </TimerTrigger>  
+  
+  <bgcolor r="0.2" g="0.2" b="0.2" />
+
+  <dispensers>
+    
+	<rewarddispenser name="autoReward" initialDelay="0" delay="400" duration="200" burstCount="5" probability="1.0">
+	  <trigger target="trial_counter" />
+	  <trigger target="pillar_hider"/>
+	  <trigger target="timer"/>
+	</rewarddispenser>
+	
+	<hider name="pillar_hider">
+		<target name="pillar"/>
+	</hider>
+
+	<hider name="wall_hider">
+		<target name="FrontWall"/>
+	</hider>	
+	
+
+    <audiodispenser name="rewardToneDispenser">
+      <sound name="reward" file="reward1.wav" gain="1.0" maxdistance="100" height="5" />
+    </audiodispenser>
+
+    <randommover name="hiderzone_mover" q1min="-90" q1max="90" q2min="-90" q2max="90">
+      <target name="wallon_zone"/>
+      <target name="walloff_zone"/>
+      <target name="hider_dot"/>	  
+    </randommover> 
+
+   <discretemover name="mover" q1min="-90" q1max="90" q2min="-90" q2max="90">
+      <target name="pillar"/>
+      <target name="reward_zone"/>
+	  <target name="reward_dot"/>
+	  
+<!-- reward zone at (0,0) twice and four zones with jitter of 12cm increase frequency of occurance at center of track within one itiration -->	  
+		<destination>
+          <position q1="0" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="0" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>		
+		<destination>
+          <position q1="0" q2="15"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="15" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-15" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="0" q2="-15"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+
+
+<!-- eight reward zones at extreme edges: corners of an octagon with a circumcircle of radius 100cm -->		
+		<destination>
+          <position q1="75" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="0" q2="75"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="0" q2="-75"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-75" q2="0"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		
+		
+		<destination>
+          <position q1="53" q2="-53"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-53" q2="-53"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-53" q2="53"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="53" q2="53"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+
+<!-- eight reward zones in the outer ring -->			
+		<destination>
+          <position q1="19" q2="46"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-19" q2="46"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="19" q2="-46"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-19" q2="-46"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		
+		<destination>
+          <position q1="46" q2="19"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="46" q2="-19"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-46" q2="-19"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+		<destination>
+          <position q1="-46" q2="19"/>
+          <direction q1="0" q2="1"/>
+		</destination>
+			
+	</discretemover>
+	
+  </dispensers>
+
+  <positions>
+
+    <position q1="0" q2="0">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>
+    </position>
+    
+    <!--   Walls   -->
+
+    <position q1="0" q2="450">
+      <plane name="FrontWall" height="100" material="Discoball2.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="900" y="1" z="3600"/>
+      </plane>
+    </position>
+	
+    <!-- Lower floor -->
+
+    <position q1="0" q2="0">
+      <plane name="LowerFloor" height="-50" material="plain_black.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="1200" y="1" z="1200"/>
+      </plane>
+    </position>
+
+  
+    
+    <!--//////////////////////////////////////////////////////////////////////////-->
+
+    <position q1="0" q2="0">
+
+      <mesh name="pillar" height="50" meshfile="pillar.mesh">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="10" y="30" z="10"/>
+      </mesh>
+	  
+	  <disc name="reward_dot" height="-4.95" material="plain_white.png">
+		<facing x="0" y="-1" z="0"/>
+		<scale x="12.5" y ="1" z="12.5"/>
+	  </disc>
+
+      <occupationzone name="reward_zone" active="true" mintime="0">
+        <radialboundary radius="12.5"/>
+        <onentry>
+		  <trigger target="timer" enabled="false"/>
+          <trigger target="autoReward" enabled="true"/>
+        </onentry>
+		<onexit>
+		  <trigger target="mover"/>
+		</onexit>  
+      </occupationzone>
+	  
+	  <disc name="hider_dot" height="-4.95" material="turtle.png">
+		<facing x="0" y="-1" z="0"/>
+		<scale x="40" y ="1" z="40"/>
+	  </disc>
+	  
+	  <occupationzone name="walloff_zone" enabled="true" mintime="0">
+        <radialboundary radius="40"/>
+		<onexit>
+		  <trigger target="wall_hider"/>	
+		  <trigger target="hiderzone_mover"/>
+		  <trigger target="wallon_counter"/>           
+		  <trigger target="walloff_counter"/>  		  
+		</onexit>  
+      </occupationzone>
+	  
+	  <occupationzone name="wallon_zone" enabled="true" mintime="0">
+        <radialboundary radius="40"/>
+		<onexit>
+		  <trigger target="wall_hider" enabled="false"/>			
+		  <trigger target="hiderzone_mover"/>
+		  <trigger target="wallon_counter"/>           
+		  <trigger target="walloff_counter"/>  		  
+		</onexit>  
+      </occupationzone>
+	  
+	
+    </position>
+
+  </positions>
+
+</track>

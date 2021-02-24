@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<track type="plane" u="5">
+
+  <boundary>
+    <vertex q1="-5" q2="-250"/>
+    <vertex q1="-5" q2="250"/>
+    <vertex q1="5" q2="250"/>
+    <vertex q1="5" q2="-250"/>
+  </boundary>
+
+  <groundPolygon material="loop_floorboards_small.png">
+    <vertex q1="-15" q2="-260"/>
+    <vertex q1="-15" q2="260"/>
+    <vertex q1="15" q2="260"/>
+    <vertex q1="15" q2="-260"/>  	    
+  </groundPolygon>  
+  
+<bgcolor r="0.0" g="0.0" b="0.0" /> 
+  
+  <OnLoadTriggers>
+    <trigger target="dot_hider" />
+	<trigger target="muteDispenser" enabled="false" />
+	<trigger target="blackoutDispenser" enabled="false" />
+	<trigger target="ballDecoupleDispenser" enabled="false" />
+  </OnLoadTriggers>    
+  
+  <conditionalcounter name="hide_the_pillar_counter" min="15" max="400" reset="500">
+	<trigger target="pillar_hider" enabled="true" />
+  </conditionalcounter>
+  
+
+  <dispensers>
+    <hider name="pillar_hider">
+      <target name="reward_pillar"/>
+    </hider>
+
+  
+
+	<hider name="dot_hider">
+		<target name="reward_dot"/>
+	</hider>
+
+
+    <rewarddispenser name="BigReward" initialDelay="0" delay="400" duration="200" burstCount="10" probability="1.0">
+
+	  <trigger target="dot_hider" />
+	  
+      <trigger target="teleportDispenser" />
+	  
+      <trigger target="muteDispenser" />
+	  <trigger target="blackoutDispenser" />
+	  <trigger target="ballDecoupleDispenser" />
+	  
+	  <trigger target="hide_the_pillar_counter" />
+	
+	  
+    </rewarddispenser>
+	
+
+
+    <audioblackoutdispenser name="muteDispenser" maxTime="2000" />
+	<blackoutdispenser name="blackoutDispenser" maxTime="2000"/>
+	<balldecoupledispenser name="ballDecoupleDispenser" maxTime="2000"/>
+
+    <DiscreTeleportDispenser name="teleportDispenser" sequential="false" delay="500">
+      <destination>
+        <position q1="0" q2="-225"/>
+		<direction q1="0" q2="-1"/>
+      </destination>	  
+      <destination>
+        <position q1="0" q2="-200"/>
+		<direction q1="0" q2="-1"/>
+      </destination>	  	  
+      <destination>
+        <position q1="0" q2="-175"/>
+		<direction q1="0" q2="-1"/>
+      </destination>	  	  
+      <destination>
+        <position q1="0" q2="-150"/>
+		<direction q1="0" q2="-1"/>
+      </destination>	  	  
+    </DiscreTeleportDispenser>	
+	
+
+
+   
+	
+  </dispensers>
+
+  <positions>
+ 
+	
+	<position q1="0" q2="-225">
+      <avatar height="0">
+        <direction q1="0" q2="-1" />
+      </avatar>  
+    </position>  
+	
+    <position q1="0" q2="150">
+      <mesh name="reward_pillar" height="50" meshfile="pillar.mesh">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="10" y="30" z="10"/>
+      </mesh>
+	  
+	  <disc name="reward_dot" height="-4.95" material="plain_white.png">
+		<facing x="0" y="-1" z="0"/>
+		<scale x="20" y ="1" z="20"/>
+	  </disc>	  
+
+	  <occupationzone name="reward_zone" active="true" mintime="100">
+        <radialboundary radius="20"/>		
+        <onentry>
+          <trigger target="BigReward" enabled="true"/>
+		  <trigger target="dot_hider" enabled="false" />
+        </onentry>
+        <onexit>
+          <trigger target="BigReward" enabled="false"/>
+        </onexit>		
+	  </occupationzone>
+	  
+	
+	
+	<position q1="-225" q2="0">
+	 <sound name="left_sound" file="1.wav" height="25" gain="0" maxdistance="5" playing="true">
+        <facing x="0" y="0" z="0"/>
+      </sound>	  
+    </position>	
+	
+	<position q1="225" q2="0">
+	 <sound name="right_sound" file="6.wav" height="25" gain="0" maxdistance="5" playing="true">
+        <facing x="0" y="0" z="0"/>
+      </sound>	  
+    </position>	
+	
+	<position q1="0" q2="-300">
+	 <sound name="back_sound" file="9_1.wav" height="25" gain="1" maxdistance="5" playing="true">
+        <facing x="0" y="0" z="0"/>
+      </sound>	  
+    </position>	
+	
+	<position q1="0" q2="300">
+	 <sound name="front_sound" file="14kHzTO20kHz.wav" height="25" gain="0.5" maxdistance="15" playing="true">
+        <facing x="0" y="0" z="0"/>
+      </sound>	  
+    </position>	
+	
+
+<!--   Walls   -->
+
+    <position q1="-225" q2="0">
+      <plane name="LeftWall" height="125.5" material="circle.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="450" y="1" z="450"/>
+      </plane>            
+    </position>
+
+    <position q1="225" q2="0">
+      <plane name="RightWall" height="125.5" material="stripe.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="450" y="1" z="450"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="-300">
+      <plane name="BackWall" height="125.5" material="x.png">
+        <facing x="0" y="0" z="1"/>
+        <scale x="450" y="1" z="450"/>
+      </plane>
+    </position>
+
+    <position q1="0" q2="300">
+      <plane name="FrontWall" height="125.5" material="triangle.png">
+        <facing x="0" y="0" z="-1"/>
+        <scale x="450" y="1" z="450"/>
+      </plane>
+    </position>	
+
+	
+    <position q1="0" q2="0">
+      <plane name="LowerFloor" height="-25" material="checkered.png">
+        <facing x="0" y="-1" z="0"/>
+        <scale x="600" y="1" z="600"/>
+      </plane>
+    </position>
+	
+	
+	
+  </positions>
+
+</track>

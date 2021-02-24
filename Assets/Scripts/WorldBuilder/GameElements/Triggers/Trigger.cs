@@ -9,6 +9,9 @@ using UnityEngine;
 ///
 /* TODO: Trigger subclasses
  * UniformProbabilityTrigger
+ * TimerTrigger
+ * ProbabilisticDistanceTrigger
+ * 
  */
 public class Trigger {
 	string target;
