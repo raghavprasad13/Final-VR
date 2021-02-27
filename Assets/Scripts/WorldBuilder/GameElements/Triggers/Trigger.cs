@@ -14,8 +14,8 @@ using UnityEngine;
  * 
  */
 public class Trigger {
-	string target;
-	bool enable;
+	private readonly string target;
+	private readonly bool enable;
 
 	public string Target {
 		get { return target; }

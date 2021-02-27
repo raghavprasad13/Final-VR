@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Xml;
 using C = Const.Constants;
 
-public class TrackFileParser : MonoBehaviour {
+public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoBehaviour temporarily, only to access the logging functions which won't be needed post-debugging
 
 	public static Track track;
 
@@ -64,6 +64,10 @@ public class TrackFileParser : MonoBehaviour {
 
 			track.Bgcolor = new Color(red, green, blue);
 		}
+
+		element = rootElement.GetElementsByTagName("OnLoadTriggers")[0] as XmlElement;
+		if (element != null)
+			track.OnLoadTriggers = ParseTriggers(element);
 
 		element = rootElement.GetElementsByTagName("ProbabilisticDistanceTrigger")[0] as XmlElement;
 
@@ -135,10 +139,7 @@ public class TrackFileParser : MonoBehaviour {
 		if(element != null) {
 			string name = element.GetAttribute("name");
 			float maxTime = float.Parse(element.GetAttribute("maxTime"));
-
-#pragma warning disable UNT0010 // Component instance creation
 			dispensers.Add(new BlackoutDispenser(name, maxTime));
-#pragma warning restore UNT0010 // Component instance creation
 		}
 
 		// DiscreteTeleportDispenser
@@ -181,6 +182,13 @@ public class TrackFileParser : MonoBehaviour {
 
 			Dispenser dispenser = new Hider(name, targets);
 			dispensers.Add(dispenser);
+		}
+
+		// Movement inverter
+		element = dispensersNode.GetElementsByTagName("movementinversiondispenser")[0] as XmlElement;
+		if (element != null) {
+			string name = element.GetAttribute("name");
+			dispensers.Add(new MovementInversionDispenser(name));
 		}
  
 		/* TODO: Add code for other kinds of dispensers

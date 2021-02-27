@@ -103,6 +103,16 @@ public class TrackBuilder : MonoBehaviour {
 
             else if (prop.Name.Equals("OccupationZones"))
                 GameObjectBuilder.OccupationZones(prop.GetValue(track) as List<OccupationZone>, parentObject);
+
+            else if (prop.Name.Equals("OnLoadTriggers")) {
+                List<Trigger> onLoadTriggers = prop.GetValue(track) as List<Trigger>;
+                if (onLoadTriggers == null)
+                    return;
+
+                foreach (Trigger onLoadTrigger in onLoadTriggers)
+                    onLoadTrigger.ExecuteTrigger();
+                print("OnLoadTriggers loaded");
+            }
 		}
     }
 

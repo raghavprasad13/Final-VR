@@ -21,13 +21,16 @@ namespace Utils {
         public static float deltaForward;
         public static float deltaSide;
         public static float deltaRotationY;
-        public static int toggle;
+        public static int ballDecoupleToggle;   // default value is 1, changes to 0 when the ball is decoupled
+        public static int movementInversionToggle;  // default value is 1, changes to -1 when the moevement inversion occurs
 
         private static string data = "";
 
         // For Windows
         public static void StartFictrac() {
-            toggle = 1;
+            ballDecoupleToggle = 1;
+            movementInversionToggle = 1;
+
             fictracProcess = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = Path.Combine(Application.streamingAssetsPath, "fictrac_starter.bat"),
@@ -43,7 +46,9 @@ namespace Utils {
 
         // For Mac/Linux
         public static void StartFictrac(string command) {
-            toggle = 1;
+            ballDecoupleToggle = 1;
+            movementInversionToggle = 1;
+
             command = command.Replace("\"", "\"\"");
 
             fictracProcess = new Process {

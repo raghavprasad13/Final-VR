@@ -221,15 +221,13 @@ namespace wallSystem
             //var rotation = h * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
             //var rotation = h * step_speed * Time.deltaTime;
             //var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
-            Vector3 trackballTranslation = new Vector3(h, 0, v) * F.toggle;
+            Vector3 trackballTranslation = new Vector3(h, 0, v) * F.ballDecoupleToggle * F.movementInversionToggle;
             Vector3 keyboardTranslation = new Vector3(0, 0, Input.GetAxis("Vertical"));
 
-            float trackballRotation = F.deltaRotationY * F.toggle;
+            float trackballRotation = F.deltaRotationY * F.ballDecoupleToggle * F.movementInversionToggle;
             float keyboardRotation = Input.GetAxis("Horizontal");
 
-            var rotation = (trackballRotation + (keyboardRotation * ROTATION_GAIN)) * Time.deltaTime;     // Compare this with line commented above it. rotation_y is a delta theta whereas
-                                                                                                                    // heading and step_dir are absolute values, which caused drifting
-                                                                                                                    // Additionally, this also now accepts keyboard input to create a composite rotational movement
+            var rotation = (trackballRotation + (keyboardRotation * ROTATION_GAIN)) * Time.deltaTime;
 
 			// This calculates the forward speed frame rate independent
 			_moveDirection = (trackballTranslation + keyboardTranslation) * TRANSLATION_GAIN; 

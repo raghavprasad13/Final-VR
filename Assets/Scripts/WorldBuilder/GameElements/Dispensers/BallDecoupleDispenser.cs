@@ -16,9 +16,9 @@ public class BallDecoupleDispenser : Dispenser{
 
 	public override void Dispense() {
 		float duration = Random.value * maxTime * C.MillisecondToSecond;
-		F.toggle = 0;
+		F.ballDecoupleToggle = 0;
 		StartCoroutine(Delay(duration));
-		F.toggle = 1;
+		F.ballDecoupleToggle = 1;
 	}
 
 	IEnumerator Delay(float delayTime) {

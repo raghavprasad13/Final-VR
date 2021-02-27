@@ -15,6 +15,7 @@ public abstract class Track {
 	List<Vector3> boundary;
 	List<Vector3> liveZone;
 	List<OccupationZone> occupationZones;
+	List<Trigger> onLoadTriggers;
 
 	public ProbabilisticDistanceTrigger ProbDistanceTrigger {
 		get { return probDistanceTrigger; }
@@ -66,6 +67,11 @@ public abstract class Track {
 		set { occupationZones = value; }
 	}
 
+	public List<Trigger> OnLoadTriggers {
+		get { return onLoadTriggers; }
+		set { onLoadTriggers = value; }
+	}
+
 	public Track() {
 		wells = new List<Well>();
 		probDistanceTrigger = null;
@@ -77,5 +83,6 @@ public abstract class Track {
 		liveZone = new List<Vector3>();
 		bgcolor = Color.black;
 		occupationZones = new List<OccupationZone>();
+		onLoadTriggers = new List<Trigger>();
 	}
 }
