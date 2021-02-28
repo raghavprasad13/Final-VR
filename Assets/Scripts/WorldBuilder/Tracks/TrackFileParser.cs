@@ -136,9 +136,7 @@ public class TrackFileParser : MonoBehaviour {
 			string name = element.GetAttribute("name");
 			float maxTime = float.Parse(element.GetAttribute("maxTime"));
 
-#pragma warning disable UNT0010 // Component instance creation
 			dispensers.Add(new BlackoutDispenser(name, maxTime));
-#pragma warning restore UNT0010 // Component instance creation
 		}
 
 		// DiscreteTeleportDispenser
@@ -267,6 +265,11 @@ public class TrackFileParser : MonoBehaviour {
 		//print("planes.COunt from TrackFileParser: " + planes.Count);
 		//track.Planes = planes;
 		//print("track.Planes.COunt from TrackFileParser: " + track.Planes.Count);
+
+		// Bar of light
+		element = positionElement.GetElementsByTagName("lightbar")[0] as XmlElement;
+		if (element != null)
+			ParseLightBar(element, position);
 	}
 
 	public static Well ParseWell(XmlElement wellElement, Vector2 position) {
@@ -425,5 +428,18 @@ public class TrackFileParser : MonoBehaviour {
 														 isActive, isRadialBoundary, entryTriggers, exitTriggers,
 														 minTime, polygonBoundaryVertices: polygonBoundaryVertices));
 		}
+	}
+
+	public static void ParseLightBar(XmlElement lightBarElement, Vector2 position) {
+		string name = lightBarElement.GetAttribute("name");
+		float timePeriod = float.Parse(lightBarElement.GetAttribute("timeperiod")) * C.MillisecondToSecond;
+		float height = float.Parse(lightBarElement.GetAttribute("height")) * C.CentimeterToMeter;
+
+		XmlElement tintColorElement = lightBarElement.GetElementsByTagName("tintcolor")[0] as XmlElement;
+		float r = float.Parse(tintColorElement.GetAttribute("r"));
+		float g = float.Parse(tintColorElement.GetAttribute("g"));
+		float b = float.Parse(tintColorElement.GetAttribute("b"));
+
+		track.LightBar = new LightBar(new Vector3(position.x, 0, position.y), name, timePeriod, height, r, g, b);
 	}
 }

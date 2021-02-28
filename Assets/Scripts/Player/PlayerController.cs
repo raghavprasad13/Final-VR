@@ -210,10 +210,10 @@ namespace wallSystem
 
             F.ReceiveData();
 
-            float h = F.deltaSide * C.TRACK_BALL_RADIUS_M * 0f;
-            float v = F.deltaForward * C.TRACK_BALL_RADIUS_M * 0f;
+            float h = F.deltaSide * C.TRACK_BALL_RADIUS_M;
+            float v = F.deltaForward * C.TRACK_BALL_RADIUS_M;
 
-            print("Frame #" + F.frameNumber + "\th: " + h + "\tv: " + v);
+            //print("Frame #" + F.frameNumber + "\th: " + h + "\tv: " + v);
             /// Fictrac code snippet ends
 
             // This calculates the current amount of rotation frame rate independent

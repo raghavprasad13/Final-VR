@@ -103,6 +103,9 @@ public class TrackBuilder : MonoBehaviour {
 
             else if (prop.Name.Equals("OccupationZones"))
                 GameObjectBuilder.OccupationZones(prop.GetValue(track) as List<OccupationZone>, parentObject);
+
+            else if (prop.Name.Equals("LightBar"))
+                GameObjectBuilder.LightBar(prop.GetValue(track) as LightBar, parentObject);
 		}
     }
 
