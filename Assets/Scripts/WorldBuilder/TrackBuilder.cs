@@ -113,6 +113,9 @@ public class TrackBuilder : MonoBehaviour {
                     onLoadTrigger.ExecuteTrigger();
                 print("OnLoadTriggers loaded");
             }
+
+            else if (prop.Name.Equals("LightBar"))
+                GameObjectBuilder.LightBar(prop.GetValue(track) as LightBar, parentObject);
 		}
     }
 

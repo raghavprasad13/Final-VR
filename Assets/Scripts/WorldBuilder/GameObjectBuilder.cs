@@ -362,6 +362,22 @@ namespace Builder {
              */
 		}
 
+        public static void LightBar(LightBar lightBar, GameObject parent = null) {
+            GameObject lightBarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/LightBar");
+            var lightBarObj = Instantiate(lightBarPrefab,
+                                          new Vector3(lightBar.Center.x, lightBar.Height, lightBar.Center.z),
+                                          Quaternion.identity);
+
+            if (parent != null)
+                lightBarObj.transform.parent = parent.transform;
+
+            Material material = Resources.Load<Material>("Materials/Emissive Material");
+            material.SetColor("_Color", lightBar.TintColor);
+            material.SetColor("_EmissionColor", lightBar.TintColor);
+
+            lightBarObj.GetComponent<MeshRenderer>().material = material;
+		}
+
         public static bool IsOverlapping(List<Well> wells, Well well) {
             foreach(Well assignedWell in wells) {
                 if ((assignedWell.Position - well.Position).magnitude < (assignedWell.RadialBoundaryRadius + well.RadialBoundaryRadius))

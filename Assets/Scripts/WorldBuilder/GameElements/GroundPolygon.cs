@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundPolygon {
-    List<Vector3> vertices;
-    string material;
+    private readonly List<Vector3> vertices;
+    private readonly string material;
 
     public List<Vector3> Vertices {
 		get { return vertices; }

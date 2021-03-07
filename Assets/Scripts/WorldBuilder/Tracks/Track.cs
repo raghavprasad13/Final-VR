@@ -16,6 +16,7 @@ public abstract class Track {
 	List<Vector3> liveZone;
 	List<OccupationZone> occupationZones;
 	List<Trigger> onLoadTriggers;
+	LightBar lightBar;
 
 	public ProbabilisticDistanceTrigger ProbDistanceTrigger {
 		get { return probDistanceTrigger; }
@@ -72,6 +73,11 @@ public abstract class Track {
 		set { onLoadTriggers = value; }
 	}
 
+	public LightBar LightBar {
+		get { return lightBar; }
+		set { lightBar = value; }
+	}
+
 	public Track() {
 		wells = new List<Well>();
 		probDistanceTrigger = null;
@@ -84,5 +90,6 @@ public abstract class Track {
 		bgcolor = Color.black;
 		occupationZones = new List<OccupationZone>();
 		onLoadTriggers = new List<Trigger>();
+		lightBar = null;
 	}
 }
