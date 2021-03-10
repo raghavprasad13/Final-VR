@@ -29,8 +29,8 @@ public class AudioDispenser : Dispenser {
 
     #region Method(s)
 
-    public override void Dispense() {
-        AudioSource audioSource = new AudioSource();
+    public override void Dispense(string callingGameObjectName) {
+        AudioSource audioSource = GameObject.Find(callingGameObjectName).GetComponent<AudioSource>();
         audioSource.name = sound.Name;
 
         string audioFileNameNoExt = sound.FileName.Split('.')[0];

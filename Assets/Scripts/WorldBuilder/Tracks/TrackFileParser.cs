@@ -46,7 +46,7 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 		foreach(string str in tempArray) {
 			element = rootElement.GetElementsByTagName(str)[0] as XmlElement;
 			if (element != null)
-				vertices = SetVertices(element);
+				vertices = GetVertices(element);
 
 			if (str.Equals("groundPolygon"))
 				track.GroundPolygon = new GroundPolygon(vertices, element.GetAttribute("material"));
@@ -370,7 +370,7 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 		return plane;
 	}
 
-	private static List<Vector3> SetVertices(XmlElement verticesParentElement) {
+	private static List<Vector3> GetVertices(XmlElement verticesParentElement) {
 		List<Vector3> vertices = new List<Vector3>();
 
 		XmlElement vertexElement = verticesParentElement.FirstChild as XmlElement;
@@ -433,7 +433,7 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 		else {
 			XmlElement polygonBoundaryVerticesParentElement = occupationZoneElement.GetElementsByTagName("polygonboundary")[0] as XmlElement;
 			//print(occupationZoneElement.GetAttribute("name"));
-			List<Vector3> polygonBoundaryVertices = SetVertices(polygonBoundaryVerticesParentElement);
+			List<Vector3> polygonBoundaryVertices = GetVertices(polygonBoundaryVerticesParentElement);
 			track.OccupationZones.Add(new OccupationZone(name, new Vector3(position.x, 0f, position.y),
 														 isActive, isRadialBoundary, entryTriggers, exitTriggers,
 														 minTime, polygonBoundaryVertices: polygonBoundaryVertices));

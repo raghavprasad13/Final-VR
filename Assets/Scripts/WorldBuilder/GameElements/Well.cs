@@ -1,22 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Well class: This is a legacy implementation of Dispenser
 /// </summary>
-public class Well {
+public class Well : MonoBehaviour {
     #region Fields
 
     Vector2 position;
-	readonly string name;
-    float capacity;
-    int level;
-    float initialDelay;
-    float pulseDelay;
-    float pulseWidth;
-    float radialBoundaryRadius;
-    float radialTriggerZoneMeshRadius;
-    string radialTriggerZoneMeshMaterial;
-    Pillar pillar;
+	readonly string wellName;
+    private readonly float capacity;
+    private readonly int level;
+    private readonly float initialDelay;
+    private readonly float pulseDelay;
+    private readonly float pulseWidth;
+    private readonly float radialBoundaryRadius;
+    private readonly float radialTriggerZoneMeshRadius;
+    private readonly string radialTriggerZoneMeshMaterial;
+    private readonly Pillar pillar;
 
     #endregion
 
@@ -27,8 +28,8 @@ public class Well {
         set { position = value; }
 	}
 
-    public string Name {
-        get { return name; }
+    public string WellName {
+        get { return wellName; }
     }
 
     public float Capacity {
@@ -63,6 +64,10 @@ public class Well {
         get { return radialTriggerZoneMeshMaterial; }
     }
 
+    public Pillar Pillar {
+		get { return pillar; }
+	}
+
     public virtual float Q1Min { get; }
 
     public virtual float Q1Max { get; }
@@ -75,12 +80,12 @@ public class Well {
 
     #region Constructor(s)
 
-    public Well(Vector2 position, string name, float capacity, int level, float initialDelay,
+    public Well(Vector2 position, string wellName, float capacity, int level, float initialDelay,
                         float pulseDelay, float pulseWidth, float radialBoundaryRadius,
                         float radialTriggerZoneMeshRadius, string radialTriggerZoneMeshMaterial, Pillar pillar) {
 
 		this.position = position;
-		this.name = name;
+		this.wellName = wellName;
         this.capacity = capacity;
         this.level = level;
         this.initialDelay = initialDelay;
@@ -92,5 +97,18 @@ public class Well {
         this.pillar = pillar;
     }
 
-	#endregion
+    #endregion
+
+    public virtual void Dispense() {
+        StartCoroutine(Delay(initialDelay));
+        for (int i = 1; i <= capacity; i++) {
+            // activate arduino for pulseWidth
+            if (i < capacity)
+                StartCoroutine(Delay(pulseDelay));
+        }
+    }
+
+    IEnumerator Delay(float delayTime) {
+        yield return new WaitForSeconds(delayTime);
+    }
 }

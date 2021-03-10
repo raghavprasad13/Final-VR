@@ -6,8 +6,8 @@ public class Strobe : Dispenser {
 
 	#region Fields
 
-	float lightTime, cycleTime;
-	bool isActive;
+	private readonly float lightTime, cycleTime;
+	private readonly bool isActive;
 
 	#endregion
 
@@ -33,7 +33,7 @@ public class Strobe : Dispenser {
 		this.isActive = isActive;
 	}
 
-	public override void Dispense() {
+	public override void Dispense(string callingGameObjectName = null) {
 		print("STROBE");
 	}
 }

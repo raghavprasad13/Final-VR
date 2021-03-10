@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OccupationZone {
-	string name;
+	private readonly string name;
 	Vector3 position;
-	bool isActive;
-	float minTime;
-	float radialBoundaryRadius;
-	List<Vector3> polygonBoundaryVertices;
-	bool isRadialBoundary;
-	List<Trigger> entryTriggers, exitTriggers;
+	private bool isActive;
+	private readonly float minTime;
+	private readonly float radialBoundaryRadius;
+	private readonly List<Vector3> polygonBoundaryVertices;
+	private readonly bool isRadialBoundary;
+	private readonly List<Trigger> entryTriggers, exitTriggers;
 
 	public string Name {
 		get { return name; }
@@ -22,6 +22,7 @@ public class OccupationZone {
 
 	public bool IsActive {
 		get { return isActive; }
+		set { isActive = value; }
 	}
 
 	public float MinTime {

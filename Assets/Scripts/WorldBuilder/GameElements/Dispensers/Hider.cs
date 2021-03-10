@@ -14,12 +14,15 @@ public class Hider : Dispenser {
 		this.targets = targets;
 	}
 
-	public override void Dispense() {
+	public override void Dispense(string callingGameObjectName = null) {
 		GameObject targetGameObject;
 		foreach(string target in targets) {
 			targetGameObject = GameObject.Find(target);
-			targetGameObject.GetComponent<Renderer>().enabled = false;  // This would merely make it invisible, it would otherwise be active in the scene
-			//targetGameObject.SetActive(false);	// This would be the equivalent of unchecking the tick mark in the Unity editor
+			//bool currentStatus = targetGameObject.GetComponent<Renderer>().enabled;
+			//targetGameObject.GetComponent<Renderer>().enabled = !currentStatus;     // This would merely make it invisible, it would otherwise be active in the scene
+
+			bool currentStatus = targetGameObject.activeSelf;
+			targetGameObject.SetActive(!currentStatus); // This would be the equivalent of unchecking the tick mark in the Unity editor
 		}
 	}
 

@@ -42,8 +42,7 @@ namespace wallSystem
         public const float TRANSLATION_GAIN = 1f;
         public const float ROTATION_GAIN = 50f;
 
-        private void Start()
-        {
+        private void Start() {
             //transform.position = 
             Random.InitState(DateTime.Now.Millisecond);
 

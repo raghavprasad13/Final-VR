@@ -24,7 +24,7 @@ public class RotationDispenser : Dispenser {
         this.referenceDirection = referenceDirection;
 	}
 
-    public override void Dispense() {
+    public override void Dispense(string callingGameObjectName = null) {
         GameObject avatar = GameObject.Find("Avatar");
 
         float rotationAngleMagnitude = Random.Range(minRotation, maxRotation);

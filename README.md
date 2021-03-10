@@ -7,6 +7,8 @@
   - [Fictrac](#fictrac)
     - [Adjusting Fictrac settings](#adjusting-fictrac-settings)
     - [Shutting down Fictrac](#shutting-down-fictrac)
+      - [Windows](#windows)
+      - [macOS](#macos)
   - [Neuralynx](#neuralynx)
   - [For contributors](#for-contributors)
 
@@ -57,9 +59,17 @@ Additionally, the main C# file concerned with Fictrac handling is `FictracContro
 
 For now, Fictrac can be shut down from within the VR by hitting the `Q` key. However, this might not always work in case the FPS is too low (< 1). The steps to shut down Fictrac manually after stopping the VR in Unity are as follows:
 
+#### Windows
+
 - Open a command prompt as administrator and type in `netstat -ano | findstr <port_number>` where `<port_number>` is to be replaced with the port number being used for Fictrac.
 - Note the PID associated with the processes that are displayed as a result of the previous step. The PID will be the number on the far right of each line.
 - `taskkill /F /pid <process_id>` where `<process_id>` is the PID noted in the previous step
+
+#### macOS
+
+- Open Activity Monitor and find the `fictrac` process
+- Double-click the `fictrac` process to open it up in a separate dialog box
+- Press the `Quit` button
 
 ## Neuralynx
 

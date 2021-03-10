@@ -302,9 +302,13 @@ namespace Builder {
         public static void Avatar(RatAvatar avatar, GameObject parent = null) {
             GameObject avatarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/New Avatar");
             GameObject avatarGameObject = Instantiate(avatarPrefab, new Vector3(avatar.Position.x, avatar.Height + (1 * 0.0508f), avatar.Position.y), Quaternion.identity); // TODO: Modify this line to account for facing direction given in track file
+
+            if (parent != null)
+                avatarGameObject.transform.parent = parent.transform;
+
             avatarGameObject.name = "Avatar";
-            //avatarGameObject.tag = "Avatar";
-            avatarGameObject.layer = 11;    // Layer 11 is the Avatar Layer
+			avatarGameObject.tag = "Avatar";
+			avatarGameObject.layer = 11;    // Layer 11 is the Avatar Layer
 		}
 
         public static void Wells(List<Well> wells, GameObject parent = null) {
@@ -317,7 +321,6 @@ namespace Builder {
             List<Well> wellsAssigned = new List<Well>();
 
             Vector3 wellPosition;
-            System.Random random = new System.Random();
 
             GameObject circularPlanePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/CircularPlane");
 
@@ -325,9 +328,9 @@ namespace Builder {
                 if(well.GetType().ToString().Equals("RandomWell")) {
 
                     while (true) {
-                        float wellPositionX = (float)random.NextDouble() * (well.Q1Max - well.Q1Min) + well.Q1Min;
-                        float wellPositionZ = (float)random.NextDouble() * (well.Q2Max - well.Q2Min) + well.Q2Min;
-                        
+                        float wellPositionX = Random.Range(well.Q1Min, well.Q1Max);
+                        float wellPositionZ = Random.Range(well.Q2Min, well.Q2Max);
+
                         wellPosition = new Vector3(wellPositionX, 1e-4f, wellPositionZ);
                         well.Position = new Vector2(wellPositionX, wellPositionZ);
 
@@ -351,18 +354,18 @@ namespace Builder {
                 if (well.Level == 0)
                     wellGameObject.GetComponent<Renderer>().enabled = false;
 
-				wellGameObject.name = well.Name;
+				wellGameObject.name = well.WellName;
                 wellGameObject.transform.parent = Wells.transform;
             }
 		}
 
-        public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {
-            /* TODO 
-             * Make sure to add code to check for existence of triggers associated with certain dispensers and initialize those values
-             */
+        public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {   // This seems unnecessary for now, since there is no need to have Dispenser gameobjects, their existence as Dispenser objects associated with the Track object is sufficient to operate them
 		}
 
         public static void LightBar(LightBar lightBar, GameObject parent = null) {
+            if (lightBar == null)
+                return;
+
             GameObject lightBarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/LightBar");
             var lightBarObj = Instantiate(lightBarPrefab,
                                           new Vector3(lightBar.Center.x, lightBar.Height, lightBar.Center.z),
@@ -416,6 +419,7 @@ namespace Builder {
 					//occupationZoneGameObject.GetComponent<Rigidbody>().isKinematic = true;
 					occupationZoneGameObject.AddComponent<MeshCollider>();
 					occupationZoneGameObject.GetComponent<MeshCollider>().convex = true;
+                    occupationZoneGameObject.AddComponent<AudioSource>();
                     occupationZoneGameObject.AddComponent<Action>();
 				}
 
@@ -423,7 +427,7 @@ namespace Builder {
 
                 occupationZoneGameObject.name = occupationZone.Name;
                 occupationZoneGameObject.GetComponent<Action>().occupationZone = occupationZone;
-				occupationZoneGameObject.GetComponent<Renderer>().enabled = false;
+                occupationZoneGameObject.SetActive(occupationZone.IsActive);
                 occupationZoneGameObject.GetComponent<MeshCollider>().isTrigger = occupationZone.IsActive;
 				occupationZoneGameObject.transform.parent = OccupationZones.transform;
 			}

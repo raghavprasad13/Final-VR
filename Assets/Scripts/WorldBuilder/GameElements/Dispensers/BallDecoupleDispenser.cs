@@ -14,14 +14,10 @@ public class BallDecoupleDispenser : Dispenser{
 		this.maxTime = maxTime;
 	}
 
-	public override void Dispense() {
+	public override void Dispense(string callingGameObjectName = null) {
 		float duration = Random.value * maxTime * C.MillisecondToSecond;
 		F.ballDecoupleToggle = 0;
 		StartCoroutine(Delay(duration));
 		F.ballDecoupleToggle = 1;
-	}
-
-	IEnumerator Delay(float delayTime) {
-		yield return new WaitForSeconds(delayTime);
 	}
 }

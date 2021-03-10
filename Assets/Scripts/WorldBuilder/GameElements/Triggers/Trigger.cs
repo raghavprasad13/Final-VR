@@ -30,10 +30,10 @@ public class Trigger {
 		this.enable = enable;
 	}
 
-	public void ExecuteTrigger() {
+	public void ExecuteTrigger(string callingGameObjectName = null) {
 		foreach(Dispenser dispenser in TrackFileParser.track.Dispensers) {
 			if (dispenser.DispenserName.Equals(target))
-				dispenser.Dispense();
+				dispenser.Dispense(callingGameObjectName);
 		}
 	}
 }

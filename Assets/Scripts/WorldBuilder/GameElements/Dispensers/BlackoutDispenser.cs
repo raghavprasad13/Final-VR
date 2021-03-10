@@ -13,7 +13,7 @@ public class BlackoutDispenser : Dispenser {
 		this.maxTime = maxTime;
 	}
 
-	public override void Dispense() {
+	public override void Dispense(string callingGameObjectName = null) {
 		float duration = Random.value * maxTime * C.MillisecondToSecond;
 		ToggleLights();
 		StartCoroutine(Delay(duration));
@@ -28,9 +28,5 @@ public class BlackoutDispenser : Dispenser {
 			else
 				light.enabled = true;
 		}
-	}
-
-	IEnumerator Delay(float delayTime) {
-		yield return new WaitForSeconds(delayTime);
 	}
 }

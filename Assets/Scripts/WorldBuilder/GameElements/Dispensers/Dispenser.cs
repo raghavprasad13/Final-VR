@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -31,20 +32,24 @@ public abstract class Dispenser : MonoBehaviour {	// Inheriting from MonoBehavio
 		set { triggers = value; }
 	}
 
-	public Dispenser(string dispenserName) {
+	public Dispenser(string dispenserName, List<Trigger> triggers = null) {
 		this.dispenserName = dispenserName;
-		triggers = null;
+		this.triggers = triggers;
 	}
 
 	public void ExecuteTriggers() {
-		if (Triggers == null)
+		if (triggers == null)
 			return;
 
-		foreach (Trigger trigger in Triggers)
+		foreach (Trigger trigger in triggers)
 			trigger.ExecuteTrigger();
 	}
 
-	public abstract void Dispense();
+	public abstract void Dispense(string callingGameObjectName = null);
+
+	public IEnumerator Delay(float delayTime) {
+		yield return new WaitForSeconds(delayTime);
+	}
 
 	//public abstract void LogToCsv();
 }
