@@ -1,0 +1,140 @@
+0.003329 main [ERR] Error! Unable to set process priority!
+0.003411 read [INF] Looking for config file: config.txt ..
+0.003777 read [DBG] Extracted key: |c2a_cnrs_xy|  val: |{ 191, 171, 128, 272, 20, 212, 99, 132 }|
+0.003796 read [DBG] Extracted key: |c2a_r|  val: |{ 0.722445, -0.131314, -0.460878 }|
+0.003801 read [DBG] Extracted key: |c2a_src|  val: |c2a_cnrs_xy|
+0.003807 read [DBG] Extracted key: |c2a_t|  val: |{ -0.674396, 0.389373, 2.889648 }|
+0.003810 read [DBG] Extracted key: |do_display|  val: |y|
+0.003827 read [DBG] Extracted key: |max_bad_frames|  val: |-1|
+0.003831 read [DBG] Extracted key: |opt_bound|  val: |0.35|
+0.003835 read [DBG] Extracted key: |opt_do_global|  val: |n|
+0.003839 read [DBG] Extracted key: |opt_max_err|  val: |-1.000000|
+0.003843 read [DBG] Extracted key: |opt_max_evals|  val: |50|
+0.003847 read [DBG] Extracted key: |opt_tol|  val: |0.001|
+0.003851 read [DBG] Extracted key: |out_port|  val: |-1|
+0.003855 read [DBG] Extracted key: |q_factor|  val: |6|
+0.003860 read [DBG] Extracted key: |roi_c|  val: |{ -0.229390, 0.099969, 0.968187 }|
+0.003867 read [DBG] Extracted key: |roi_circ|  val: |{ 63, 171, 81, 145, 106, 135, 150, 160 }|
+0.003883 read [DBG] Extracted key: |roi_ignr|  val: |{ { 96, 156, 113, 147, 106, 128, 82, 130, 81, 150 }, { 71, 213, 90, 219, 114, 218, 135, 211, 154, 196, 150, 217, 121, 228, 99, 234, 75, 225 } }|
+0.003888 read [DBG] Extracted key: |roi_r|  val: |0.124815|
+0.003892 read [DBG] Extracted key: |save_debug|  val: |n|
+0.003897 read [DBG] Extracted key: |save_raw|  val: |n|
+0.003902 read [DBG] Extracted key: |src_fn|  val: |sample.mp4|
+0.003906 read [DBG] Extracted key: |src_fps|  val: |-1.000000|
+0.003911 read [DBG] Extracted key: |thr_ratio|  val: |1.25|
+0.003915 read [DBG] Extracted key: |thr_win_pc|  val: |0.25|
+0.003919 read [DBG] Extracted key: |vfov|  val: |45|
+0.003924 read [DBG] Extracted key: |vid_codec|  val: |h264|
+0.003953 read [INF] Config file parsed (25 key/value pairs).
+0.003967 CVSource [DBG] Source is: sample.mp4
+0.003969 CVSource [DBG] Trying source as camera id...
+0.003989 CVSource [DBG] Trying source as video file...
+0.174969 CVSource [INF] Using source type: video file.
+0.175047 CVSource [INF] OpenCV video source initialised (384x288)!
+0.175087 operator() [DBG] Key (output_fn) not found.
+0.176674 getStr [DBG] Key (fisheye) not found.
+0.176787 Trackball [DBG] Found sphere ROI centred at [-0.229390 0.099969 0.968187], with radius 0.124815 rad.
+0.176908 Trackball [INF] Input sphere mask automatically generated using 2 ignore ROIs!
+0.176922 Trackball [DBG] roi_to_cam_r: 0.1010 0.2319 -0.0000
+0.176934 Trackball [DBG] Found C2A rotational transform: [0.722445 -0.131314 -0.460878].
+0.177571 getStr [DBG] Key (sphere_map_fn) not found.
+0.177715 Trackball [WRN] Warning! No optimisation error threshold specified in config file (opt_max_err) - poor matches will not be dropped!
+0.177873 getStr [DBG] Key (sock_port) not found.
+0.177886 operator() [DBG] Key (com_port) not found.
+0.177893 Trackball [WRN] Warning! Using default value for save_raw (0).
+0.177921 operator() [DBG] Key (thr_rgb_tfrm) not found.
+0.177929 FrameGrabber [DBG] Thresholding window size: 15 (ROI: 60 x 60)
+0.178714 write [DBG] Wrote 947 bytes to disk!
+0.178764 processDrawQ [ERR] Error! Unable to set thread priority!
+0.178774 process [DBG] Starting sphere tracking loop!
+0.178780 process [ERR] Error! Unable to set thread priority!
+0.189740 process [DBG] Starting frame grabbing loop!
+0.189752 process [ERR] Error! Unable to set thread priority!
+0.211228 grab [DBG] Frame captured 384x2883 @ 0.000000 (t_sys: 534505244.284000 ms, t_day: 30245345.841000 ms)
+0.214594 process [DBG] Processed frame added to input queue (l = 1).
+0.214631 process [INF] Frame 0
+0.214728 doSearch [INF] optimum sphere rotation:	0.000 0.000 0.000  (err=0.000e+00/its=0)
+0.214733 doSearch [DBG] Current sphere orientation:	0.000 0.000 0.000
+0.214901 updateSphere [DBG] Sphere ROI match overlap: 3.3%
+0.215268 process [INF] Timing grab/opt/map/plot/log/disp: 35.8 / 0.1 / 0.2 / 0.0 / 0.0 / 0.3 ms
+0.215286 process [INF] Average frame rate [in/out]: 0.0 [0.0 / 0.0] fps
+0.216370 grab [DBG] Frame captured 384x2883 @ 33.333333 (t_sys: 534505249.465000 ms, t_day: 30245350.991000 ms)
+0.219223 process [DBG] Processed frame added to input queue (l = 1).
+0.219242 process [INF] Frame 1
+0.220546 grab [DBG] Frame captured 384x2883 @ 66.666667 (t_sys: 534505253.643000 ms, t_day: 30245355.168000 ms)
+0.222734 doSearch [INF] optimum sphere rotation:	0.001 0.035 -0.000  (err=5.209e+03/its=23)
+0.222738 doSearch [DBG] Current sphere orientation:	0.001 0.035 -0.000
+0.222879 updateSphere [DBG] Sphere ROI match overlap: 67.6%
+0.223105 process [INF] Timing grab/opt/map/plot/log/disp: 3.9 / 3.5 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.223110 process [INF] Average frame rate [in/out]: 31.9 [0.0 / 127.6] fps
+0.223440 process [DBG] Processed frame added to input queue (l = 1).
+0.223459 process [INF] Frame 2
+0.224745 grab [DBG] Frame captured 384x2883 @ 100.000000 (t_sys: 534505257.842000 ms, t_day: 30245359.368000 ms)
+0.226961 doSearch [INF] optimum sphere rotation:	0.019 0.016 0.031  (err=5.743e+03/its=28)
+0.226965 doSearch [DBG] Current sphere orientation:	0.020 0.052 0.031
+0.227107 updateSphere [DBG] Sphere ROI match overlap: 75.9%
+0.227319 process [INF] Timing grab/opt/map/plot/log/disp: 0.3 / 3.5 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.227323 process [INF] Average frame rate [in/out]: 83.2 [30.0 / 237.2] fps
+0.227469 process [DBG] Processed frame added to input queue (l = 1).
+0.227483 process [INF] Frame 3
+0.228677 grab [DBG] Frame captured 384x2883 @ 133.333333 (t_sys: 534505261.774000 ms, t_day: 30245363.299000 ms)
+0.230879 doSearch [INF] optimum sphere rotation:	0.005 -0.000 0.018  (err=5.548e+03/its=29)
+0.230883 doSearch [DBG] Current sphere orientation:	0.025 0.051 0.049
+0.231020 updateSphere [DBG] Sphere ROI match overlap: 87.3%
+0.231215 process [INF] Timing grab/opt/map/plot/log/disp: 0.2 / 3.4 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.231219 process [INF] Average frame rate [in/out]: 126.6 [30.0 / 256.7] fps
+0.231321 process [DBG] Processed frame added to input queue (l = 1).
+0.231336 process [INF] Frame 4
+0.232402 grab [DBG] Frame captured 384x2883 @ 166.666667 (t_sys: 534505265.499000 ms, t_day: 30245367.025000 ms)
+0.234620 doSearch [INF] optimum sphere rotation:	-0.011 0.029 -0.002  (err=5.569e+03/its=28)
+0.234624 doSearch [DBG] Current sphere orientation:	0.014 0.081 0.047
+0.234822 updateSphere [DBG] Sphere ROI match overlap: 90.9%
+0.235045 process [INF] Timing grab/opt/map/plot/log/disp: 0.1 / 3.3 / 0.2 / 0.0 / 0.0 / 0.2 ms
+0.235050 process [INF] Average frame rate [in/out]: 160.2 [30.0 / 261.2] fps
+0.235077 process [INF] Frame 5
+0.235090 process [DBG] Processed frame added to input queue (l = 1).
+0.237848 doSearch [INF] optimum sphere rotation:	0.014 0.056 -0.020  (err=5.699e+03/its=24)
+0.237852 doSearch [DBG] Current sphere orientation:	0.030 0.136 0.028
+0.237983 updateSphere [DBG] Sphere ROI match overlap: 95.4%
+0.238200 process [INF] Timing grab/opt/map/plot/log/disp: 0.0 / 2.8 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.238206 process [INF] Average frame rate [in/out]: 199.4 [30.0 / 316.9] fps
+0.247660 grab [DBG] Frame captured 384x2883 @ 200.000000 (t_sys: 534505280.758000 ms, t_day: 30245382.284000 ms)
+0.251492 process [DBG] Processed frame added to input queue (l = 1).
+0.251513 process [INF] Frame 6
+0.252776 grab [DBG] Frame captured 384x2883 @ 233.333333 (t_sys: 534505285.868000 ms, t_day: 30245387.394000 ms)
+0.253711 doSearch [INF] optimum sphere rotation:	0.081 0.103 -0.048  (err=6.275e+03/its=21)
+0.253718 doSearch [DBG] Current sphere orientation:	0.116 0.237 -0.017
+0.253839 updateSphere [DBG] Sphere ROI match overlap: 91.7%
+0.254060 process [INF] Timing grab/opt/map/plot/log/disp: 13.3 / 2.2 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.254064 process [INF] Average frame rate [in/out]: 165.3 [30.0 / 63.1] fps
+0.255158 process [DBG] Processed frame added to input queue (l = 1).
+0.255185 process [INF] Frame 7
+0.256739 grab [DBG] Frame captured 384x2883 @ 266.666667 (t_sys: 534505289.828000 ms, t_day: 30245391.355000 ms)
+0.258345 doSearch [INF] optimum sphere rotation:	0.074 0.114 -0.059  (err=6.348e+03/its=25)
+0.258352 doSearch [DBG] Current sphere orientation:	0.195 0.348 -0.073
+0.258487 updateSphere [DBG] Sphere ROI match overlap: 89.1%
+0.258785 process [INF] Timing grab/opt/map/plot/log/disp: 1.1 / 3.2 / 0.1 / 0.0 / 0.0 / 0.2 ms
+0.258794 process [INF] Average frame rate [in/out]: 176.9 [30.0 / 211.8] fps
+0.259555 process [DBG] Processed frame added to input queue (l = 1).
+0.259627 process [INF] Frame 8
+0.261644 grab [DBG] Frame captured 384x2883 @ 300.000000 (t_sys: 534505294.723000 ms, t_day: 30245396.251000 ms)
+0.263335 doSearch [INF] optimum sphere rotation:	0.033 0.120 -0.003  (err=6.694e+03/its=27)
+0.263344 doSearch [DBG] Current sphere orientation:	0.225 0.469 -0.082
+0.263534 updateSphere [DBG] Sphere ROI match overlap: 89.2%
+0.264047 process [INF] Timing grab/opt/map/plot/log/disp: 0.8 / 3.7 / 0.2 / 0.0 / 0.0 / 0.4 ms
+0.264066 process [INF] Average frame rate [in/out]: 180.2 [30.0 / 190.1] fps
+0.264597 process [DBG] Processed frame added to input queue (l = 1).
+0.264619 process [INF] Frame 9
+0.266422 grab [DBG] Frame captured 384x2883 @ 333.333333 (t_sys: 534505299.515000 ms, t_day: 30245401.042000 ms)
+0.268527 doSearch [INF] optimum sphere rotation:	-0.007 0.134 0.009  (err=6.250e+03/its=32)
+0.268534 doSearch [DBG] Current sphere orientation:	0.212 0.603 -0.090
+0.268690 updateSphere [DBG] Sphere ROI match overlap: 88.4%
+0.269050 process [INF] Timing grab/opt/map/plot/log/disp: 0.5 / 3.9 / 0.2 / 0.0 / 0.0 / 0.3 ms
+0.269055 process [INF] Average frame rate [in/out]: 185.1 [30.0 / 199.7] fps
+0.269295 process [DBG] Processed frame added to input queue (l = 1).
+0.269315 process [INF] Frame 10
+0.272336 doSearch [INF] optimum sphere rotation:	-0.022 0.068 0.043  (err=6.213e+03/its=24)
+0.272342 doSearch [DBG] Current sphere orientation:	0.175 0.673 -0.063
+0.272497 updateSphere [DBG] Sphere ROI match overlap: 90.9%
+0.272868 process [INF] Timing grab/opt/map/plot/log/disp: 0.3 / 3.0 / 0.2 / 0.0 / 0.0 / 0.3 ms
+0.272873 process [INF] Average frame rate [in/out]: 204.3 [30.0 / 262.0] fps

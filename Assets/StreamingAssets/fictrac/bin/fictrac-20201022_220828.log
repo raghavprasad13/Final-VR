@@ -1,0 +1,5 @@
+0.012973 main [ERR] Error! Unable to set process priority!
+0.013717 read [INF] Looking for config file: --version ..
+0.013743 read [ERR] Could not open config file for reading!
+0.013761 Trackball [ERR] Error parsing config file (--version)!
+0.013884 ~Trackball [INF] Closing sphere tracker

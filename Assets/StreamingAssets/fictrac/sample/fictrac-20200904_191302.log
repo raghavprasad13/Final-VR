@@ -1,0 +1,41 @@
+0.003058 main [ERR] Error! Unable to set process priority!
+0.003131 read [INF] Looking for config file: config.txt ..
+0.003572 read [DBG] Extracted key: |c2a_cnrs_xy|  val: |{ 191, 171, 128, 272, 20, 212, 99, 132 }|
+0.003591 read [DBG] Extracted key: |c2a_r|  val: |{ 0.722445, -0.131314, -0.460878 }|
+0.003596 read [DBG] Extracted key: |c2a_src|  val: |c2a_cnrs_xy|
+0.003602 read [DBG] Extracted key: |c2a_t|  val: |{ -0.674396, 0.389373, 2.889648 }|
+0.003606 read [DBG] Extracted key: |do_display|  val: |n|
+0.003609 read [DBG] Extracted key: |max_bad_frames|  val: |-1|
+0.003613 read [DBG] Extracted key: |opt_bound|  val: |0.35|
+0.003627 read [DBG] Extracted key: |opt_do_global|  val: |n|
+0.003632 read [DBG] Extracted key: |opt_max_err|  val: |-1.000000|
+0.003636 read [DBG] Extracted key: |opt_max_evals|  val: |50|
+0.003640 read [DBG] Extracted key: |opt_tol|  val: |0.001|
+0.003645 read [DBG] Extracted key: |q_factor|  val: |6|
+0.003652 read [DBG] Extracted key: |roi_c|  val: |{ -0.229390, 0.099969, 0.968187 }|
+0.003659 read [DBG] Extracted key: |roi_circ|  val: |{ 63, 171, 81, 145, 106, 135, 150, 160 }|
+0.003675 read [DBG] Extracted key: |roi_ignr|  val: |{ { 96, 156, 113, 147, 106, 128, 82, 130, 81, 150 }, { 71, 213, 90, 219, 114, 218, 135, 211, 154, 196, 150, 217, 121, 228, 99, 234, 75, 225 } }|
+0.003680 read [DBG] Extracted key: |roi_r|  val: |0.124815|
+0.003685 read [DBG] Extracted key: |save_debug|  val: |n|
+0.003690 read [DBG] Extracted key: |save_raw|  val: |n|
+0.003695 read [DBG] Extracted key: |sock_port|  val: |12345|
+0.003700 read [DBG] Extracted key: |src_fn|  val: |sample.mp4|
+0.003716 read [DBG] Extracted key: |src_fps|  val: |-1.000000|
+0.003721 read [DBG] Extracted key: |thr_ratio|  val: |1.25|
+0.003726 read [DBG] Extracted key: |thr_win_pc|  val: |0.25|
+0.003731 read [DBG] Extracted key: |vfov|  val: |45|
+0.003736 read [DBG] Extracted key: |vid_codec|  val: |h264|
+0.003763 read [INF] Config file parsed (25 key/value pairs).
+0.003776 CVSource [DBG] Source is: sample.mp4
+0.003777 CVSource [DBG] Trying source as camera id...
+0.003796 CVSource [DBG] Trying source as video file...
+0.159034 CVSource [INF] Using source type: video file.
+0.159127 CVSource [INF] OpenCV video source initialised (384x288)!
+0.159184 operator() [DBG] Key (output_fn) not found.
+0.159403 getStr [DBG] Key (fisheye) not found.
+0.159545 Trackball [DBG] Found sphere ROI centred at [-0.229390 0.099969 0.968187], with radius 0.124815 rad.
+0.159689 Trackball [INF] Input sphere mask automatically generated using 2 ignore ROIs!
+0.159706 Trackball [DBG] roi_to_cam_r: 0.1010 0.2319 -0.0000
+0.159718 Trackball [DBG] Found C2A rotational transform: [0.722445 -0.131314 -0.460878].
+0.160415 getStr [DBG] Key (sphere_map_fn) not found.
+0.160567 Trackball [WRN] Warning! No optimisation error threshold specified in config file (opt_max_err) - poor matches will not be dropped!

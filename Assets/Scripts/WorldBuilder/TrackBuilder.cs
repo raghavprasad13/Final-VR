@@ -5,6 +5,7 @@ using SFB;
 using Builder;
 using System;
 using System.Xml;
+using System.IO;
 
 using F = Utils.FictracController;
 using N = Utils.NeuralynxController;
@@ -25,7 +26,8 @@ public class TrackBuilder : MonoBehaviour {
             F.StartFictrac();
         else {
             // Hardcoded filepath. Needs to be updated to not be hardcoded, but for now should be changed to match local system filepath
-            string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
+            string command = Path.Combine(Application.streamingAssetsPath, "fictrac", "bin", "fictrac") + " " + Path.Combine(Application.streamingAssetsPath, "fictrac", "config.txt");
+            //string command = "/Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/bin/fictrac /Users/raghavprasad/Work/BITS/4-1/Thesis/fictrac/closed_loop_forward_backward/config.txt";
             F.StartFictrac(command);
         }
 

@@ -1,0 +1,52 @@
+0.000863 read [INF] Looking for config file: config.txt ..
+0.000938 read [DBG] Extracted key: |c2a_cnrs_xy|  val: |{ 191, 171, 128, 272, 20, 212, 99, 132 }|
+0.000951 read [DBG] Extracted key: |c2a_r|  val: |{ 0.722445, -0.131314, -0.460878 }|
+0.000956 read [DBG] Extracted key: |c2a_src|  val: |c2a_cnrs_xy|
+0.000962 read [DBG] Extracted key: |c2a_t|  val: |{ -0.674396, 0.389373, 2.889648 }|
+0.000966 read [DBG] Extracted key: |do_display|  val: |y|
+0.000970 read [DBG] Extracted key: |max_bad_frames|  val: |-1|
+0.000974 read [DBG] Extracted key: |opt_bound|  val: |0.35|
+0.000987 read [DBG] Extracted key: |opt_do_global|  val: |n|
+0.000991 read [DBG] Extracted key: |opt_max_err|  val: |-1|
+0.000995 read [DBG] Extracted key: |opt_max_evals|  val: |50|
+0.001000 read [DBG] Extracted key: |opt_tol|  val: |0.001|
+0.001004 read [DBG] Extracted key: |out_port|  val: |-1|
+0.001008 read [DBG] Extracted key: |q_factor|  val: |6|
+0.001014 read [DBG] Extracted key: |roi_circ|  val: |{ 63, 171, 81, 145, 106, 135, 150, 160 }|
+0.001027 read [DBG] Extracted key: |roi_ignr|  val: |{ { 96, 156, 113, 147, 106, 128, 82, 130, 81, 150 }, { 71, 213, 90, 219, 114, 218, 135, 211, 154, 196, 150, 217, 121, 228, 99, 234, 75, 225 } }|
+0.001040 read [DBG] Extracted key: |save_debug|  val: |n|
+0.001044 read [DBG] Extracted key: |save_raw|  val: |n|
+0.001054 read [DBG] Extracted key: |src_fn|  val: |sample.mp4|
+0.001058 read [DBG] Extracted key: |src_fps|  val: |-1|
+0.001062 read [DBG] Extracted key: |thr_ratio|  val: |1.25|
+0.001067 read [DBG] Extracted key: |thr_win_pc|  val: |0.25|
+0.001071 read [DBG] Extracted key: |vfov|  val: |45|
+0.001076 read [DBG] Extracted key: |vid_codec|  val: |h264|
+0.001096 read [INF] Config file parsed (23 key/value pairs).
+0.001104 CVSource [DBG] Source is: sample.mp4
+0.001105 CVSource [DBG] Trying source as camera id...
+0.001125 CVSource [DBG] Trying source as video file...
+0.157506 CVSource [INF] Using source type: video file.
+0.157603 CVSource [INF] OpenCV video source initialised (384x288)!
+0.157629 ConfigGui [INF] Using vfov: 45.000000 deg
+0.157633 getStr [DBG] Key (fisheye) not found.
+0.157664 operator() [DBG] Key (output_fn) not found.
+0.211952 getStr [DBG] Key (reconfig) not found.
+0.213842 grab [DBG] Frame captured 384x2883 @ 33.333333 (t_sys: 497945482.186000 ms, t_day: 80085199.395000 ms)
+0.214118 getStr [DBG] Key (enh_cfg_disp) not found.
+0.214125 changeState [DBG] New state: CIRC_INIT
+0.215927 getStr [DBG] Key (roi_c) not found.
+0.216073 run [DBG] Computed roi_c = [-0.229390 0.099969 0.968187] and roi_r = 0.124815 rad from 4 roi_circ points.
+0.216086 run [INF] Adding roi_c and roi_r to config file and writing to disk (config.txt) ..
+0.217338 write [DBG] Wrote 933 bytes to disk!
+20.202323 changeState [DBG] New state: IGNR_INIT
+25.127317 changeState [DBG] New state: R_INIT
+25.129518 run [DBG] Found c2a_src: c2a_cnrs_xy
+25.129574 run [DBG] Read c2a_r = [0.722445 -0.131314 -0.460878]
+25.129620 run [DBG] Read c2a_t = [-0.674396 0.389373 2.889648]
+25.129635 run [WRN] Warning! When c2a_r and c2a_t are specified in the config file, c2a_src and associated corners points will be ignored.
+To re-compute c2a_r and c2a_t, please delete these values or set reconfig : y in the config file and reconfigure.
+27.809326 changeState [DBG] New state: EXIT
+27.813729 run [INF] Writing config image to disk (sample-configImg.png)..
+27.820614 run [INF] Configuration complete!
+27.820620 run [INF] Exiting configuration!

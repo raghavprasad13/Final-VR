@@ -1,0 +1,23 @@
+CMakeFiles/fictrac_core.dir/src/Trackball.cpp.o: \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/src/Trackball.cpp \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/Trackball.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/typesvars.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/CmPoint.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/Localiser.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/NLoptFunc.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/CameraModel.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/SharedPointers.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/Recorder.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/RecorderInterface.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/FrameGrabber.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/CameraRemap.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/Remapper.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/FrameSource.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/ConfigParser.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/geometry.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/drawing.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/Logger.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/timing.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/BasicRemapper.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/misc.h \
+  /Users/raghavprasad/Work/BITS/Thesis/fictrac/include/CVSource.h

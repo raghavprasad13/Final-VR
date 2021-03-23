@@ -142,7 +142,7 @@
     </position>
 
     <position q1="0" q2="164">
-        <lightbar name="Bar of light" timeperiod="10000" height="50">
+        <lightbar name="Bar of light" timeperiod="10000" height="50" clockwise="true" numberofcyclesbeforeflip="10">
             <tintcolor r="0" g="1" b="0"/>
         </lightbar>
     </position>
