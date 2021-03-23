@@ -5,9 +5,10 @@ using UnityEngine;
 public class Data {
 	public static string LogFile;
     public static long ExperimentStartTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+    public static string outputFilesDir = Path.Combine("Assets", "OutputFiles~");
 
     public static void LogHeaders() {
-        using (var writer = new StreamWriter("Assets/OutputFiles~/" + LogFile, false)) {
+        using (var writer = new StreamWriter(outputFilesDir + LogFile, false)) {
             writer.Write(
                 "Timestamp,TimeSinceStart,PositionX,PositionY,PositionZ,RotationY," +
                 "EventOccurred,EventX,EventZ,EventDescription,UpArrow,DownArrow," +
@@ -19,7 +20,10 @@ public class Data {
     }
 
     public static void LogData(Transform t, int eventOccurred = 0, string eventTag = null, string eventDescription = "null") {
-        using (var writer = new StreamWriter("Assets/OutputFiles~/" + LogFile, true)) {
+        if (!Directory.Exists(outputFilesDir))
+            Directory.CreateDirectory(outputFilesDir);
+
+        using (var writer = new StreamWriter(outputFilesDir + LogFile, true)) {
             var PositionX = t.position.x.ToString();
             var PositionZ = t.position.z.ToString();
             var PositionY = t.position.y.ToString();
@@ -54,7 +58,7 @@ public class Data {
     }
 
     public static void WriteSum(string text, string fileName) {
-        using (var writer = new StreamWriter("Assets/OutputFiles~/" + fileName, false)) {
+        using (var writer = new StreamWriter(outputFilesDir + fileName, false)) {
             writer.Write(text + "\n");
             writer.Flush();
             writer.Close();
