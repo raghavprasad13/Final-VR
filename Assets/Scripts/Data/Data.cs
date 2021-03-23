@@ -8,6 +8,9 @@ public class Data {
     public static string outputFilesDir = Path.Combine("Assets", "OutputFiles~");
 
     public static void LogHeaders() {
+        if (!Directory.Exists(outputFilesDir))
+            Directory.CreateDirectory(outputFilesDir);
+
         using (var writer = new StreamWriter(outputFilesDir + LogFile, false)) {
             writer.Write(
                 "Timestamp,TimeSinceStart,PositionX,PositionY,PositionZ,RotationY," +
@@ -20,8 +23,6 @@ public class Data {
     }
 
     public static void LogData(Transform t, int eventOccurred = 0, string eventTag = null, string eventDescription = "null") {
-        if (!Directory.Exists(outputFilesDir))
-            Directory.CreateDirectory(outputFilesDir);
 
         using (var writer = new StreamWriter(outputFilesDir + LogFile, true)) {
             var PositionX = t.position.x.ToString();
@@ -52,14 +53,6 @@ public class Data {
                 Input.GetKey(KeyCode.RightArrow) ? 1 : 0,
                 Input.GetKey(KeyCode.Space) ? 1 : 0);
             writer.Write(str + "\n");
-            writer.Flush();
-            writer.Close();
-        }
-    }
-
-    public static void WriteSum(string text, string fileName) {
-        using (var writer = new StreamWriter(outputFilesDir + fileName, false)) {
-            writer.Write(text + "\n");
             writer.Flush();
             writer.Close();
         }
