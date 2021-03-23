@@ -21,7 +21,6 @@ Before building and running the project, there are a few prerequisites that need
   - WebGL Build Support
   - Windows Build Support (Mono)
   - Visual Studio (optional, download only if you don't have this installed on your system already)
-- `Fictrac`: Download and install Fictrac using the instructions [here](https://github.com/raghavprasad13/fictrac)
 
 ## Steps to build
 
@@ -34,7 +33,7 @@ Before building and running the project, there are a few prerequisites that need
 ## Running the project
 
 1. Press the play button
-2. Choose a Track (`.track`) file [choose either `random_5.track` or `lrt_strobe.track` for now]
+2. Choose a Track (`.track`) file [choose either `random_5.track` or `lrt_strobe.track` for now]. The track files reside in the project folder at `Assets/Resources/Tracks`
 3. Move the avatar around using the arrow keys or `WASD`
 4. Press `Q` to quit
 
@@ -44,13 +43,16 @@ For now, Fictrac has to be downloaded and installed separately. In the future, w
 
 ### Adjusting Fictrac settings
 
-For now Fictrac is being started from within the VR application with the Fictrac binary itself residing outside the VR application. Thus, in order to start Fictrac for Windows, we are using a `.bat` file which contains the command to start Fictrac. For Mac/Linux, passing the command as a string within the code suffices. The command to initiate Fictrac is
+Earlier, Fictrac was being started from within the VR application with the Fictrac binary itself residing outside the VR application. Thus, in order to start Fictrac for Windows, we used a `.bat` file which contains the command to start Fictrac. For Mac/Linux, passing the command as a string within the code suffices. The command to initiate Fictrac is
 
     <path to Fictrac binary/executable> <path to Fictrac config file>
 
-However, since Fictrac is being installed externally, the command to initiate Fictrac will need to be modified to the local installation.
+However, since Fictrac was being installed externally, the command to initiate Fictrac needed to be modified to the local installation.
 
-- **For Mac/Linux**: Modify `line 28` in `TrackBuilder.cs`
+Now, Fictrac is shipped with the VR application and resides in the project folder at `Assets\StreamingAssets\fictrac`. Thus, there is no need to modify the Fictrac inititation command to the local installation since now there is no need for a separate installation.
+
+This modification from the earlier version has only been implemented for macOS/Linux systems. Windows systems will have to modify the `.bat` file as follows:
+
 - **For Windows**: Modify `fictrac_starter.bat` which can be found in the project folder at `Assets\StreamingAssets\fictrac_starter.bat`
 
 Additionally, the main C# file concerned with Fictrac handling is `FictracController.cs`. Also `Constants.cs` contains a field called `FictracPort`. The value of this field should match the `out_port` (or `sock_port` in later versions of Fictrac) parameter value in the Fictrac config file
