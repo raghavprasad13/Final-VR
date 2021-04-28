@@ -45,13 +45,13 @@
     <trigger target="blackoutDispenser"/>
   </OnLoadTriggers> -->
 
-  <dispensers>
-    <audiodispenser name="rewardToneDispenser">
+  <!-- <dispensers> -->
+    <!-- <audiodispenser name="rewardToneDispenser">
       <sound name="reward" file="reward1.wav" gain="10.0" maxdistance="100" height="5" />
-    </audiodispenser>
+    </audiodispenser> -->
 
     <!-- <blackoutdispenser name="blackoutDispenser" maxTime="50000"/> -->
-  </dispensers>
+  <!-- </dispensers> -->
 
   <positions>
 
@@ -63,46 +63,46 @@
     
     <!--   Walls   -->
 
-    <position q1="-600" q2="0">
+    <!-- <position q1="-600" q2="0">
       <plane name="LeftWall" height="150" material="Rat-Cross.png">
         <facing x="1" y="0" z="0"/>
         <scale x="600" y="1" z="1200"/>
       </plane>            
-    </position>
+    </position> -->
 
-    <position q1="600" q2="0">
+    <!-- <position q1="600" q2="0">
       <plane name="RightWall" height="150" material="RatHexagon.png">
         <facing x="-1" y="0" z="0"/>
         <scale x="600" y="1" z="1200"/>
       </plane>
-    </position>
+    </position> -->
 
-    <position q1="0" q2="-600">
+    <!-- <position q1="0" q2="-600">
       <plane name="BackWall" height="150" material="Rat-Thing-1.png">
         <facing x="0" y="0" z="1"/>
         <scale x="1200" y="1" z="600"/>
       </plane>
-    </position>
+    </position> -->
 
-    <position q1="0" q2="600">
+    <!-- <position q1="0" q2="600">
       <plane name="FrontWall" height="150" material="Rat-ZigZag.png">
         <facing x="0" y="0" z="-1"/>
         <scale x="1200" y="1" z="600"/>
       </plane>
-    </position>
+    </position> -->
     
     <!-- Lower floor -->
 
-    <position q1="0" q2="0">
+    <!-- <position q1="0" q2="0">
       <plane name="LowerFloor" height="-150" material="checkered.png">
         <facing x="0" y="-1" z="0"/>
         <scale x="1200" y="1" z="1200"/>
       </plane>
-    </position>
+    </position> -->
     
     <!--//////////////////////////////////////////////////////////////////////////-->
 
-    <position q1="0" q2="0">
+    <!-- <position q1="0" q2="0">
 
 	    <well name="Well1" capacity="5" level="0" initialDelay="500" pulseDelay="400" pulseWidth="200" random="true" 
             q1min="-130" q1max="130" q2min="-130" q2max="130">
@@ -139,11 +139,12 @@
           <pillar height="50" setmaterial2="pillar_vertical_original.png"/>
         </well>
 
-    </position>
+    </position> -->
 
     <position q1="0" q2="164">
-        <lightbar name="Bar of light" timeperiod="10000" height="50" clockwise="true" numberofcyclesbeforeflip="10">
-            <tintcolor r="0" g="1" b="0"/>
+        <lightbar name="Bar of light" type="verticalbar" timeperiod="10000" height="50" clockwise="true" numberofcyclesbeforeflip="10">
+          <scale x="600" y="1" z="1200"/>
+          <tintcolor r="0" g="1" b="0"/>
         </lightbar>
     </position>
 

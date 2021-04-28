@@ -11,7 +11,7 @@ public class Data {
         if (!Directory.Exists(outputFilesDir))
             Directory.CreateDirectory(outputFilesDir);
 
-        using (var writer = new StreamWriter(outputFilesDir + LogFile, false)) {
+        using (var writer = new StreamWriter(Path.Combine(outputFilesDir, LogFile), false)) {
             writer.Write(
                 "Timestamp,TimeSinceStart,PositionX,PositionY,PositionZ,RotationY," +
                 "EventOccurred,EventX,EventZ,EventDescription,UpArrow,DownArrow," +

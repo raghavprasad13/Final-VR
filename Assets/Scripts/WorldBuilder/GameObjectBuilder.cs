@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -366,7 +367,8 @@ namespace Builder {
             if (lightBar == null)
                 return;
 
-            GameObject lightBarPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/LightBar");
+            GameObject lightBarPrefab = Resources.Load<GameObject>(Path.Combine("3D_Objects", "Prefabs", lightBar.Type));
+
             var lightBarObj = Instantiate(lightBarPrefab,
                                           new Vector3(lightBar.Center.x, lightBar.Height, lightBar.Center.z),
                                           Quaternion.identity);

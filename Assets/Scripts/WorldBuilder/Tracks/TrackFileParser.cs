@@ -442,14 +442,23 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 
 	public static void ParseLightBar(XmlElement lightBarElement, Vector2 position) {
 		string name = lightBarElement.GetAttribute("name");
+		string type = lightBarElement.GetAttribute("type");
 		float timePeriod = float.Parse(lightBarElement.GetAttribute("timeperiod")) * C.MillisecondToSecond;
 		float height = float.Parse(lightBarElement.GetAttribute("height")) * C.CentimeterToMeter;
+
 
 		XmlElement tintColorElement = lightBarElement.GetElementsByTagName("tintcolor")[0] as XmlElement;
 		float r = float.Parse(tintColorElement.GetAttribute("r"));
 		float g = float.Parse(tintColorElement.GetAttribute("g"));
 		float b = float.Parse(tintColorElement.GetAttribute("b"));
 
-		track.LightBar = new LightBar(new Vector3(position.x, 0, position.y), name, timePeriod, height, r, g, b);
+		XmlElement scaleElement = lightBarElement.GetElementsByTagName("scale")[0] as XmlElement;
+		float x = float.Parse(scaleElement.GetAttribute("x"));
+		float y = float.Parse(scaleElement.GetAttribute("y"));
+		float z = float.Parse(scaleElement.GetAttribute("z"));
+
+		Vector3 scale = new Vector3(x, y, z);
+
+		track.LightBar = new LightBar(new Vector3(position.x, 0, position.y), type, name, height, timePeriod, scale, r, g, b);
 	}
 }
