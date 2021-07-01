@@ -56,15 +56,31 @@ namespace Builder {
 
 				planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
 
+                //Vector3.right --> (1,0,0)
+                //Vector3.forward --> (0,0,1)
+
+                // plane facing direction
                 if (plane.Facing.z == -1)
                     planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
-                else if (plane.Facing.z == 1)
+                if (plane.Facing.z == 1)
                     planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
-                else if (plane.Facing.x == -1)
+                if (plane.Facing.x == -1)
                     planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
-                else if (plane.Facing.x == 1)
+                if (plane.Facing.x == 1)
                     planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
+                //newly added
+                
+                if (plane.Facing.z == -0.5) // vertical rotate 45 counterclockwise (left up)
+                    planeGameObject.transform.Rotate(-90f, -45f, 0, Space.World);
+                    
+                if (plane.Facing.z == 0.5) // vertical rotate 45 clockwise (right up)
+                    planeGameObject.transform.Rotate(-90f, 45f, 0, Space.World);
 
+                if (plane.Facing.x == 0.5) // left down
+                    planeGameObject.transform.Rotate(-90f, -135f, 0, Space.World);
+                
+                if (plane.Facing.x == -0.5) // right down
+                    planeGameObject.transform.Rotate(-90f, 135f, 0, Space.World);
 
                 planeGameObject.name = plane.Name;
 			}
