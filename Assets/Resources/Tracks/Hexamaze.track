@@ -62,24 +62,114 @@
     <!--left up-->
     <position q1="-433.0127" q2="750">
       <plane name="leftup" height="50" material="Rat-Cross.png">
-        <facing x="45" y="0" z="45"/>
+        <facing x="0" y="0" z="-2"/>
         <scale x="1000" y="1" z="100"/>
       </plane>            
     </position>
 
-    <!--left center-->
+    <!--inner left up, facing right down-->
+    <position q1="-389.7114" q2="575">
+      <plane name="innerleftup" height="50" material="Rat-Cross.png">
+        <facing x="-2" y="0" z="0"/>
+        <scale x="700" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--left middle-->
     <position q1="-866.0254" q2="0">
-      <plane name="leftmid" height="50" material="Rat-Cross.png">
-        <facing x="0" y="0" z="-1"/>
-        <scale x="1000" y="1" z="100"/>
+      <plane name="leftmiddle" height="50" material="Rat-Cross.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="100" y="1" z="1000"/>
+      </plane>            
+    </position>
+
+    <!--inner left middle short-->
+    <position q1="-692.8203" q2="0">
+      <plane name="leftmiddleshort" height="50" material="Rat-Cross.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="100" y="1" z="800"/>
+      </plane>            
+    </position>
+
+    <!--inner left middle long-->
+    <position q1="-86.60254" q2="0">
+      <plane name="leftmiddlelong" height="50" material="Rat-Cross.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="100" y="1" z="1500"/>
       </plane>            
     </position>
 
     <!--left down-->
-    <position q1="-433.0127" q2="750">
+    <position q1="-433.0127" q2="-750">
       <plane name="leftdown" height="50" material="Rat-Cross.png">
-        <facing x="0" y="0" z="-1"/>
+        <facing x="2" y="0" z="0"/>
         <scale x="1000" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--inner left down, facing right up-->
+    <position q1="-389.7114" q2="-575">
+      <plane name="innerleftdown" height="50" material="Rat-Cross.png">
+        <facing x="0" y="0" z="2"/>
+        <scale x="700" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--Right side-->
+
+    <!--right up-->
+    <position q1="433.0127" q2="750">
+      <plane name="rightup" height="50" material="Rat-Cross.png">
+        <facing x="0" y="0" z="2"/>
+        <scale x="1000" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--inner right up, facing left down-->
+    <position q1="389.7114" q2="575">
+      <plane name="innerrightup" height="50" material="Rat-Cross.png">
+        <facing x="2" y="0" z="0"/>
+        <scale x="700" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--right middle-->
+    <position q1="866.0254" q2="0">
+      <plane name="rightmiddle" height="50" material="Rat-Cross.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="100" y="1" z="1000"/>
+      </plane>            
+    </position>
+
+    <!--inner right middle short-->
+    <position q1="692.8203" q2="0">
+      <plane name="rightmiddleshort" height="50" material="Rat-Cross.png">
+        <facing x="1" y="0" z="0"/>
+        <scale x="100" y="1" z="800"/>
+      </plane>            
+    </position>
+
+    <!--inner right middle long-->
+    <position q1="86.60254" q2="0">
+      <plane name="rightmiddlelong" height="50" material="Rat-Cross.png">
+        <facing x="-1" y="0" z="0"/>
+        <scale x="100" y="1" z="1500"/>
+      </plane>            
+    </position>
+
+    <!--right down-->
+    <position q1="433.0127" q2="-750">
+      <plane name="rightdown" height="50" material="Rat-Cross.png">
+        <facing x="-2" y="0" z="0"/>
+        <scale x="1000" y="1" z="100"/>
+      </plane>            
+    </position>
+
+    <!--inner right down, facing left up-->
+    <position q1="389.7114" q2="-575">
+      <plane name="innerrightdown" height="50" material="Rat-Cross.png">
+        <facing x="0" y="0" z="-2"/>
+        <scale x="700" y="1" z="100"/>
       </plane>            
     </position>
     
@@ -88,7 +178,7 @@
     <position q1="0" q2="0">
       <plane name="LowerFloor" height="-150" material="checkered.png">
         <facing x="0" y="-1" z="0"/>
-        <scale x="1000" y="1000" z="1000"/>
+        <scale x="3000" y="1000" z="3000"/>
       </plane>
     </position>
     

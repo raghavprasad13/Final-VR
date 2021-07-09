@@ -61,13 +61,17 @@ namespace Builder {
 
                 // plane facing direction
                 if (plane.Facing.z == -1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
+                    planeGameObject.transform.Rotate(-90f, 0, 0, Space.World);
+                    //planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
                 if (plane.Facing.z == 1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+                    planeGameObject.transform.Rotate(90f, 0, 0, Space.World);
+                    //planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
                 if (plane.Facing.x == -1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+                    planeGameObject.transform.Rotate(0, 0, 90f, Space.World);
+                    //planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
                 if (plane.Facing.x == 1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
+                    planeGameObject.transform.Rotate(0, 0, -90f, Space.World);
+                    //planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
                 //newly added
                 
                 if (plane.Facing.z == -0.5) // vertical rotate 45 counterclockwise (left up)
@@ -81,6 +85,19 @@ namespace Builder {
                 
                 if (plane.Facing.x == -0.5) // right down
                     planeGameObject.transform.Rotate(-90f, 135f, 0, Space.World);
+
+                //deal with 30/60 degrees
+                if (plane.Facing.z == -2) // left up
+                    planeGameObject.transform.Rotate(-90f, -30f, 0, Space.World);
+                    
+                if (plane.Facing.z == 2) // right up
+                    planeGameObject.transform.Rotate(-90f, 30f, 0, Space.World);
+
+                if (plane.Facing.x == 2) // left down
+                    planeGameObject.transform.Rotate(-90f, -150f, 0, Space.World);
+                
+                if (plane.Facing.x == -2) // right down
+                    planeGameObject.transform.Rotate(-90f, 150f, 0, Space.World);
 
                 planeGameObject.name = plane.Name;
 			}
