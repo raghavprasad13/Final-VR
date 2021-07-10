@@ -72,8 +72,8 @@ namespace Builder {
                 if (plane.Facing.x == 1)
                     planeGameObject.transform.Rotate(0, 0, -90f, Space.World);
                     //planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
-                //newly added
                 
+                //deal with 45 degrees
                 if (plane.Facing.z == -0.5) // vertical rotate 45 counterclockwise (left up)
                     planeGameObject.transform.Rotate(-90f, -45f, 0, Space.World);
                     
@@ -98,6 +98,13 @@ namespace Builder {
                 
                 if (plane.Facing.x == -2) // right down
                     planeGameObject.transform.Rotate(-90f, 150f, 0, Space.World);
+
+                if (plane.Facing.z == 67.5) //facing the direction of right down
+                    planeGameObject.transform.Rotate(-90f, -67.5f, 0, Space.World);
+
+                if (plane.Facing.x == 67.5) //facing the direction of left up
+                    planeGameObject.transform.Rotate(-90f, 112.5f, 0, Space.World);
+                    
 
                 planeGameObject.name = plane.Name;
 			}
