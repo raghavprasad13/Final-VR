@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<track type="plane" u="5">
+
+  <bgcolor r="0.2" g="0.2" b="0.2" />
+
+  <OnLoadTriggers>
+    <trigger target="ball_decoupler" />
+  </OnLoadTriggers> 
+
+  <dispensers>
+    <!-- With a ball decouple dispenser, if we set maxtime to any negative value, it will decouple the ball indefinitely -->
+    <balldecoupledispenser name="ball_decoupler" maxtime="-1" />
+  </dispensers>
+
+  <positions>
+
+    <position q1="0" q2="0">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>
+    </position>
+
+    <position q1="0" q2="0">
+      <lightbar name="torus of light" type="torus" timeperiod="10000" height="50" positivedirection="true">
+        <scale x="100" y="100" z="100"/>
+        <tintcolor r="0" g="1" b="0"/>
+      </lightbar>
+    </position>
+
+  </positions>
+
+</track>

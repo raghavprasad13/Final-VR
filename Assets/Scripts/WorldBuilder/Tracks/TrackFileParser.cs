@@ -42,11 +42,14 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 							   "livezone",
 							   "groundPolygon" };
 
-		List<Vector3> vertices = new List<Vector3>();
-		foreach(string str in tempArray) {
+		_ = new List<Vector3>();
+		foreach (string str in tempArray) {
 			element = rootElement.GetElementsByTagName(str)[0] as XmlElement;
+			List<Vector3> vertices;
 			if (element != null)
 				vertices = GetVertices(element);
+			else
+				break;
 
 			if (str.Equals("groundPolygon"))
 				track.GroundPolygon = new GroundPolygon(vertices, element.GetAttribute("material"));
@@ -56,6 +59,7 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 				track.LiveZone = vertices;
 		}
 
+		// Background color of the track -> Skybox color
 		element = rootElement.GetElementsByTagName("bgcolor")[0] as XmlElement;
 		if(element != null) {
 			float red = float.Parse(element.GetAttribute("r"));
@@ -63,6 +67,18 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 			float blue = float.Parse(element.GetAttribute("b"));
 
 			track.Bgcolor = new Color(red, green, blue);
+		}
+
+		element = rootElement.GetElementsByTagName("pulse")[0] as XmlElement;
+		if (element != null) {
+			float red = float.Parse(element.GetAttribute("r"));
+			float green = float.Parse(element.GetAttribute("g"));
+			float blue = float.Parse(element.GetAttribute("b"));
+
+			float timePeriod = float.Parse(element.GetAttribute("timeperiod")) * C.MillisecondToSecond;
+
+			track.PulseColor = new Color(red, green, blue);
+			track.PulseTimePeriod = timePeriod;
 		}
 
 		element = rootElement.GetElementsByTagName("OnLoadTriggers")[0] as XmlElement;
@@ -190,11 +206,18 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 			string name = element.GetAttribute("name");
 			dispensers.Add(new MovementInversionDispenser(name));
 		}
- 
+
+		// Ball decoupler
+		element = dispensersNode.GetElementsByTagName("balldecoupledispenser")[0] as XmlElement;
+		if (element != null) {
+			string name = element.GetAttribute("name");
+			float maxTime = float.Parse(element.GetAttribute("maxtime"));
+			dispensers.Add(new BallDecoupleDispenser(name, maxTime));
+		}
+
 		/* TODO: Add code for other kinds of dispensers
 		 * Gain dispenser
 		 * Audio blackout dispenser
-		 * Ball Decouple Dispenser
 		 * Random rotation dispenser
 		 * Random mover
 		 * Discrete mover
@@ -445,6 +468,7 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 		string type = lightBarElement.GetAttribute("type");
 		float timePeriod = float.Parse(lightBarElement.GetAttribute("timeperiod")) * C.MillisecondToSecond;
 		float height = float.Parse(lightBarElement.GetAttribute("height")) * C.CentimeterToMeter;
+		bool isDirectionPositive = bool.Parse(lightBarElement.GetAttribute("positivedirection"));
 
 
 		XmlElement tintColorElement = lightBarElement.GetElementsByTagName("tintcolor")[0] as XmlElement;
@@ -457,8 +481,13 @@ public class TrackFileParser : MonoBehaviour {	// This class inherits from MonoB
 		float y = float.Parse(scaleElement.GetAttribute("y"));
 		float z = float.Parse(scaleElement.GetAttribute("z"));
 
-		Vector3 scale = new Vector3(x, y, z);
+		XmlElement rewardTriggerElement = lightBarElement.GetElementsByTagName("trigger")[0] as XmlElement;
+		float rewardTriggerAngle = float.Parse(rewardTriggerElement.GetAttribute("angle"));		// TODO: add reward angle parameter in track file
+		bool switchRewardPosition = bool.Parse(rewardTriggerElement.GetAttribute("switch"));
+		string rewardTriggerTarget = rewardTriggerElement.GetAttribute("target");
 
-		track.LightBar = new LightBar(new Vector3(position.x, 0, position.y), type, name, height, timePeriod, scale, r, g, b);
+		Vector3 scale = new Vector3(x, y, z) * C.CentimeterToMeter;
+
+		track.LightBar = new LightBar(new Vector3(position.x, 0, position.y), type, name, height, timePeriod, scale, r, g, b, isDirectionPositive, rewardTriggerAngle, switchRewardPosition, rewardTriggerTarget);
 	}
 }

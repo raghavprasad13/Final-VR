@@ -52,12 +52,12 @@ public class RewardDispenser : Dispenser {
 		/* TODO: Arduino code using Ardity
 		 * Followed by trigger
 		 */
-		StartCoroutine(Delay(initialDelay));
-		for (int i = 1; i <= burstCount; i++) {
-			// activate arduino for duration
-			if (i < burstCount)
-				StartCoroutine(Delay(pulseDelay));
-		}
+		//StartCoroutine(Delay(initialDelay));
+		//for (int i = 1; i <= burstCount; i++) {
+		//	// activate arduino for duration
+		//	if (i < burstCount)
+		//		StartCoroutine(Delay(pulseDelay));
+		//}
 
 		print("REWARD DISPENSER");
 

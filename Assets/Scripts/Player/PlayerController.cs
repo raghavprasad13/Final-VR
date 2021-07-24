@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 
 using C = Const.Constants;
 using F = Utils.FictracController;
+using CsvParser = Utils.CsvFileParser;
+using System.Collections.Generic;
 
 // This class is the primary player script, it allows the participant to move around.
 /// <summary>
@@ -42,15 +44,12 @@ namespace wallSystem
         public const float TRANSLATION_GAIN = 1f;
         public const float ROTATION_GAIN = 50f;
 
+        private int replayCoordinateIndex = 0;
+        private List<(Vector3, float)> replayCoordinates = null;
+
         private void Start() {
             //transform.position = 
             Random.InitState(DateTime.Now.Millisecond);
-
-            // Choose a random starting angle if the value is not set in trackfile
-            _iniRotation = Random.Range(0, 360);
-            /* TODO: Add code to check track file for initial rotation of character */
-
-            transform.Rotate(0, _iniRotation, 0);
 
             try {
                 _controller = GetComponent<CharacterController>();
@@ -66,6 +65,9 @@ namespace wallSystem
             Data.LogHeaders();
 
 			F.FictracClient();
+
+            if (F.isReplay)
+                replayCoordinates = CsvParser.GetCoordinates();
 		}
 
         //// Start the character. If init from enclosure, this allows "s" to determine the start position
@@ -220,7 +222,7 @@ namespace wallSystem
             //var rotation = h * DS.GetData().CharacterData.RotationSpeed * Time.deltaTime;
             //var rotation = h * step_speed * Time.deltaTime;
             //var rotation = (heading + step_dir) * Time.deltaTime * ROTATION_GAIN;
-            Vector3 trackballTranslation = new Vector3(h, 0, v) * F.ballDecoupleToggle * F.movementInversionToggle;
+            Vector3 trackballTranslation = F.ballDecoupleToggle * F.movementInversionToggle * new Vector3(h, 0, v);
             Vector3 keyboardTranslation = new Vector3(0, 0, Input.GetAxis("Vertical"));
 
             float trackballRotation = F.deltaRotationY * F.ballDecoupleToggle * F.movementInversionToggle;
@@ -242,6 +244,21 @@ namespace wallSystem
             _controller.Move(_moveDirection * Time.deltaTime);
 
             transform.Rotate(0, rotation, 0);
+
+            //if (F.isReplay && replayCoordinateIndex < replayCoordinates.Count - 1)
+            //    replayCoordinateIndex++;
+        }
+
+        private void ComputeMovementReplay() {
+            transform.position = replayCoordinates[replayCoordinateIndex].Item1;
+            transform.eulerAngles = new Vector3(0, replayCoordinates[replayCoordinateIndex].Item2, 0);
+
+            if (replayCoordinateIndex < replayCoordinates.Count - 1)
+                replayCoordinateIndex++;
+            else {
+                print("Replay completed");
+                // Code to turn off all lights
+            }
         }
 
         private void doInitialRotation(){
@@ -273,7 +290,10 @@ namespace wallSystem
             } else {
 				// Move the character.
 				try {
-                    ComputeMovement();
+                    if (!F.isReplay)
+                        ComputeMovement();
+                    else
+                        ComputeMovementReplay();
                 }
                 catch (MissingComponentException) {
                     Debug.LogWarning("Skipping movement calc: instructional trial");

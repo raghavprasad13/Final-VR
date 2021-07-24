@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public abstract class Track {
 	Color bgcolor;
+	Color pulseColor;
+	float pulseTimePeriod;
 	List<Well> wells;
 	ProbabilisticDistanceTrigger probDistanceTrigger; // TODO: What are probabilistic distance triggers
 	List<Dispenser> dispensers;
@@ -63,6 +65,16 @@ public abstract class Track {
 		set { bgcolor = value; }
 	}
 
+	public Color PulseColor {
+		get { return pulseColor; }
+		set { pulseColor = value; }
+	}
+
+	public float PulseTimePeriod {
+		get { return pulseTimePeriod; }
+		set { pulseTimePeriod = value; }
+	}
+
 	public List<OccupationZone> OccupationZones {
 		get { return occupationZones; }
 		set { occupationZones = value; }
@@ -88,6 +100,8 @@ public abstract class Track {
 		boundary = new List<Vector3>();
 		liveZone = new List<Vector3>();
 		bgcolor = Color.black;
+		pulseColor = Color.black;
+		pulseTimePeriod = 0f;
 		occupationZones = new List<OccupationZone>();
 		onLoadTriggers = new List<Trigger>();
 		lightBar = null;

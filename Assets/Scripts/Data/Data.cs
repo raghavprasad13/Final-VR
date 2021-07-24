@@ -24,7 +24,7 @@ public class Data {
 
     public static void LogData(Transform t, int eventOccurred = 0, string eventTag = null, string eventDescription = "null") {
 
-        using (var writer = new StreamWriter(outputFilesDir + LogFile, true)) {
+        using (var writer = new StreamWriter(Path.Combine(outputFilesDir, LogFile), true)) {
             var PositionX = t.position.x.ToString();
             var PositionZ = t.position.z.ToString();
             var PositionY = t.position.y.ToString();

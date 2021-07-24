@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<track type="plane" u="5">
+
+  <bgcolor r="0.2" g="0.2" b="0.2" />
+
+  <!-- <OnLoadTriggers>
+    <trigger target="ball_decoupler" />
+  </OnLoadTriggers>  -->
+
+  <positions>
+
+    <position q1="0" q2="0">
+      <avatar height="0">
+        <direction q1="0" q2="1" />
+      </avatar>
+    </position>
+
+    <position q1="0" q2="0">
+      <lightbar name="Bar of light" type="horizontalbar" timeperiod="1000" height="0" positivedirection="true" numberofcyclesbeforeflip="10">
+        <scale x="6000" y="100" z="100"/>
+        <tintcolor r="0" g="1" b="0"/>
+      </lightbar>
+    </position>
+
+  </positions>
+
+</track>

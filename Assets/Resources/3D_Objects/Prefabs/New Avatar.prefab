@@ -155,7 +155,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 3e96cc37d117f4cd2b750571075e825e, type: 2}
   m_TargetDisplay: 0
@@ -238,7 +238,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: fd628ac4bd55e4d109305dbc83ecd4ad, type: 2}
   m_TargetDisplay: 0
@@ -321,7 +321,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: df04839a60d0c4029b75d1d4c6f453c9, type: 2}
   m_TargetDisplay: 0
@@ -393,7 +393,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4460562914442092300
 Transform:
   m_ObjectHideFlags: 0
@@ -510,7 +510,7 @@ Camera:
   m_GameObject: {fileID: 3454805348847642532}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -532,7 +532,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1591
+    m_Bits: 5687
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 1
@@ -615,7 +615,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 291f4357c3f9340ee82c62eeb10732dd, type: 2}
   m_TargetDisplay: 0
@@ -698,7 +698,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 4c43926dd90334cb9a40a4595c5997e7, type: 2}
   m_TargetDisplay: 0
@@ -781,7 +781,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 11470599f0c714ef38fab967328ca6a9, type: 2}
   m_TargetDisplay: 0

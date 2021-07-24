@@ -22,9 +22,9 @@
   <bgcolor r="0.2" g="0.2" b="0.2" />
   
 
-  <OnLoadTriggers>
+  <!-- <OnLoadTriggers>
     <trigger target="back_reward_hider" />
-  </OnLoadTriggers>  
+  </OnLoadTriggers>   -->
 
   <dispensers>
 

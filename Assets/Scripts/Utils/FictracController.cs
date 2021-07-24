@@ -23,6 +23,9 @@ namespace Utils {
         public static float deltaRotationY;
         public static int ballDecoupleToggle;   // default value is 1, changes to 0 when the ball is decoupled
         public static int movementInversionToggle;  // default value is 1, changes to -1 when the moevement inversion occurs
+        public static bool isReplay = false;
+
+        public static string replayCsvFileName = null;
 
         private static string data = "";
 

@@ -266,7 +266,7 @@ namespace Builder {
                 boundaries.transform.parent = parent.transform;
 
 			GameObject boundaryGeneratorPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
-            //print(boundaryGeneratorPrefab.name);
+            // print(boundaryGeneratorPrefab.name);
 
             for(int i = 1; i <= boundaryVertices.Count; i++) {
                 var length = (boundaryVertices[i % boundaryVertices.Count] - boundaryVertices[(i - 1) % boundaryVertices.Count]).magnitude;
@@ -275,7 +275,9 @@ namespace Builder {
                 Vector3 correctDirection = Vector3.zero - center;
 
                 var boundaryObj = Instantiate(boundaryGeneratorPrefab, new Vector3(center.x, 0.3f, center.z), Quaternion.identity);
-                boundaryObj.transform.parent = boundaries.transform;
+
+                if(parent != null)
+                    boundaryObj.transform.parent = boundaries.transform;
 
                 boundaryObj.transform.localScale = new Vector3(length + 0.1f, 0.6f, 1e-4f);
                 Vector3 facing = boundaryObj.transform.forward;
@@ -372,16 +374,43 @@ namespace Builder {
             var lightBarObj = Instantiate(lightBarPrefab,
                                           new Vector3(lightBar.Center.x, lightBar.Height, lightBar.Center.z),
                                           Quaternion.identity);
-
-            if (parent != null)
-                lightBarObj.transform.parent = parent.transform;
+            lightBarObj.name = lightBar.Name;
+            lightBarObj.transform.localScale = lightBar.Scale;
 
             Material material = Resources.Load<Material>("Materials/Emissive Material");
             material.SetColor("_Color", lightBar.TintColor);
             material.SetColor("_EmissionColor", lightBar.TintColor);
 
             lightBarObj.GetComponent<MeshRenderer>().material = material;
-		}
+            lightBarObj.AddComponent<Rigidbody>();
+            lightBarObj.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+            lightBarObj.layer = 12;
+
+            GameObject cubePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
+
+            var triggerObj = Instantiate(cubePrefab, TrackFileParser.track.Avatar.Position, Quaternion.identity);
+
+            triggerObj.transform.rotation = Quaternion.AngleAxis(-90, Vector3.up);
+
+            triggerObj.transform.localScale = new Vector3(1000, 1000, 1e-4f);
+            triggerObj.name = "Reward Trigger";
+            triggerObj.GetComponent<BoxCollider>().isTrigger = true;
+
+            var triggerObjCurrentPosition = triggerObj.transform.position;
+            triggerObj.transform.position = new Vector3(triggerObjCurrentPosition.x, triggerObjCurrentPosition.y, 500);
+
+			triggerObj.transform.RotateAround(TrackFileParser.track.Avatar.Position, Vector3.up, lightBar.RewardTriggerAngle);
+
+			triggerObj.AddComponent<LightbarAction>();
+
+            triggerObj.layer = 12;
+
+            if (parent != null) {
+                lightBarObj.transform.parent = parent.transform;
+                triggerObj.transform.parent = parent.transform;
+            }
+        }
 
         public static bool IsOverlapping(List<Well> wells, Well well) {
             foreach(Well assignedWell in wells) {

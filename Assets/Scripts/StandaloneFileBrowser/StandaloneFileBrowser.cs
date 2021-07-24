@@ -24,17 +24,17 @@ namespace SFB {
 #elif UNITY_EDITOR
             _platformWrapper = new StandaloneFileBrowserEditor();
 #endif
-        }
+		}
 
-        /// <summary>
-        /// Native open file dialog
-        /// </summary>
-        /// <param name="title">Dialog title</param>
-        /// <param name="directory">Root directory</param>
-        /// <param name="extension">Allowed extension</param>
-        /// <param name="multiselect">Allow multiple file selection</param>
-        /// <returns>Returns array of chosen paths. Zero length array when cancelled</returns>
-        public static string[] OpenFilePanel(string title, string directory, string extension, bool multiselect) {
+		/// <summary>
+		/// Native open file dialog
+		/// </summary>
+		/// <param name="title">Dialog title</param>
+		/// <param name="directory">Root directory</param>
+		/// <param name="extension">Allowed extension</param>
+		/// <param name="multiselect">Allow multiple file selection</param>
+		/// <returns>Returns array of chosen paths. Zero length array when cancelled</returns>
+		public static string[] OpenFilePanel(string title, string directory, string extension, bool multiselect) {
             var extensions = string.IsNullOrEmpty(extension) ? null : new [] { new ExtensionFilter("", extension) };
             return OpenFilePanel(title, directory, extensions, multiselect);
         }

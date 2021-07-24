@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<track type="plane" u="5">
+    <bgcolor r="0.0" g="0.0" b="0.0" />
+    <pulse r="1.0" g="1.0" b="1.0" timeperiod="50000" />
+
+    <positions>
+        <position q1="0" q2="0">
+            <avatar height="0">
+                <direction q1="0" q2="1" />
+            </avatar>
+        </position>
+    </positions>
+</track>
