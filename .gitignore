@@ -1,4 +1,7 @@
 .DS_Store
+Assets/.DS_Store
+ProjectSettings/.DS_Store
+packages.config
 .vs/
 Assembly-CSharp.csproj
 FinalVR.sln
