@@ -81,4 +81,4 @@ The code requires the name of the Arduino Serial port beforehand. Currently this
 
 ## For contributors
 
-Only push the `Assets` and `ProjectSettings` folders (and `README.md`) of the Unity project to GitHub. These folders are sufficient to recreate the project. If you try to push other parts of the project it may be rejected due to Github's 100MB file size limit. Make sure to use [GitHub Flow](https://guides.github.com/introduction/flow/index.html) to make changes to the repository.
+**Only push the `Assets` and `ProjectSettings` folders (and `README.md`) of the Unity project to GitHub.** These folders are sufficient to recreate the project. If you try to push other parts of the project it may be rejected due to Github's 100MB file size limit. Make sure to use [GitHub Flow](https://guides.github.com/introduction/flow/index.html) to make changes to the repository.

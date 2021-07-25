@@ -1,0 +1,12 @@
+.DS_Store
+.vs/
+Assembly-CSharp.csproj
+FinalVR.sln
+Library/
+Logs/
+Packages/
+Scripts/
+Temp/
+Tracks/
+UserSettings/
+obj/
