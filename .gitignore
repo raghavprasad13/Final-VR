@@ -4,7 +4,7 @@ ProjectSettings/.DS_Store
 packages.config
 .vs/
 Assembly-CSharp.csproj
-FinalVR.sln
+*.sln
 Library/
 Logs/
 Packages/
