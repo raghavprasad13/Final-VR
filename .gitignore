@@ -5,6 +5,7 @@ packages.config
 .vs/
 Assembly-CSharp.csproj
 *.sln
+*.csproj
 Library/
 Logs/
 Packages/

@@ -30,7 +30,7 @@ public class TrackBuilder : MonoBehaviour {
         if (SystemInfo.operatingSystem.Contains("Windows"))
             F.StartFictrac();
         else {
-            string command = Path.Combine(Application.streamingAssetsPath, "fictrac", "bin", "fictrac") + " " + Path.Combine(Application.streamingAssetsPath, "fictrac", "config.txt");
+            string command = Path.Combine(Application.streamingAssetsPath, "fictrac", "bin", "fictrac") + " " + Path.Combine(Application.streamingAssetsPath, "fictrac", "vr_fictrac_config.txt");
             F.StartFictrac(command);
         }
 

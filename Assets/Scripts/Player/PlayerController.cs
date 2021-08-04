@@ -225,10 +225,10 @@ namespace wallSystem
             Vector3 trackballTranslation = F.ballDecoupleToggle * F.movementInversionToggle * new Vector3(h, 0, v);
             Vector3 keyboardTranslation = new Vector3(0, 0, Input.GetAxis("Vertical"));
 
-            float trackballRotation = F.deltaRotationY * F.ballDecoupleToggle * F.movementInversionToggle;
+            float trackballRotation = F.deltaRotationY * F.ballDecoupleToggle * F.movementInversionToggle * Mathf.Rad2Deg;
             float keyboardRotation = Input.GetAxis("Horizontal");
 
-            var rotation = (trackballRotation + (keyboardRotation * ROTATION_GAIN)) * Time.deltaTime;
+            var rotation = (trackballRotation + (keyboardRotation * ROTATION_GAIN));
 
 			// This calculates the forward speed frame rate independent
 			_moveDirection = (trackballTranslation + keyboardTranslation) * TRANSLATION_GAIN; 
@@ -241,10 +241,11 @@ namespace wallSystem
 
             // We move iff rotation is 0
             //if (Math.Abs(Mathf.Abs(rotation)) < tolerance)
-            _controller.Move(_moveDirection * Time.deltaTime);
+            _controller.Move(_moveDirection);
 
             transform.Rotate(0, rotation, 0);
 
+            print("Fictrac data received -> deltaForward: " + F.deltaForward + ", deltaSide: " + F.deltaSide + ", deltaRotationY: " + F.deltaRotationY + ", ballDecoupleToggle: " + F.ballDecoupleToggle);
             //if (F.isReplay && replayCoordinateIndex < replayCoordinates.Count - 1)
             //    replayCoordinateIndex++;
         }

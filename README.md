@@ -6,9 +6,12 @@
   - [Running the project](#running-the-project)
   - [Fictrac](#fictrac)
     - [Adjusting Fictrac settings](#adjusting-fictrac-settings)
-    - [Shutting down Fictrac](#shutting-down-fictrac)
       - [Windows](#windows)
       - [macOS](#macos)
+      - [For developers](#for-developers)
+    - [Shutting down Fictrac](#shutting-down-fictrac)
+      - [Windows](#windows-1)
+      - [macOS](#macos-1)
   - [Neuralynx](#neuralynx)
   - [For contributors](#for-contributors)
 
@@ -43,19 +46,30 @@ For now, Fictrac has to be downloaded and installed separately. In the future, w
 
 ### Adjusting Fictrac settings
 
-Earlier, Fictrac was being started from within the VR application with the Fictrac binary itself residing outside the VR application. Thus, in order to start Fictrac for Windows, we used a `.bat` file which contains the command to start Fictrac. For Mac/Linux, passing the command as a string within the code suffices. The command to initiate Fictrac is
+Fictrac is shipped with the VR application and resides in the project folder at `Assets\StreamingAssets\fictrac`. Both macOS and Windows builds of Fictrac are included at `Assets/StreamingAssets/fictrac/macos` and `Assets\StreamingAssets\fictrac\windows` respectively. Thus, there is no need for a separate installation.
 
-    <path to Fictrac binary/executable> <path to Fictrac config file>
+The VR needs 2 elements of Fictrac to be in place in order to use it:
 
-However, since Fictrac was being installed externally, the command to initiate Fictrac needed to be modified to the local installation.
+- The Fictrac binary/excutable
+- The Fictrac config file
 
-Now, Fictrac is shipped with the VR application and resides in the project folder at `Assets\StreamingAssets\fictrac`. Thus, there is no need to modify the Fictrac inititation command to the local installation since now there is no need for a separate installation.
+According to the OS you are using, here is where you will find and modify these elements:
 
-This modification from the earlier version has only been implemented for macOS/Linux systems. Windows systems will have to modify the `.bat` file as follows:
+#### Windows
 
-- **For Windows**: Modify `fictrac_starter.bat` which can be found in the project folder at `Assets\StreamingAssets\fictrac_starter.bat`
+- **Fictrac executable**: Found at `F:\Lab\VR_Room3\VREngines\VRFicTrac_6-7\FicTrac2.01\bin\Release\fictrac.exe`. Does not need to be modified (unless a newer version of Fictrac needs to be used). Preserve the filename `fictrac.exe` and its location.
+- **Fictrac config file**: Found at `F:\Lab\VR_Room3\VREngines\VRFicTrac_6-7\FicTrac2.01\bin\Release\vr_fictrac_config.txt`. Should be modified every time there is a change required in Fictrac configuration. Preserve the filename `vr_fictrac_config.txt` and its location.
 
-Additionally, the main C# file concerned with Fictrac handling is `FictracController.cs`. Also `Constants.cs` contains a field called `FictracPort`. The value of this field should match the `out_port` (or `sock_port` in later versions of Fictrac) parameter value in the Fictrac config file
+The Fictrac build for Windows is extrenal to the VR project and is connected to the VR via `fictrac_starter.bat` which can be found in the VR project folder at `Assets\StreamingAssets\fictrac_starter.bat`
+
+#### macOS
+
+- **Fictrac executable**: Found at `Assets/StreamingAssets/fictrac/bin/fictrac`. Does not need to be modified (unless a newer version of Fictrac needs to be used). Preserve the filename `fictrac` and its location.
+- **Fictrac config file**: Found at `Assets/StreamingAssets/fictrac/vr_fictrac_config.txt`. Should be modified every time there is a change required in Fictrac configuration. Preserve the filename `vr_fictrac_config.txt` and its location.
+
+#### For developers
+
+The main C# file concerned with Fictrac handling is `FictracController.cs`. Also `Constants.cs` contains a field called `FictracPort`. The value of this field should match the `out_port` (or `sock_port` in later versions of Fictrac) parameter value in the Fictrac config file.
 
 ### Shutting down Fictrac
 
@@ -81,4 +95,4 @@ The code requires the name of the Arduino Serial port beforehand. Currently this
 
 ## For contributors
 
-**Only push the `Assets` and `ProjectSettings` folders (and `README.md`) of the Unity project to GitHub.** These folders are sufficient to recreate the project. If you try to push other parts of the project it may be rejected due to Github's 100MB file size limit. Make sure to use [GitHub Flow](https://guides.github.com/introduction/flow/index.html) to make changes to the repository.
+**Only push the `Assets` and `ProjectSettings` folders (and `README.md` and `.gitignore`) of the Unity project to GitHub.** These folders are sufficient to recreate the project. If you try to push other parts of the project it may be rejected due to Github's 100MB file size limit. Make sure to use [GitHub Flow](https://guides.github.com/introduction/flow/index.html) to make changes to the repository.
