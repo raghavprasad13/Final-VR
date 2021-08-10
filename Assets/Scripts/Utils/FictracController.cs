@@ -109,9 +109,9 @@ namespace Utils {
             string[] tokens = line.Split(delim, StringSplitOptions.RemoveEmptyEntries);
 
             frameNumber = float.Parse(tokens[1]);
-            deltaForward = float.Parse(tokens[20]);
-            deltaSide = float.Parse(tokens[21]);
-            deltaRotationY = float.Parse(tokens[7]);
+            deltaForward = float.Parse(tokens[6]);      // forward-backward movement; X
+            deltaSide = float.Parse(tokens[7]);         // left-right movement; Z
+            deltaRotationY = float.Parse(tokens[8]);    // rotation about vertical axis; Y
         }
     }
 }
