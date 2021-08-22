@@ -15,32 +15,32 @@ namespace Builder {
 		/// <param name="planes"> A list of Plane objects </param>
 		public static void Walls(List<Plane> planes, GameObject parent = null) {
             //print("planes.Count: " + planes.Count);
-			foreach(Plane plane in planes) {
-				GameObject planeGameObject = new GameObject(plane.Name);
-                if(parent != null)
-				    planeGameObject.transform.parent = parent.transform;
+            foreach (Plane plane in planes) {
+                GameObject planeGameObject = new GameObject(plane.Name);
+                if (parent != null)
+                    planeGameObject.transform.parent = parent.transform;
 
-				planeGameObject.transform.position = new Vector3(plane.Center.x, plane.Height, plane.Center.z);
-				AddMeshComponents(planeGameObject);
+                planeGameObject.transform.position = new Vector3(plane.Center.x, plane.Height, plane.Center.z);
+                AddMeshComponents(planeGameObject);
 
-				CreateMesh(planeGameObject, GetPlaneVertices(plane) /*, plane.Facing */);
-				planeGameObject.GetComponent<Renderer>().material.color = new Color(Random.Range(0, 1F), Random.Range(0, 1F), Random.Range(0, 1F));
-				//Texture2D tex = new Texture2D(512, 512, TextureFormat.RGB24, false);
-				////tex.SetPixels(Resources.Load<Texture2D>("wall_images/Tank_North_Marked.png").GetPixels());
-				////tex.Apply();
-				//planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("wall_images/Tank_North_Marked.png");
-				planeGameObject.AddComponent<Rigidbody>();
-				planeGameObject.GetComponent<Rigidbody>().isKinematic = true;
-				planeGameObject.AddComponent<MeshCollider>();
-				//planeGameObject.GetComponent<MeshCollider>().convex = true;
-				planeGameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-			}
-		}
+                CreateMesh(planeGameObject, GetPlaneVertices(plane) /*, plane.Facing */);
+                planeGameObject.GetComponent<Renderer>().material.color = new Color(Random.Range(0, 1F), Random.Range(0, 1F), Random.Range(0, 1F));
+                //Texture2D tex = new Texture2D(512, 512, TextureFormat.RGB24, false);
+                ////tex.SetPixels(Resources.Load<Texture2D>("wall_images/Tank_North_Marked.png").GetPixels());
+                ////tex.Apply();
+                //planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("wall_images/Tank_North_Marked.png");
+                planeGameObject.AddComponent<Rigidbody>();
+                planeGameObject.GetComponent<Rigidbody>().isKinematic = true;
+                planeGameObject.AddComponent<MeshCollider>();
+                //planeGameObject.GetComponent<MeshCollider>().convex = true;
+                planeGameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+        }
 
         public static void Planes(List<Plane> planes, GameObject parent = null) {
             GameObject planePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Plane");
             //Quaternion rotation;
-            foreach(Plane plane in planes) {
+            foreach (Plane plane in planes) {
                 //if(plane.Facing.z == -1)
                 //    rotation = Quaternion.AngleAxis()
                 GameObject planeGameObject = Instantiate(planePrefab, new Vector3(plane.Center.x, plane.Height, plane.Center.z), Quaternion.identity);
@@ -54,21 +54,61 @@ namespace Builder {
 
                 string materialNameNoExt = plane.Material.Split('.')[0];
 
-				planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
+                planeGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
 
+                //Vector3.right --> (1,0,0)
+                //Vector3.forward --> (0,0,1)
+
+                // plane facing direction
                 if (plane.Facing.z == -1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
-                else if (plane.Facing.z == 1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
-                else if (plane.Facing.x == -1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
-                else if (plane.Facing.x == 1)
-                    planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
+                    planeGameObject.transform.Rotate(-90f, 0, 0, Space.World);
+                //planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
+                if (plane.Facing.z == 1)
+                    planeGameObject.transform.Rotate(90f, 0, 0, Space.World);
+                //planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+                if (plane.Facing.x == -1)
+                    planeGameObject.transform.Rotate(0, 0, 90f, Space.World);
+                //planeGameObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+                if (plane.Facing.x == 1)
+                    planeGameObject.transform.Rotate(0, 0, -90f, Space.World);
+                //planeGameObject.transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
+
+                //deal with 45 degrees
+                if (plane.Facing.z == -0.5) // vertical rotate 45 counterclockwise (left up)
+                    planeGameObject.transform.Rotate(-90f, -45f, 0, Space.World);
+
+                if (plane.Facing.z == 0.5) // vertical rotate 45 clockwise (right up)
+                    planeGameObject.transform.Rotate(-90f, 45f, 0, Space.World);
+
+                if (plane.Facing.x == 0.5) // left down
+                    planeGameObject.transform.Rotate(-90f, -135f, 0, Space.World);
+
+                if (plane.Facing.x == -0.5) // right down
+                    planeGameObject.transform.Rotate(-90f, 135f, 0, Space.World);
+
+                //deal with 30/60 degrees
+                if (plane.Facing.z == -2) // left up
+                    planeGameObject.transform.Rotate(-90f, -30f, 0, Space.World);
+
+                if (plane.Facing.z == 2) // right up
+                    planeGameObject.transform.Rotate(-90f, 30f, 0, Space.World);
+
+                if (plane.Facing.x == 2) // left down
+                    planeGameObject.transform.Rotate(-90f, -150f, 0, Space.World);
+
+                if (plane.Facing.x == -2) // right down
+                    planeGameObject.transform.Rotate(-90f, 150f, 0, Space.World);
+
+                if (plane.Facing.z == 67.5) //facing the direction of right down
+                    planeGameObject.transform.Rotate(-90f, -67.5f, 0, Space.World);
+
+                if (plane.Facing.x == 67.5) //facing the direction of left up
+                    planeGameObject.transform.Rotate(-90f, 112.5f, 0, Space.World);
 
 
                 planeGameObject.name = plane.Name;
-			}
-		}
+            }
+        }
 
         /// <summary>
 		/// Depending on the direction the plane is supposed to be facing, 4 vertices are assigned values
@@ -231,14 +271,14 @@ namespace Builder {
 		/// <param name="groundPolygonVertices">Vertices of the polygonal plane surface</param>
 		/// <param name="parent">The parent GameObject of which the ground GameObject will be a child</param>
         public static void Ground(GroundPolygon groundPolygon, GameObject parent = null) {
-			GameObject ground = new GameObject("Ground");
+            GameObject ground = new GameObject("Ground");
 
-            if(parent != null)
+            if (parent != null)
                 ground.transform.parent = parent.transform;
 
-			ground.transform.position = new Vector3(0, /* -0.0508f */ 0, 0);
+            ground.transform.position = new Vector3(0, /* -0.0508f */ 0, 0);
 
-			AddMeshComponents(ground);
+            AddMeshComponents(ground);
 
             if (IsAnticlockwise(groundPolygon.Vertices)) {
                 groundPolygon.Vertices.Reverse();
@@ -246,12 +286,12 @@ namespace Builder {
 
             CreateMesh(ground, groundPolygon.Vertices.ToArray());
             ground.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
-			ground.AddComponent<Rigidbody>();
-			ground.GetComponent<Rigidbody>().isKinematic = true;
-			ground.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            ground.AddComponent<Rigidbody>();
+            ground.GetComponent<Rigidbody>().isKinematic = true;
+            ground.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             ground.AddComponent<MeshCollider>();
-			ground.GetComponent<MeshCollider>().convex = true;
-		}
+            ground.GetComponent<MeshCollider>().convex = true;
+        }
 
         /// <summary>
 		/// The rat must not walk off the surface. Thus it must be bounded
@@ -262,22 +302,20 @@ namespace Builder {
         public static void Boundary(List<Vector3> boundaryVertices, GameObject parent = null) {
             GameObject boundaries = new GameObject("Boundaries");
 
-            if(parent != null)
+            if (parent != null)
                 boundaries.transform.parent = parent.transform;
 
-			GameObject boundaryGeneratorPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
-            // print(boundaryGeneratorPrefab.name);
+            GameObject boundaryGeneratorPrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
+            //print(boundaryGeneratorPrefab.name);
 
-            for(int i = 1; i <= boundaryVertices.Count; i++) {
+            for (int i = 1; i <= boundaryVertices.Count; i++) {
                 var length = (boundaryVertices[i % boundaryVertices.Count] - boundaryVertices[(i - 1) % boundaryVertices.Count]).magnitude;
                 var center = (boundaryVertices[i % boundaryVertices.Count] + boundaryVertices[(i - 1) % boundaryVertices.Count]) / 2;
 
                 Vector3 correctDirection = Vector3.zero - center;
 
                 var boundaryObj = Instantiate(boundaryGeneratorPrefab, new Vector3(center.x, 0.3f, center.z), Quaternion.identity);
-
-                if(parent != null)
-                    boundaryObj.transform.parent = boundaries.transform;
+                boundaryObj.transform.parent = boundaries.transform;
 
                 boundaryObj.transform.localScale = new Vector3(length + 0.1f, 0.6f, 1e-4f);
                 Vector3 facing = boundaryObj.transform.forward;
@@ -286,10 +324,10 @@ namespace Builder {
 
                 boundaryObj.transform.eulerAngles = new Vector3(0, rotationAngle, 0);
 
-				if (Vector3.Angle(correctDirection, boundaryObj.transform.forward) == 90)
-					boundaryObj.transform.eulerAngles = new Vector3(0, rotationAngle + 90, 0);
+                if (Vector3.Angle(correctDirection, boundaryObj.transform.forward) == 90)
+                    boundaryObj.transform.eulerAngles = new Vector3(0, rotationAngle + 90, 0);
 
-				boundaryObj.AddComponent<Rigidbody>();
+                boundaryObj.AddComponent<Rigidbody>();
                 Rigidbody boundaryRigidbody = boundaryObj.GetComponent<Rigidbody>();
 
                 boundaryRigidbody.isKinematic = true;
@@ -310,9 +348,9 @@ namespace Builder {
                 avatarGameObject.transform.parent = parent.transform;
 
             avatarGameObject.name = "Avatar";
-			avatarGameObject.tag = "Avatar";
-			avatarGameObject.layer = 11;    // Layer 11 is the Avatar Layer
-		}
+            avatarGameObject.tag = "Avatar";
+            avatarGameObject.layer = 11;    // Layer 11 is the Avatar Layer
+        }
 
         public static void Wells(List<Well> wells, GameObject parent = null) {
             GameObject Wells = new GameObject("Wells");
@@ -327,8 +365,8 @@ namespace Builder {
 
             GameObject circularPlanePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/CircularPlane");
 
-			foreach (Well well in wells) {
-                if(well.GetType().ToString().Equals("RandomWell")) {
+            foreach (Well well in wells) {
+                if (well.GetType().ToString().Equals("RandomWell")) {
 
                     while (true) {
                         float wellPositionX = Random.Range(well.Q1Min, well.Q1Max);
@@ -342,14 +380,14 @@ namespace Builder {
                             break;
                         }
                     }
-				}
+                }
 
                 else
                     wellPosition = new Vector3(well.Position.x, 1e-4f, well.Position.y);
 
                 GameObject wellGameObject = Instantiate(circularPlanePrefab, wellPosition, Quaternion.identity);
                 //print("RADIAL BOUNDARY RADIUS: " + well.RadialBoundaryRadius);
-				wellGameObject.transform.localScale = new Vector3(well.RadialBoundaryRadius, 1e-6f, well.RadialBoundaryRadius);
+                wellGameObject.transform.localScale = new Vector3(well.RadialBoundaryRadius, 1e-6f, well.RadialBoundaryRadius);
 
                 string materialNameNoExt = well.RadialTriggerZoneMeshMaterial.Split('.')[0];
                 wellGameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load<Texture2D>("Textures/" + materialNameNoExt);
@@ -357,13 +395,13 @@ namespace Builder {
                 if (well.Level == 0)
                     wellGameObject.GetComponent<Renderer>().enabled = false;
 
-				wellGameObject.name = well.WellName;
+                wellGameObject.name = well.WellName;
                 wellGameObject.transform.parent = Wells.transform;
             }
-		}
+        }
 
         public static void Dispensers(List<Dispenser> dispensers, GameObject parent = null) {   // This seems unnecessary for now, since there is no need to have Dispenser gameobjects, their existence as Dispenser objects associated with the Track object is sufficient to operate them
-		}
+        }
 
         public static void LightBar(LightBar lightBar, GameObject parent = null) {
             if (lightBar == null)
@@ -374,51 +412,24 @@ namespace Builder {
             var lightBarObj = Instantiate(lightBarPrefab,
                                           new Vector3(lightBar.Center.x, lightBar.Height, lightBar.Center.z),
                                           Quaternion.identity);
-            lightBarObj.name = lightBar.Name;
-            lightBarObj.transform.localScale = lightBar.Scale;
+
+            if (parent != null)
+                lightBarObj.transform.parent = parent.transform;
 
             Material material = Resources.Load<Material>("Materials/Emissive Material");
             material.SetColor("_Color", lightBar.TintColor);
             material.SetColor("_EmissionColor", lightBar.TintColor);
 
             lightBarObj.GetComponent<MeshRenderer>().material = material;
-            lightBarObj.AddComponent<Rigidbody>();
-            lightBarObj.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-
-            lightBarObj.layer = 12;
-
-            GameObject cubePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/Cube");
-
-            var triggerObj = Instantiate(cubePrefab, TrackFileParser.track.Avatar.Position, Quaternion.identity);
-
-            triggerObj.transform.rotation = Quaternion.AngleAxis(-90, Vector3.up);
-
-            triggerObj.transform.localScale = new Vector3(1000, 1000, 1e-4f);
-            triggerObj.name = "Reward Trigger";
-            triggerObj.GetComponent<BoxCollider>().isTrigger = true;
-
-            var triggerObjCurrentPosition = triggerObj.transform.position;
-            triggerObj.transform.position = new Vector3(triggerObjCurrentPosition.x, triggerObjCurrentPosition.y, 500);
-
-			triggerObj.transform.RotateAround(TrackFileParser.track.Avatar.Position, Vector3.up, lightBar.RewardTriggerAngle);
-
-			triggerObj.AddComponent<LightbarAction>();
-
-            triggerObj.layer = 12;
-
-            if (parent != null) {
-                lightBarObj.transform.parent = parent.transform;
-                triggerObj.transform.parent = parent.transform;
-            }
         }
 
         public static bool IsOverlapping(List<Well> wells, Well well) {
-            foreach(Well assignedWell in wells) {
+            foreach (Well assignedWell in wells) {
                 if ((assignedWell.Position - well.Position).magnitude < (assignedWell.RadialBoundaryRadius + well.RadialBoundaryRadius))
                     return true;
-			}
+            }
             return false;
-		}
+        }
 
         public static void OccupationZones(List<OccupationZone> occupationZones, GameObject parent = null) {
             GameObject OccupationZones = new GameObject("Occupation Zones");
@@ -429,30 +440,30 @@ namespace Builder {
 
             GameObject circularPlanePrefab = Resources.Load<GameObject>("3D_Objects/Prefabs/CircularPlane");
 
-			foreach (OccupationZone occupationZone in occupationZones) {
-				print("OccupationZone: " + occupationZone.Name + "\t" + occupationZone.IsRadialBoundary);
+            foreach (OccupationZone occupationZone in occupationZones) {
+                print("OccupationZone: " + occupationZone.Name + "\t" + occupationZone.IsRadialBoundary);
 
-				GameObject occupationZoneGameObject;
-				if (occupationZone.IsRadialBoundary) {
-					occupationZoneGameObject = Instantiate(circularPlanePrefab, occupationZone.Position, Quaternion.identity);
-					occupationZoneGameObject.transform.localScale = new Vector3(occupationZone.RadialBoundaryRadius, 1e-2f, occupationZone.RadialBoundaryRadius);
-				}
+                GameObject occupationZoneGameObject;
+                if (occupationZone.IsRadialBoundary) {
+                    occupationZoneGameObject = Instantiate(circularPlanePrefab, occupationZone.Position, Quaternion.identity);
+                    occupationZoneGameObject.transform.localScale = new Vector3(occupationZone.RadialBoundaryRadius, 1e-2f, occupationZone.RadialBoundaryRadius);
+                }
 
-				else {
-					occupationZoneGameObject = new GameObject();
+                else {
+                    occupationZoneGameObject = new GameObject();
 
-					occupationZoneGameObject.transform.position = occupationZone.Position;
+                    occupationZoneGameObject.transform.position = occupationZone.Position;
 
-					AddMeshComponents(occupationZoneGameObject);
-					CreateMesh(occupationZoneGameObject, occupationZone.PolygonBoundaryVertices.ToArray());
-					occupationZoneGameObject.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
-					//occupationZoneGameObject.AddComponent<Rigidbody>();
-					//occupationZoneGameObject.GetComponent<Rigidbody>().isKinematic = true;
-					occupationZoneGameObject.AddComponent<MeshCollider>();
-					occupationZoneGameObject.GetComponent<MeshCollider>().convex = true;
+                    AddMeshComponents(occupationZoneGameObject);
+                    CreateMesh(occupationZoneGameObject, occupationZone.PolygonBoundaryVertices.ToArray());
+                    occupationZoneGameObject.GetComponent<MeshRenderer>().material.mainTexture = Texture2D.blackTexture; // Resources.Load("Materials/TabletopMaterial") as Material;
+                                                                                                                         //occupationZoneGameObject.AddComponent<Rigidbody>();
+                                                                                                                         //occupationZoneGameObject.GetComponent<Rigidbody>().isKinematic = true;
+                    occupationZoneGameObject.AddComponent<MeshCollider>();
+                    occupationZoneGameObject.GetComponent<MeshCollider>().convex = true;
                     occupationZoneGameObject.AddComponent<AudioSource>();
                     occupationZoneGameObject.AddComponent<Action>();
-				}
+                }
 
 
 
@@ -460,13 +471,13 @@ namespace Builder {
                 occupationZoneGameObject.GetComponent<Action>().occupationZone = occupationZone;
                 occupationZoneGameObject.SetActive(occupationZone.IsActive);
                 occupationZoneGameObject.GetComponent<MeshCollider>().isTrigger = occupationZone.IsActive;
-				occupationZoneGameObject.transform.parent = OccupationZones.transform;
-			}
-		}
+                occupationZoneGameObject.transform.parent = OccupationZones.transform;
+            }
+        }
 
         public static bool IsAnticlockwise(List<Vector3> vertices) {
             float sum = 0;
-            for(int i = 0; i < vertices.Count; i++) {
+            for (int i = 0; i < vertices.Count; i++) {
                 int firstVertexIndex = (i + 1) < vertices.Count ? (i + 1) : 0;
                 float edge = (vertices[firstVertexIndex].x - vertices[i].x) * (vertices[firstVertexIndex].z + vertices[i].z);
                 sum += edge;
@@ -477,7 +488,7 @@ namespace Builder {
                 return true;
             }
             return false;
-		}
+        }
 
     }
 }

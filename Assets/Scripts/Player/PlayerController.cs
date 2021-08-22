@@ -42,7 +42,7 @@ namespace wallSystem
         //string data = "";
 
         public const float TRANSLATION_GAIN = 1f;
-        public const float ROTATION_GAIN = 50f;
+        public const float ROTATION_GAIN = 10f;
 
         private int replayCoordinateIndex = 0;
         private List<(Vector3, float)> replayCoordinates = null;
@@ -228,7 +228,7 @@ namespace wallSystem
             float trackballRotation = F.deltaRotationY * F.ballDecoupleToggle * F.movementInversionToggle * Mathf.Rad2Deg;
             float keyboardRotation = Input.GetAxis("Horizontal");
 
-            var rotation = (trackballRotation + (keyboardRotation * ROTATION_GAIN));
+            var rotation = trackballRotation + (keyboardRotation * ROTATION_GAIN);
 
 			// This calculates the forward speed frame rate independent
 			_moveDirection = (trackballTranslation + keyboardTranslation) * TRANSLATION_GAIN; 
@@ -262,27 +262,27 @@ namespace wallSystem
             }
         }
 
-        private void doInitialRotation(){
-            var multiplier = 1.0f;
+        //private void doInitialRotation(){
+        //    var multiplier = 1.0f;
             
-            // Smooth out the rotation as we approach the values
+        //    // Smooth out the rotation as we approach the values
             
-            var threshold1 = Math.Abs(_currDelay/_waitTime - 0.25f);
-            var threshold2 = Math.Abs(_currDelay/_waitTime - 0.75f);
+        //    var threshold1 = Math.Abs(_currDelay/_waitTime - 0.25f);
+        //    var threshold2 = Math.Abs(_currDelay/_waitTime - 0.75f);
 
-            if (threshold1 < 0.03 || threshold2 < 0.03){
-                return;
-            }
+        //    if (threshold1 < 0.03 || threshold2 < 0.03){
+        //        return;
+        //    }
 
-            if (_currDelay/_waitTime > 0.25 && _currDelay/_waitTime < 0.75){
-                multiplier *= -1;
-            }
+        //    if (_currDelay/_waitTime > 0.25 && _currDelay/_waitTime < 0.75){
+        //        multiplier *= -1;
+        //    }
 
-            var anglePerSecond = 240/_waitTime;
-            var angle = Time.deltaTime*anglePerSecond;
+        //    var anglePerSecond = 240/_waitTime;
+        //    var angle = Time.deltaTime*anglePerSecond;
 
-            transform.Rotate(new Vector3(0, multiplier * angle, 0));
-        }
+        //    transform.Rotate(new Vector3(0, multiplier * angle, 0));
+        //}
 
         private void Update() {
             // This first block is for the initial rotation of the character
